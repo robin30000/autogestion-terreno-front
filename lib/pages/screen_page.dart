@@ -35,6 +35,9 @@ class ScreenPage extends StatelessWidget {
       
       case 6:
         return const CodigoIncompletoPage();
+
+      case 7:
+        return const ConsultaGponPage();
         
       default:
         return const LoaderPage();

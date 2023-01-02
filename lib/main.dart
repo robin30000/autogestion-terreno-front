@@ -25,7 +25,6 @@ class AppInit extends StatefulWidget {
 }
 
 class _AppInitState extends State<AppInit> {
-
   @override
   void initState() {
     super.initState();
@@ -35,12 +34,13 @@ class _AppInitState extends State<AppInit> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: ( _ ) => AuthService() ),
-        ChangeNotifierProvider(create: ( _ ) => UiProvider() ),
-        ChangeNotifierProvider(create: ( _ ) => ContingenciaService() ),
-        ChangeNotifierProvider(create: ( _ ) => SoporteGponService() ),
-        ChangeNotifierProvider(create: ( _ ) => BB8Service() ),
-        ChangeNotifierProvider(create: ( _ ) => CodigoIncompletoService() ),
+        ChangeNotifierProvider(create: (_) => AuthService()),
+        ChangeNotifierProvider(create: (_) => UiProvider()),
+        ChangeNotifierProvider(create: (_) => ContingenciaService()),
+        ChangeNotifierProvider(create: (_) => SoporteGponService()),
+        ChangeNotifierProvider(create: (_) => BB8Service()),
+        ChangeNotifierProvider(create: (_) => CodigoIncompletoService()),
+        ChangeNotifierProvider(create: (_) => ConsultaGponService()),
       ],
       child: const MyApp(),
     );
@@ -55,7 +55,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  
   bool isDeviceConnected = false;
 
   ConnectivityResult connectionStatus = ConnectivityResult.none;
@@ -66,7 +65,8 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     initConnectivity();
-    connectivitySubscription = connectivity.onConnectivityChanged.listen(updateConnectionStatus);
+    connectivitySubscription =
+        connectivity.onConnectivityChanged.listen(updateConnectionStatus);
   }
 
   @override
@@ -80,26 +80,22 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Autogestión Técnico',
-      initialRoute: 'splash',
-      routes: getApplicationRoutes(),
-      theme: ThemeData(
-        fontFamily: 'Rubik',
-        primarySwatch: blueColorMt,
-      ),
-      scaffoldMessengerKey: NotificactionService.messagerKey,
-      onGenerateRoute: (RouteSettings settings) {
-        return MaterialPageRoute(
-          builder: (BuildContext context) => const Splash()
-        );
-      }
-    );
+        debugShowCheckedModeBanner: false,
+        title: 'Autogestión Técnico',
+        initialRoute: 'splash',
+        routes: getApplicationRoutes(),
+        theme: ThemeData(
+          fontFamily: 'Rubik',
+          primarySwatch: blueColorMt,
+        ),
+        scaffoldMessengerKey: NotificactionService.messagerKey,
+        onGenerateRoute: (RouteSettings settings) {
+          return MaterialPageRoute(
+              builder: (BuildContext context) => const Splash());
+        });
   }
 
-
   Future<void> initConnectivity() async {
-    
     late ConnectivityResult result;
 
     try {
@@ -117,10 +113,9 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> updateConnectionStatus(ConnectivityResult result) async {
-
     final uiProvider = Provider.of<UiProvider>(context, listen: false);
 
-    if(result != connectionStatus) {
+    if (result != connectionStatus) {
       isDeviceConnected = await InternetConnectionChecker().hasConnection;
       connectionStatus = result;
 
@@ -128,5 +123,4 @@ class _MyAppState extends State<MyApp> {
       uiProvider.isDeviceConnectedProvider = isDeviceConnected;
     }
   }
-
 }

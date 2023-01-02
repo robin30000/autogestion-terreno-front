@@ -5,3 +5,4 @@ export 'package:autogestion_tecnico/services/soporte_gpon_service.dart';
 export 'package:autogestion_tecnico/services/bb8_service.dart';
 export 'package:autogestion_tecnico/services/codigo_incompleto_service.dart';
 export 'package:autogestion_tecnico/services/notification_service.dart';
+export 'package:autogestion_tecnico/services/consulta_gpon_service.dart';

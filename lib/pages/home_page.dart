@@ -8,7 +8,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final authService = Provider.of<AuthService>(context, listen: false);
     final mq = MediaQuery.of(context).size;
 
@@ -18,7 +17,6 @@ class HomePage extends StatelessWidget {
       child: FutureBuilder(
         future: authService.readAllData(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-
           if (!snapshot.hasData) {
             return const Center(
               child: CircularProgressIndicator(),
@@ -34,23 +32,18 @@ class HomePage extends StatelessWidget {
               ),
               Text(
                 'Bienvenido',
-                style: TextStyle(
-                  fontSize: mq.width * 0.10
-                ),
+                style: TextStyle(fontSize: mq.width * 0.10),
                 textAlign: TextAlign.center,
               ),
               Text(
                 snapshot.data['nombre'],
-                style: TextStyle(
-                  fontSize: mq.width * 0.06
-                ),
+                style: TextStyle(fontSize: mq.width * 0.06),
                 textAlign: TextAlign.center,
               ),
             ],
           );
         },
       ),
-      
     );
   }
 }

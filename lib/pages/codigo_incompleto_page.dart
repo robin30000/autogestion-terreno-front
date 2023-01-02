@@ -15,7 +15,6 @@ class CodigoIncompletoPage extends StatefulWidget {
 }
 
 class _CodigoIncompletoPageState extends State<CodigoIncompletoPage> {
-
   final GlobalKey<FormState> _formKeyCodInc = GlobalKey<FormState>();
 
   TextEditingController tareaController = TextEditingController();
@@ -25,96 +24,119 @@ class _CodigoIncompletoPageState extends State<CodigoIncompletoPage> {
   @override
   void dispose() {
     tareaController.dispose();
-    if (_formKeyCodInc.currentState != null) _formKeyCodInc.currentState!.dispose();
+    if (_formKeyCodInc.currentState != null)
+      _formKeyCodInc.currentState!.dispose();
     codIncRes = '';
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-
     final mq = MediaQuery.of(context).size;
     final uiProvider = Provider.of<UiProvider>(context);
-    final codigoIncompletoService = Provider.of<CodigoIncompletoService>(context);
+    final codigoIncompletoService =
+        Provider.of<CodigoIncompletoService>(context);
 
     final authServices = Provider.of<AuthService>(context, listen: false);
     authServices.getMenuApp();
 
     return Scaffold(
       body: GestureDetector(
-        onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
-        child: Form(
-          key: _formKeyCodInc,
-          child: SingleChildScrollView(
-            child: Container(
-              width: mq.width,
-              padding: EdgeInsets.only(left: mq.width * 0.05, right: mq.width * 0.05, top: mq.height * 0.25),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CustomField(controller: tareaController, hintText: 'Tarea*', icon: Icons.pin_outlined),
-                  SizedBox(height: mq.height * 0.02,),
-                  CustomButton(
-                    mq: mq, 
-                    function: codigoIncompletoService.isLoading ? null : () async {
-          
-                      FocusScope.of(context).unfocus();
-                      
-                      final authService = Provider.of<AuthService>(context, listen: false);
-          
-                      if (
-                        tareaController.text == ''
-                      ) {
-                        CustomShowDialog.alert(context: context, title: 'Error', message: 'Debes de diligenciar los campos obligatorios.');
-                        return false;
-                      }
-          
-                      final resp = await codigoIncompletoService.getCodigoIncompleto(tarea: tareaController.text);
-                      
-                      if (resp![0]['type'] == 'errorAuth') {
-                        final String respauth = await authService.logout();
-                        
-                        if (respauth == 'OK') {
-                          uiProvider.selectedMenuOpt = 0;
-                          uiProvider.selectedMenuName = 'Autogestión Terreno';
-                          Navigator.pushReplacementNamed(context, 'login');
-                        }
-                        
-                        return false;
-                      }
-                      
-                      if (resp[0]['type'] == 'error') {
-                        CustomShowDialog.alert(context: context, title: 'Error', message: resp[0]['message']);
-                        return false;
-                      }
+          onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+          child: Form(
+              key: _formKeyCodInc,
+              child: SingleChildScrollView(
+                child: Container(
+                  width: mq.width,
+                  padding: EdgeInsets.only(
+                      left: mq.width * 0.05,
+                      right: mq.width * 0.05,
+                      top: mq.height * 0.25),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CustomField(
+                            controller: tareaController,
+                            hintText: 'Tarea*',
+                            icon: Icons.pin_outlined),
+                        SizedBox(
+                          height: mq.height * 0.02,
+                        ),
+                        CustomButton(
+                          mq: mq,
+                          function: codigoIncompletoService.isLoading
+                              ? null
+                              : () async {
+                                  FocusScope.of(context).unfocus();
 
-                      codIncRes = resp[0]['message'];
+                                  final authService = Provider.of<AuthService>(
+                                      context,
+                                      listen: false);
 
-                    }, 
-                    color: codigoIncompletoService.isLoading ? greyColor : blueColor,
-                    colorText: whiteColor, 
-                    text: codigoIncompletoService.isLoading ? 'Obteniendo código...' : 'Obtener código',
-                    height: 0.05,
-                  ),
+                                  if (tareaController.text == '') {
+                                    CustomShowDialog.alert(
+                                        context: context,
+                                        title: 'Error',
+                                        message:
+                                            'Debes de diligenciar los campos obligatorios.');
+                                    return false;
+                                  }
 
-                  CustomDivider(mq: mq, colors: [whiteColor,blueColor,whiteColor,]),
-          
-                  codIncRes == '' 
-                  ? Container() 
-                  : const Text('Su código de incompleto es:'),
-                  Text( 
-                    codIncRes,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: mq.width * 0.08
-                    ),
-                  )
-                ]
-              ),
-            ),
-          )
-        )
-      ),
+                                  final resp = await codigoIncompletoService
+                                      .getCodigoIncompleto(
+                                          tarea: tareaController.text);
+
+                                  if (resp![0]['type'] == 'errorAuth') {
+                                    final String respauth =
+                                        await authService.logout();
+
+                                    if (respauth == 'OK') {
+                                      uiProvider.selectedMenuOpt = 0;
+                                      uiProvider.selectedMenuName =
+                                          'Autogestión Terreno';
+                                      Navigator.pushReplacementNamed(
+                                          context, 'login');
+                                    }
+
+                                    return false;
+                                  }
+
+                                  if (resp[0]['type'] == 'error') {
+                                    CustomShowDialog.alert(
+                                        context: context,
+                                        title: 'Error',
+                                        message: resp[0]['message']);
+                                    return false;
+                                  }
+
+                                  codIncRes = resp[0]['message'];
+                                },
+                          color: codigoIncompletoService.isLoading
+                              ? greyColor
+                              : blueColor,
+                          colorText: whiteColor,
+                          text: codigoIncompletoService.isLoading
+                              ? 'Obteniendo código...'
+                              : 'Obtener código',
+                          height: 0.05,
+                        ),
+                        CustomDivider(mq: mq, colors: [
+                          whiteColor,
+                          blueColor,
+                          whiteColor,
+                        ]),
+                        codIncRes == ''
+                            ? Container()
+                            : const Text('Su código de incompleto es:'),
+                        Text(
+                          codIncRes,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: mq.width * 0.08),
+                        )
+                      ]),
+                ),
+              ))),
     );
   }
 }
