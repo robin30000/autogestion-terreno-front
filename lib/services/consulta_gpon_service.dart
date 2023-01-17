@@ -16,6 +16,7 @@ class ConsultaGponService extends ChangeNotifier {
   List<GPON> gpon = [];
   bool isLoading = false;
 
+
   Future<List?> geTareaGpon({
     required String tarea,
   }) async {
@@ -71,4 +72,5 @@ class ConsultaGponService extends ChangeNotifier {
     }
     return null;
   }
+
 }

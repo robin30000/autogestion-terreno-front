@@ -23,6 +23,7 @@ class _ConsultaGponPageState extends State<ConsultaGponPage> {
   //String codIncRes = '';
   List<GPON> data = [];
   String gponRes = '';
+  int _count = 0;
 
   @override
   void dispose() {
@@ -101,7 +102,6 @@ class _ConsultaGponPageState extends State<ConsultaGponPage> {
                                         Navigator.pushReplacementNamed(
                                             context, 'login');
                                       }
-
                                       return false;
                                     }
 
@@ -127,136 +127,217 @@ class _ConsultaGponPageState extends State<ConsultaGponPage> {
                           blueColor,
                           whiteColor,
                         ]),
-                        if (data.isEmpty) gponRes == ''
-                                ? Container()
-                                : Center(
-                                    child: Text(gponRes),
-                                  ) else SizedBox(
-                                width: mq.width * 0.90,
-                                height: mq.height * 100,
+                        if (data.isEmpty)
+                          gponRes == ''
+                              ? Container()
+                              : Center(
+                                  child: Text(gponRes),
+                                )
+                        else
 
-                                child: ListView.separated(
-                                  itemCount: data.length,
+                          SizedBox(
+                            width: mq.width * 0.90,
+                            height: mq.height * 300,
+                            child: ListView.separated(
+                              itemCount: data.length,
+                              separatorBuilder:
+                                  (BuildContext context, int index) {
+                                return SizedBox(
+                                  height: mq.height * 0.03,
+                                );
+                              },
+                              itemBuilder: (BuildContext context, int index) {
+                                return Container(
+                                  width: mq.width,
+                                  height: mq.height * 500,
+                                  padding: EdgeInsets.only(
+                                      left: mq.width * 0.03,
+                                      right: mq.width * 0.03,
+                                      top: mq.width * 0.03,
+                                      bottom: mq.width * 0.03),
+                                  margin: EdgeInsets.symmetric(
+                                      horizontal: mq.width * 0.01),
+                                  decoration: BoxDecoration(
+                                    color: whiteColor,
+                                    boxShadow: const [
+                                      BoxShadow(
+                                          color: Colors.black26,
+                                          blurRadius: 15,
+                                          offset: Offset(3, 2),
+                                          spreadRadius: -5),
+                                    ],
+                                    borderRadius: BorderRadius.circular(
+                                      20.0,
+                                    ),
+                                  ),
 
-                                  separatorBuilder:
-                                      (BuildContext context, int index) {
-                                    return SizedBox(
-                                      height: mq.height * 0.03,
-                                    );
-                                  },
+                                    child: Column(
+                                    children: [
+                                    for (int i = 0; i < data.length; i++)
+                                              Container(
+                                                width: mq.width * 0.90,
+                                                padding: EdgeInsets.only(
+                                                    left: mq.width * 0.03),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    FittedBox(
+                                                        child: Text(
+                                                            'Hora Ingreso:',
+                                                            style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ))),
+                                                    FittedBox(
+                                                        child: Text(data[index]
+                                                            .horagestion,style: TextStyle(
+                                                          color: Colors.grey[600],fontSize: 12
+                                                        ))),
 
+                                                    FittedBox(
+                                                        child: Text(
+                                                            'Hora Gestion:',
+                                                            style: TextStyle(
+                                                              fontWeight:
+                                                              FontWeight.bold,
+                                                            ))),
+                                                    FittedBox(
+                                                        child: Text(data[index]
+                                                            .horacontingencia, style: TextStyle(
+                                                          color: Colors.grey[600],fontSize: 12
+                                                        ))),
 
+                                                    FittedBox(
+                                                        child: Text(
+                                                            'Estado',
+                                                            style: TextStyle(
+                                                              fontWeight:
+                                                              FontWeight.bold,
+                                                            ))),
+                                                    FittedBox(
+                                                        child: Text(data[index]
+                                                            .finalizado, style: TextStyle(
+                                                          color: Colors.grey[600],fontSize: 12
+                                                        ))),
 
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
+                                                    FittedBox(
+                                                        child: Text(
+                                                            'Observacion:',
+                                                            style: TextStyle(
+                                                              fontWeight:
+                                                              FontWeight.bold,
+                                                            ))),
+                                  Text(data[index]
+                                                            .observacion, style: TextStyle(fontSize: 12),),
 
-
-                                      return Container(
-                                        width: mq.width,
-                                        height: mq.height * 0.90,
-                                        padding: EdgeInsets.only(
-                                            left: mq.width * 0.03),
-                                        margin: EdgeInsets.symmetric(
-                                            horizontal: mq.width * 0.01),
-                                        decoration: BoxDecoration(
-                                          color: whiteColor,
-                                          boxShadow: const [
-                                            BoxShadow(
-                                                color: Colors.black26,
-                                                blurRadius: 15,
-                                                offset: Offset(3, 2),
-                                                spreadRadius: -5),
-                                          ],
-                                          borderRadius: BorderRadius.circular(
-                                            20.0,
-                                          ),
-                                        ),
-
-                                        child: Row(
-                                          children: [
-                                            for (int i = 0; i< data.length; i++)
-                                            Expanded(
-                                              /*1*/
+                                                    const Divider(),
+                                                  ],
+                                                ),
+                                              ),
+                                            /*Container(
+                                              width: mq.width * 0.90,
+                                              padding: EdgeInsets.only(
+                                                  left: mq.width * 0.03),
                                               child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
                                                 children: [
-                                                  /*2*/
-                                                  Container(
-                                                    padding: const EdgeInsets.only(bottom: 3, top: 10),
-                                                    child: const Text(
-                                                      'Hora Ingreso:',
-                                                      style: TextStyle(
-                                                        fontWeight: FontWeight.bold,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    data[index].horagestion,
-                                                    style: TextStyle(
-                                                      color: Colors.grey[600],
-                                                    ),
-                                                  ),
-
-                                                  Container(
-                                                    padding: const EdgeInsets.only(bottom: 3, top: 10),
-                                                    child: const Text(
-                                                      'Hora Contingencia:',
-                                                      style: TextStyle(
-                                                        fontWeight: FontWeight.bold,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    data[index].horacontingencia,
-                                                    style: TextStyle(
-                                                      color: Colors.grey[600],
-                                                    ),
-                                                  ),
-
-                                                  Container(
-                                                    padding: const EdgeInsets.only(bottom: 3, top: 10),
-                                                    child: const Text(
-                                                      'Finalizado:',
-                                                      style: TextStyle(
-                                                        fontWeight: FontWeight.bold,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    data[index].finalizado,
-                                                    style: TextStyle(
-                                                        color: Colors.grey[600]
-                                                    ),
-                                                  ),
-                                                  Container(
-
-                                                    padding: const EdgeInsets.only(bottom: 3, top: 10),
-                                                    child: const Text(
-                                                      'Observacion:',
-                                                      style: TextStyle(
-                                                        fontWeight: FontWeight.bold,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    data[index].observacion,
-                                                    style: TextStyle(
-                                                      color: Colors.grey[600],
-                                                    ),
-                                                  ),
-
+                                                  FittedBox(
+                                                      child: Text(
+                                                          'Hora Contingencia:',
+                                                          style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ))),
+                                                  FittedBox(
+                                                      child: Text(data[index]
+                                                          .horacontingencia)),
                                                 ],
                                               ),
                                             ),
-                                          ],
-                                        ),
-                                      );
-                                  },
-                                ),
-                              ),
+                                            Container(
+                                              width: mq.width * 0.90,
+                                              height: mq.height * 0.05,
+                                              padding: EdgeInsets.only(
+                                                  left: mq.width * 0.03),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  FittedBox(
+                                                      child: Text('Finalizado:',
+                                                          style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ))),
+                                                  FittedBox(
+                                                      child: Text(data[index]
+                                                          .finalizado)),
+                                                ],
+                                              ),
+                                            ),
+                                            Container(
+                                              width: mq.width * 0.90,
+                                              height: mq.height * 0.45,
+                                              padding: EdgeInsets.only(
+                                                  left: mq.width * 0.03),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  FittedBox(
+                                                    child: Text(
+                                                      'Observacion:',
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Text(data[index].observacion,
+                                                      style: TextStyle(
+                                                          fontSize: 12)),
+                                                ],
+                                                //FittedBox(
+                                                //),
+                                              ),
+                                            ),*/
+
+                                          ]),
+
+
+
+                                );
+                              },
+                            ),
+                          ),
                       ]),
                 ),
               ))),
+
+      floatingActionButton: FloatingActionButton.small(
+
+          //tareaController.text = '';
+        onPressed: () {
+          setState(() {
+            tareaController.text = '';
+            data.clear();
+          });
+        },
+
+        backgroundColor: cyanColor,
+        child: const Icon(Icons.restore_from_trash_rounded),
+      ),
     );
   }
 }
