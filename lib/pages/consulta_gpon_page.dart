@@ -112,6 +112,7 @@ class _ConsultaGponPageState extends State<ConsultaGponPage> {
                                     }
                                   }
                                   data = consultaGponService.gpon;
+                                  print(data);
                                 },
                           color: consultaGponService.isLoading
                               ? greyColor
@@ -134,7 +135,6 @@ class _ConsultaGponPageState extends State<ConsultaGponPage> {
                                   child: Text(gponRes),
                                 )
                         else
-
                           SizedBox(
                             width: mq.width * 0.90,
                             height: mq.height * 300,
@@ -170,75 +170,72 @@ class _ConsultaGponPageState extends State<ConsultaGponPage> {
                                       20.0,
                                     ),
                                   ),
-
-                                    child: Column(
-                                    children: [
+                                  child: Column(children: [
                                     for (int i = 0; i < data.length; i++)
-                                              Container(
-                                                width: mq.width * 0.90,
-                                                padding: EdgeInsets.only(
-                                                    left: mq.width * 0.03),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    FittedBox(
-                                                        child: Text(
-                                                            'Hora Ingreso:',
-                                                            style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                            ))),
-                                                    FittedBox(
-                                                        child: Text(data[index]
-                                                            .horagestion,style: TextStyle(
-                                                          color: Colors.grey[600],fontSize: 12
-                                                        ))),
-
-                                                    FittedBox(
-                                                        child: Text(
-                                                            'Hora Gestion:',
-                                                            style: TextStyle(
-                                                              fontWeight:
-                                                              FontWeight.bold,
-                                                            ))),
-                                                    FittedBox(
-                                                        child: Text(data[index]
-                                                            .horacontingencia, style: TextStyle(
-                                                          color: Colors.grey[600],fontSize: 12
-                                                        ))),
-
-                                                    FittedBox(
-                                                        child: Text(
-                                                            'Estado',
-                                                            style: TextStyle(
-                                                              fontWeight:
-                                                              FontWeight.bold,
-                                                            ))),
-                                                    FittedBox(
-                                                        child: Text(data[index]
-                                                            .finalizado, style: TextStyle(
-                                                          color: Colors.grey[600],fontSize: 12
-                                                        ))),
-
-                                                    FittedBox(
-                                                        child: Text(
-                                                            'Observacion:',
-                                                            style: TextStyle(
-                                                              fontWeight:
-                                                              FontWeight.bold,
-                                                            ))),
-                                  Text(data[index]
-                                                            .observacion, style: TextStyle(fontSize: 12),),
-
-                                                    const Divider(),
-                                                  ],
-                                                ),
-                                              ),
-                                            /*Container(
+                                      Container(
+                                        width: mq.width * 0.90,
+                                        padding: EdgeInsets.only(
+                                            left: mq.width * 0.03),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            FittedBox(
+                                                child: Text('Hora Ingreso:',
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ))),
+                                            FittedBox(
+                                                child: Text(
+                                                    data[i].horagestion,
+                                                    style: TextStyle(
+                                                        color: Colors.grey[600],
+                                                        fontSize: 12))),
+                                            FittedBox(
+                                                child: Text('Hora Gestion:',
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ))),
+                                            FittedBox(
+                                                child: Text(
+                                                    data[i]
+                                                        .horacontingencia,
+                                                    style: TextStyle(
+                                                        color: Colors.grey[600],
+                                                        fontSize: 12))),
+                                            FittedBox(
+                                                child: Text('Estado',
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ))),
+                                            FittedBox(
+                                                child: Text(
+                                                    data[i].finalizado,
+                                                    style: TextStyle(
+                                                        color: Colors.grey[600],
+                                                        fontSize: 12))),
+                                            FittedBox(
+                                                child: Text('Observacion:',
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ))),
+                                            Text(
+                                              data[i].observacion,
+                                              style: TextStyle(fontSize: 12),
+                                            ),
+                                            Container(height: 2),
+                                            const Divider(thickness: 2, color: Colors.black),
+                                            Container(height: 2),
+                                          ],
+                                        ),
+                                      ),
+                                    /*Container(
                                               width: mq.width * 0.90,
                                               padding: EdgeInsets.only(
                                                   left: mq.width * 0.03),
@@ -312,11 +309,7 @@ class _ConsultaGponPageState extends State<ConsultaGponPage> {
                                                 //),
                                               ),
                                             ),*/
-
-                                          ]),
-
-
-
+                                  ]),
                                 );
                               },
                             ),
@@ -324,10 +317,8 @@ class _ConsultaGponPageState extends State<ConsultaGponPage> {
                       ]),
                 ),
               ))),
-
       floatingActionButton: FloatingActionButton.small(
-
-          //tareaController.text = '';
+        //tareaController.text = '';
         onPressed: () {
           setState(() {
             tareaController.text = '';
