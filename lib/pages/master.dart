@@ -22,7 +22,6 @@ class _MasterPageState extends State<MasterPage> {
 
   @override
   Widget build(BuildContext context) {
-    
     final uiProvider = Provider.of<UiProvider>(context);
     final authServices = Provider.of<AuthService>(context);
     final mq = MediaQuery.of(context).size;
@@ -70,50 +69,44 @@ class _MasterPageState extends State<MasterPage> {
                   'assets/img/logo-white.png',
                 ),
               ),
-
               FutureBuilder(
                 future: authServices.readMenu(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
-
                   if (!snapshot.hasData) {
-                    return const CircularProgressIndicator(); 
+                    return const CircularProgressIndicator();
                   }
 
                   if (snapshot.data == '') {
-                    return Container(); 
+                    return Container();
                   }
 
                   dynamic menus = jsonDecode(snapshot.data);
 
                   return Column(
                     children: [
-
-                      for (int i = 0; i< menus.length; i++)
+                      for (int i = 0; i < menus.length; i++)
                         if (menus[i]['estado'])
                           ListTile(
                             onTap: () {
                               _advancedDrawerController.hideDrawer();
                               uiProvider.selectedMenuOpt = menus[i]['menuOpt'];
-                              uiProvider.selectedMenuName = menus[i]['pageName'];
+                              uiProvider.selectedMenuName =
+                                  menus[i]['pageName'];
                             },
                             leading: Icon(
-                              IconData(menus[i]['menuIcon'], fontFamily: 'MaterialIcons'),
+                              IconData(menus[i]['menuIcon'],
+                                  fontFamily: 'MaterialIcons'),
                               size: mq.width * 0.08,
                             ),
                             title: Text(
                               menus[i]['menuName'],
-                              style: TextStyle(
-                                fontSize: mq.width * 0.05
-                              ),
+                              style: TextStyle(fontSize: mq.width * 0.05),
                             ),
                           )
-                    ] ,
+                    ],
                   );
-                  
-                  
                 },
               ),
-              
               const Spacer(),
               DefaultTextStyle(
                 style: const TextStyle(
@@ -124,37 +117,44 @@ class _MasterPageState extends State<MasterPage> {
                   margin: const EdgeInsets.symmetric(
                     vertical: 16.0,
                   ),
-                  child: const Text('Version 1.2.0'),
+                  child: const Text('Version 1.2.2'),
                 ),
               ),
             ],
           ),
         ),
       ),
-      
+
       child: Scaffold(
         appBar: AppBar(
           title: Text(uiProvider.selectedMenuName),
           actions: [
-            (uiProvider.connectionStatusProvider == ConnectivityResult.wifi) ? Icon(
-              Icons.wifi,
-              color: uiProvider.isDeviceConnectedProvider ? greenColor : redColor,
-            ) :
-            (uiProvider.connectionStatusProvider == ConnectivityResult.mobile) ? Icon(
-              Icons.cell_tower,
-              color: uiProvider.isDeviceConnectedProvider ? greenColor : redColor,
-            ) :
-            const Icon(Icons.public_off),
+            (uiProvider.connectionStatusProvider == ConnectivityResult.wifi)
+                ? Icon(
+                    Icons.wifi,
+                    color: uiProvider.isDeviceConnectedProvider
+                        ? greenColor
+                        : redColor,
+                  )
+                : (uiProvider.connectionStatusProvider ==
+                        ConnectivityResult.mobile)
+                    ? Icon(
+                        Icons.cell_tower,
+                        color: uiProvider.isDeviceConnectedProvider
+                            ? greenColor
+                            : redColor,
+                      )
+                    : const Icon(Icons.public_off),
             IconButton(
               icon: const Icon(Icons.exit_to_app_rounded),
               tooltip: 'Cerrar sesión',
               onPressed: () async {
-                
                 /* ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Cerrando sesion'))
                 ); */
 
-                final authService = Provider.of<AuthService>(context, listen: false);
+                final authService =
+                    Provider.of<AuthService>(context, listen: false);
 
                 final String resp = await authService.logout();
 
@@ -163,7 +163,6 @@ class _MasterPageState extends State<MasterPage> {
                   uiProvider.selectedMenuName = 'Autogestión Terreno';
                   Navigator.pushReplacementNamed(context, 'login');
                 }
-
               },
             ),
           ],
@@ -194,4 +193,3 @@ class _MasterPageState extends State<MasterPage> {
     _advancedDrawerController.showDrawer();
   }
 }
-

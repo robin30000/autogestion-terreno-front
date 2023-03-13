@@ -8,8 +8,7 @@ import 'package:autogestion_tecnico/global/globals.dart';
 import 'package:autogestion_tecnico/models/models.dart';
 import 'package:autogestion_tecnico/services/services.dart';
 
-class ContingenciaService extends ChangeNotifier{
-
+class ContingenciaService extends ChangeNotifier {
   final String _baseUrl = baseUrl;
   final storage = const FlutterSecureStorage();
 
@@ -17,14 +16,13 @@ class ContingenciaService extends ChangeNotifier{
   bool isLoading = false;
 
   List<Map<String, dynamic>> tipoproducto = [];
-  List<Map<String,dynamic>> listTipoContingencia = [];
-  
-  ContingenciaService () {
+  List<Map<String, dynamic>> listTipoContingencia = [];
+
+  ContingenciaService() {
     getContingenciasByUser();
   }
 
   getContingenciasByUser() async {
-
     try {
       contingencias = [];
 
@@ -33,20 +31,18 @@ class ContingenciaService extends ChangeNotifier{
 
       final String? token = await storage.read(key: 'token');
 
-      final url = Uri.http(_baseUrl, '/autogestionterreno/getcontingenciabyuser');
+      final url =
+          Uri.http(_baseUrl, '/autogestionterreno/getcontingenciabyuser');
 
-      final resp = await http.get(url, headers: {
-        'Content-Type': 'application/json',
-        'x-token': token!
-      });
+      final resp = await http.get(url,
+          headers: {'Content-Type': 'application/json', 'x-token': token!});
 
       final Map<String, dynamic> decodeResp = json.decode(resp.body);
 
       if (decodeResp['type'] == 'errorAuth') {
-        List<Map<String, String>> resp = [{
-          'type': decodeResp['type'],
-          'message': decodeResp['message']
-        }];
+        List<Map<String, String>> resp = [
+          {'type': decodeResp['type'], 'message': decodeResp['message']}
+        ];
         return resp;
       }
 
@@ -56,21 +52,19 @@ class ContingenciaService extends ChangeNotifier{
       }
 
       isLoading = false;
-      notifyListeners(); 
+      notifyListeners();
     } catch (e) {
       NotificactionService.showSnackBar(e.toString());
     }
   }
 
-  Future<Map?> postContingencia({
-    required String pedido,
-    required String observacion,
-    required String tipoproducto,
-    required String tipocontingencia,
-    required String macentra,
-    required String macsale
-  }) async {
-
+  Future<Map?> postContingencia(
+      {required String pedido,
+      required String observacion,
+      required String tipoproducto,
+      required String tipocontingencia,
+      required String macentra,
+      required String macsale}) async {
     try {
       isLoading = true;
       notifyListeners();
@@ -88,26 +82,22 @@ class ContingenciaService extends ChangeNotifier{
 
       final url = Uri.http(_baseUrl, '/autogestionterreno/postcontingencia');
 
-      final resp = await http.post(url, headers: {
-        'Content-Type': 'application/json',
-        'x-token': token!
-      }, body: json.encode(contingenciaData));
-      
+      final resp = await http.post(url,
+          headers: {'Content-Type': 'application/json', 'x-token': token!},
+          body: json.encode(contingenciaData));
+
       final Map<String, dynamic> decodeResp = json.decode(resp.body);
 
       isLoading = false;
       notifyListeners();
 
-      return decodeResp; 
+      return decodeResp;
     } catch (e) {
       NotificactionService.showSnackBar(e.toString());
     }
-
   }
 
-
-  Future<List<Map<String,dynamic>>> getTipoProducto() async {
-
+  Future<List<Map<String, dynamic>>> getTipoProducto() async {
     tipoproducto = [
       {'name': 'Tipo de producto*', 'value': '', 'state': true},
       {'name': 'TV', 'value': 'TV', 'state': true},
@@ -116,20 +106,27 @@ class ContingenciaService extends ChangeNotifier{
       {'name': 'Internet+Toip', 'value': 'Internet+Toip', 'state': true},
     ];
     return tipoproducto;
-
   }
 
-  Future<List<Map<String,dynamic>>> getTipoContingencia({String tipoProducto = ''}) async {
-
+  Future<List<Map<String, dynamic>>> getTipoContingencia(
+      {String tipoProducto = ''}) async {
     switch (tipoProducto) {
       case 'ToIP':
         //listTipoContingencia = ['Reenvio de registros','Cambio de Equipo'];
         listTipoContingencia = [
           {'name': 'Tipo de contingencia*', 'value': '', 'state': true},
           {'name': 'Contingencia', 'value': 'Contingencia', 'state': false},
-          {'name': 'Reenvio de registros', 'value': 'Reenvio de registros', 'state': true},
+          {
+            'name': 'Reenvio de registros',
+            'value': 'Reenvio de registros',
+            'state': true
+          },
           {'name': 'Refresh', 'value': 'Refresh', 'state': false},
-          {'name': 'Cambio de Equipo', 'value': 'Cambio de Equipo', 'state': false},
+          {
+            'name': 'Cambio de Equipo',
+            'value': 'Cambio de Equipo',
+            'state': false
+          },
         ];
         break;
 
@@ -138,9 +135,22 @@ class ContingenciaService extends ChangeNotifier{
         listTipoContingencia = [
           {'name': 'Tipo de contingencia*', 'value': '', 'state': true},
           {'name': 'Contingencia', 'value': 'Contingencia', 'state': true},
-          {'name': 'Reenvio de registros', 'value': 'Reenvio de registros', 'state': false},
+          {
+            'name': 'Forzar Cable Modem',
+            'value': 'Forzar Cable Modem',
+            'state': true
+          },
+          {
+            'name': 'Reenvio de registros',
+            'value': 'Reenvio de registros',
+            'state': false
+          },
           {'name': 'Refresh', 'value': 'Refresh', 'state': false},
-          {'name': 'Cambio de Equipo', 'value': 'Cambio de Equipo', 'state': false},
+          {
+            'name': 'Cambio de Equipo',
+            'value': 'Cambio de Equipo',
+            'state': false
+          },
         ];
         break;
 
@@ -149,9 +159,17 @@ class ContingenciaService extends ChangeNotifier{
         listTipoContingencia = [
           {'name': 'Tipo de contingencia*', 'value': '', 'state': true},
           {'name': 'Contingencia', 'value': 'Contingencia', 'state': true},
-          {'name': 'Reenvio de registros', 'value': 'Reenvio de registros', 'state': false},
+          {
+            'name': 'Reenvio de registros',
+            'value': 'Reenvio de registros',
+            'state': false
+          },
           {'name': 'Refresh', 'value': 'Refresh', 'state': true},
-          {'name': 'Cambio de Equipo', 'value': 'Cambio de Equipo', 'state': false},
+          {
+            'name': 'Cambio de Equipo',
+            'value': 'Cambio de Equipo',
+            'state': false
+          },
         ];
         break;
 
@@ -160,9 +178,22 @@ class ContingenciaService extends ChangeNotifier{
         listTipoContingencia = [
           {'name': 'Tipo de contingencia*', 'value': '', 'state': true},
           {'name': 'Contingencia', 'value': 'Contingencia', 'state': true},
-          {'name': 'Reenvio de registros', 'value': 'Reenvio de registros', 'state': true},
+          {
+            'name': 'Forzar Cable Modem',
+            'value': 'Forzar Cable Modem',
+            'state': true
+          },
+          {
+            'name': 'Reenvio de registros',
+            'value': 'Reenvio de registros',
+            'state': true
+          },
           {'name': 'Refresh', 'value': 'Refresh', 'state': false},
-          {'name': 'Cambio de Equipo', 'value': 'Cambio de Equipo', 'state': false},
+          {
+            'name': 'Cambio de Equipo',
+            'value': 'Cambio de Equipo',
+            'state': false
+          },
         ];
         break;
 
@@ -171,14 +202,21 @@ class ContingenciaService extends ChangeNotifier{
         listTipoContingencia = [
           {'name': 'Tipo de contingencia*', 'value': '', 'state': true},
           {'name': 'Contingencia', 'value': 'Contingencia', 'state': true},
-          {'name': 'Reenvio de registros', 'value': 'Reenvio de registros', 'state': true},
+          {
+            'name': 'Reenvio de registros',
+            'value': 'Reenvio de registros',
+            'state': true
+          },
           {'name': 'Refresh', 'value': 'Refresh', 'state': true},
-          {'name': 'Cambio de Equipo', 'value': 'Cambio de Equipo', 'state': true},
+          {
+            'name': 'Cambio de Equipo',
+            'value': 'Cambio de Equipo',
+            'state': true
+          },
         ];
         break;
     }
 
     return listTipoContingencia;
   }
-  
 }
