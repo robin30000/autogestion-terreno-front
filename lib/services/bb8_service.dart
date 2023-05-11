@@ -8,8 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:autogestion_tecnico/global/globals.dart';
 import 'package:autogestion_tecnico/models/models.dart';
 
-class BB8Service extends ChangeNotifier{
-
+class BB8Service extends ChangeNotifier {
   final String _baseUrl = baseUrl;
   final storage = const FlutterSecureStorage();
 
@@ -24,7 +23,6 @@ class BB8Service extends ChangeNotifier{
     required String ciudad,
     required String direccion,
   }) async {
-
     try {
       bb8 = [];
 
@@ -33,33 +31,27 @@ class BB8Service extends ChangeNotifier{
 
       final String? token = await storage.read(key: 'token');
 
-      final url = Uri.http(_baseUrl, '/autogestionterreno/getbb8',{
-        'direccion': direccion,
-        'ciudad': ciudad
-      });
+      final url = Uri.http(_baseUrl, '/autogestionterreno/getbb8',
+          {'direccion': direccion, 'ciudad': ciudad});
 
-      final resp = await http.get(url, headers: {
-        'Content-Type': 'application/json',
-        'x-token': token!
-      });
+      final resp = await http.get(url,
+          headers: {'Content-Type': 'application/json', 'x-token': token!});
 
       final Map<String, dynamic> decodeResp = json.decode(resp.body);
 
       if (decodeResp['type'] == 'errorAuth') {
-        List<Map<String, String>> resp = [{
-          'type': decodeResp['type'],
-          'message': decodeResp['message']
-        }];
+        List<Map<String, String>> resp = [
+          {'type': decodeResp['type'], 'message': decodeResp['message']}
+        ];
         isLoading = false;
         notifyListeners();
         return resp;
       }
 
       if (decodeResp['type'] == 'error') {
-        List<Map<String, String>> resp = [{
-          'type': decodeResp['type'],
-          'message': decodeResp['message']
-        }];
+        List<Map<String, String>> resp = [
+          {'type': decodeResp['type'], 'message': decodeResp['message']}
+        ];
         bb8 = [];
         isLoading = false;
         notifyListeners();
@@ -73,15 +65,13 @@ class BB8Service extends ChangeNotifier{
 
       isLoading = false;
       notifyListeners();
-      return null; 
+      return null;
     } catch (e) {
       NotificactionService.showSnackBar(e.toString());
     }
-    
   }
 
   limpiar() async {
     bb8.clear();
   }
-
 }

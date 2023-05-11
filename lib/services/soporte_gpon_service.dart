@@ -8,20 +8,18 @@ import 'package:http/http.dart' as http;
 import 'package:autogestion_tecnico/global/globals.dart';
 import 'package:autogestion_tecnico/models/models.dart';
 
-class SoporteGponService extends ChangeNotifier{
-
+class SoporteGponService extends ChangeNotifier {
   final String _baseUrl = baseUrl;
   final storage = const FlutterSecureStorage();
 
   List<SoporteGpon> soportegpon = [];
   bool isLoading = false;
-  
-  SoporteGponService () {
+
+  SoporteGponService() {
     getSoporteGponByUser();
   }
 
   getSoporteGponByUser() async {
-
     try {
       soportegpon = [];
 
@@ -30,20 +28,18 @@ class SoporteGponService extends ChangeNotifier{
 
       final String? token = await storage.read(key: 'token');
 
-      final url = Uri.http(_baseUrl, '/autogestionterreno/getsoportegponbyuser');
+      final url =
+          Uri.http(_baseUrl, '/autogestionterreno/getsoportegponbyuser');
 
-      final resp = await http.get(url, headers: {
-        'Content-Type': 'application/json',
-        'x-token': token!
-      });
+      final resp = await http.get(url,
+          headers: {'Content-Type': 'application/json', 'x-token': token!});
 
       final Map<String, dynamic> decodeResp = json.decode(resp.body);
 
       if (decodeResp['type'] == 'errorAuth') {
-        List<Map<String, String>> resp = [{
-          'type': decodeResp['type'],
-          'message': decodeResp['message']
-        }];
+        List<Map<String, String>> resp = [
+          {'type': decodeResp['type'], 'message': decodeResp['message']}
+        ];
         return resp;
       }
 
@@ -53,11 +49,10 @@ class SoporteGponService extends ChangeNotifier{
       }
 
       isLoading = false;
-      notifyListeners(); 
+      notifyListeners();
     } catch (e) {
       NotificactionService.showSnackBar(e.toString());
     }
-
   }
 
   Future<Map?> postContingencia({
@@ -77,7 +72,6 @@ class SoporteGponService extends ChangeNotifier{
     required String nombreContacto,
     required String observacion,
   }) async {
-
     try {
       isLoading = true;
       notifyListeners();
@@ -104,20 +98,18 @@ class SoporteGponService extends ChangeNotifier{
 
       final url = Uri.http(_baseUrl, '/autogestionterreno/postsoportegpon');
 
-      final resp = await http.post(url, headers: {
-        'Content-Type': 'application/json',
-        'x-token': token!
-      }, body: json.encode(soportegponData));
-      
+      final resp = await http.post(url,
+          headers: {'Content-Type': 'application/json', 'x-token': token!},
+          body: json.encode(soportegponData));
+
       final Map<String, dynamic> decodeResp = json.decode(resp.body);
 
       isLoading = false;
       notifyListeners();
 
-      return decodeResp; 
+      return decodeResp;
     } catch (e) {
       NotificactionService.showSnackBar(e.toString());
     }
   }
-  
 }

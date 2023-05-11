@@ -1,4 +1,3 @@
-
 export 'package:autogestion_tecnico/pages/splash.dart';
 export 'package:autogestion_tecnico/pages/login.dart';
 
@@ -13,3 +12,4 @@ export 'package:autogestion_tecnico/pages/lista_soporte_gpon_page.dart';
 export 'package:autogestion_tecnico/pages/bb8_page.dart';
 export 'package:autogestion_tecnico/pages/codigo_incompleto_page.dart';
 export 'package:autogestion_tecnico/pages/consulta_gpon_page.dart';
+export 'package:autogestion_tecnico/pages/consulta_quejas_page.dart';

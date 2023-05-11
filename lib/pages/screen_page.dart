@@ -9,7 +9,6 @@ class ScreenPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final uiProvider = Provider.of<UiProvider>(context);
 
     final screenIndex = uiProvider.selectedMenuOpt;
@@ -17,7 +16,7 @@ class ScreenPage extends StatelessWidget {
     switch (screenIndex) {
       case 0:
         return const HomePage();
-      
+
       case 1:
         return const ContingenciaPage();
 
@@ -26,19 +25,22 @@ class ScreenPage extends StatelessWidget {
 
       case 3:
         return const ListContingenciaPage();
-      
+
       case 4:
         return const ListSoporteGponPage();
 
       case 5:
         return const Bb8Page();
-      
+
       case 6:
         return const CodigoIncompletoPage();
 
       case 7:
         return const ConsultaGponPage();
-        
+
+      case 8:
+        return const ConsultaQuejasPage();
+
       default:
         return const LoaderPage();
     }

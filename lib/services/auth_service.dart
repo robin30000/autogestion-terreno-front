@@ -7,17 +7,13 @@ import 'package:http/http.dart' as http;
 
 import 'package:autogestion_tecnico/global/globals.dart';
 
-class AuthService extends ChangeNotifier{
-
+class AuthService extends ChangeNotifier {
   final String _baseUrl = baseUrl;
 
   final storage = const FlutterSecureStorage();
 
-  Future<Map?> login({
-    required String usuario,
-    required String password
-  }) async {
-
+  Future<Map?> login(
+      {required String usuario, required String password}) async {
     try {
       //String tokenFcm = await storage.read(key: 'token_fcm') ?? '';
 
@@ -28,38 +24,39 @@ class AuthService extends ChangeNotifier{
 
       final url = Uri.http(_baseUrl, '/autogestionterreno/ingresar');
 
-      final resp = await http.post(url, headers: {
-        'Content-Type': 'application/json',
-      }, body: json.encode(authData));
+      final resp = await http.post(url,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: json.encode(authData));
 
       final Map<String, dynamic> decodeResp = json.decode(resp.body);
 
       if (decodeResp['type'] == 'error') {
         return decodeResp;
       } else {
-
-        await storage.write(key: 'nombre', value: decodeResp['message']['nombre']);
-        await storage.write(key: 'login_click', value: decodeResp['message']['login_click']);
-        await storage.write(key: 'identificacion', value: decodeResp['message']['identificacion']);
+        await storage.write(
+            key: 'nombre', value: decodeResp['message']['nombre']);
+        await storage.write(
+            key: 'login_click', value: decodeResp['message']['login_click']);
+        await storage.write(
+            key: 'identificacion',
+            value: decodeResp['message']['identificacion']);
         await storage.write(key: 'token', value: decodeResp['token']);
         //await storage.write(key: 'menu', value: json.encode(menu) );
-        await storage.write(key: 'menu', value: json.encode(decodeResp['message']['menu']));
+        await storage.write(
+            key: 'menu', value: json.encode(decodeResp['message']['menu']));
 
         decodeResp['type'] = 'success';
         decodeResp['msg'] = 'OK';
         return decodeResp;
-      } 
+      }
     } catch (e) {
-
       NotificactionService.showSnackBar(e.toString());
-
     }
-
-    
   }
 
   Future<String> logout() async {
-    
     //await storage.deleteAll();
     await storage.delete(key: 'nombre');
     await storage.delete(key: 'login_click');
@@ -83,7 +80,6 @@ class AuthService extends ChangeNotifier{
   }
 
   Future getMenuApp() async {
-
     try {
       final url = Uri.http(_baseUrl, '/autogestionterreno/validarmenu');
       final resp = await http.get(url, headers: {
@@ -91,14 +87,11 @@ class AuthService extends ChangeNotifier{
       });
 
       final Map<String, dynamic> decodeResp = json.decode(resp.body);
-      await storage.write(key: 'menu', value: json.encode(decodeResp['message']));
+      await storage.write(
+          key: 'menu', value: json.encode(decodeResp['message']));
       notifyListeners();
-
     } catch (e) {
-
       NotificactionService.showSnackBar(e.toString());
-
     }
-    
   }
 }

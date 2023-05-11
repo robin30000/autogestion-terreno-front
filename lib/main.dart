@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -41,6 +40,7 @@ class _AppInitState extends State<AppInit> {
         ChangeNotifierProvider(create: (_) => BB8Service()),
         ChangeNotifierProvider(create: (_) => CodigoIncompletoService()),
         ChangeNotifierProvider(create: (_) => ConsultaGponService()),
+        ChangeNotifierProvider(create: (_) => ConsultaQuejasService()),
       ],
       child: const MyApp(),
     );
