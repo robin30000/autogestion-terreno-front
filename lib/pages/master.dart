@@ -117,7 +117,7 @@ class _MasterPageState extends State<MasterPage> {
                   margin: const EdgeInsets.symmetric(
                     vertical: 16.0,
                   ),
-                  child: const Text('Version 1.2.2'),
+                  child: const Text('Version 1.3'),
                 ),
               ),
             ],

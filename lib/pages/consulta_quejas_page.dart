@@ -239,30 +239,6 @@ class _ConsultaQuejasPageState extends State<ConsultaQuejasPage> {
                                                         fontSize: 12))),
                                             Container(height: 2),
                                             FittedBox(
-                                                child: Text('Numero Cun:',
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ))),
-                                            FittedBox(
-                                                child: Text(data[i].NUMERO_CUN,
-                                                    style: TextStyle(
-                                                        color: Colors.grey[600],
-                                                        fontSize: 12))),
-                                            Container(height: 2),
-                                            FittedBox(
-                                                child: Text('Email:',
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ))),
-                                            FittedBox(
-                                                child: Text(data[i].EMAIL,
-                                                    style: TextStyle(
-                                                        color: Colors.grey[600],
-                                                        fontSize: 12))),
-                                            Container(height: 2),
-                                            FittedBox(
                                                 child: Text('Dirección:',
                                                     style: TextStyle(
                                                       fontWeight:
