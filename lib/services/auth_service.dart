@@ -1,11 +1,10 @@
 import 'dart:convert';
 
+import 'package:autogestion_tecnico/global/globals.dart';
 import 'package:autogestion_tecnico/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
-
-import 'package:autogestion_tecnico/global/globals.dart';
 
 class AuthService extends ChangeNotifier {
   final String _baseUrl = baseUrl;
@@ -22,7 +21,7 @@ class AuthService extends ChangeNotifier {
         "password": password,
       };
 
-      final url = Uri.http(_baseUrl, '/autogestionterreno/ingresar');
+      final url = Uri.http(_baseUrl, '/autogestionterreno_dev/ingresar');
 
       final resp = await http.post(url,
           headers: {
@@ -54,6 +53,7 @@ class AuthService extends ChangeNotifier {
     } catch (e) {
       NotificactionService.showSnackBar(e.toString());
     }
+    return null;
   }
 
   Future<String> logout() async {
@@ -81,7 +81,7 @@ class AuthService extends ChangeNotifier {
 
   Future getMenuApp() async {
     try {
-      final url = Uri.http(_baseUrl, '/autogestionterreno/validarmenu');
+      final url = Uri.http(_baseUrl, '/autogestionterreno_dev/validarmenu');
       final resp = await http.get(url, headers: {
         'Content-Type': 'application/json',
       });

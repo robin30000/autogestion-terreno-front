@@ -26,7 +26,7 @@ class ConsultaQuejasService extends ChangeNotifier {
 
       final String? token = await storage.read(key: 'token');
 
-      final url = Uri.http(_baseUrl, '/autogestionterreno/getQuejas', {
+      final url = Uri.http(_baseUrl, '/autogestionterreno_dev/getQuejas', {
         'pedido': pedido,
       });
 

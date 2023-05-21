@@ -1,14 +1,13 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
-
 import 'package:autogestion_tecnico/global/globals.dart';
 import 'package:autogestion_tecnico/pages/pages.dart';
 import 'package:autogestion_tecnico/providers/ui_provider.dart';
 import 'package:autogestion_tecnico/services/services.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
+import 'package:provider/provider.dart';
 
 class MasterPage extends StatefulWidget {
   const MasterPage({super.key});
@@ -57,8 +56,8 @@ class _MasterPageState extends State<MasterPage> {
                 width: 128.0,
                 height: 128.0,
                 margin: const EdgeInsets.only(
-                  top: 24.0,
-                  bottom: 64.0,
+                  top: 20.0,
+                  bottom: 15.0,
                 ),
                 clipBehavior: Clip.antiAlias,
                 decoration: const BoxDecoration(

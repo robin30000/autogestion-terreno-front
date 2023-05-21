@@ -1,8 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 import 'package:autogestion_tecnico/pages/pages.dart';
 import 'package:autogestion_tecnico/providers/providers.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ScreenPage extends StatelessWidget {
   const ScreenPage({Key? key}) : super(key: key);
@@ -40,6 +39,9 @@ class ScreenPage extends StatelessWidget {
 
       case 8:
         return const ConsultaQuejasPage();
+
+      case 9:
+        return const TipsPage();
 
       default:
         return const LoaderPage();
