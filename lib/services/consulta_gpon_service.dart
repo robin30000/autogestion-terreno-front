@@ -1,13 +1,12 @@
 import 'dart:convert';
+
+import 'package:autogestion_tecnico/global/globals.dart';
 import 'package:autogestion_tecnico/models/consulta_gpon_model.dart';
 import 'package:autogestion_tecnico/services/services.dart';
 import 'package:flutter/foundation.dart';
-
 //import 'package:autogestion_tecnico/services/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
-
-import 'package:autogestion_tecnico/global/globals.dart';
 
 class ConsultaGponService extends ChangeNotifier {
   final String _baseUrl = baseUrl;
@@ -26,7 +25,7 @@ class ConsultaGponService extends ChangeNotifier {
 
       final String? token = await storage.read(key: 'token');
 
-      final url = Uri.http(_baseUrl, '/autogestionterreno_dev/gettareagpon', {
+      final url = Uri.http(_baseUrl, '/autogestionterreno/gettareagpon', {
         'tarea': tarea,
       });
 

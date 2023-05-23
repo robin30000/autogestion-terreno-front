@@ -1,12 +1,11 @@
 import 'dart:convert';
 
+import 'package:autogestion_tecnico/global/globals.dart';
+import 'package:autogestion_tecnico/models/models.dart';
 import 'package:autogestion_tecnico/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
-
-import 'package:autogestion_tecnico/global/globals.dart';
-import 'package:autogestion_tecnico/models/models.dart';
 
 class SoporteGponService extends ChangeNotifier {
   final String _baseUrl = baseUrl;
@@ -29,7 +28,7 @@ class SoporteGponService extends ChangeNotifier {
       final String? token = await storage.read(key: 'token');
 
       final url =
-          Uri.http(_baseUrl, '/autogestionterreno_dev/getsoportegponbyuser');
+          Uri.http(_baseUrl, '/autogestionterreno/getsoportegponbyuser');
 
       final resp = await http.get(url,
           headers: {'Content-Type': 'application/json', 'x-token': token!});
@@ -96,7 +95,7 @@ class SoporteGponService extends ChangeNotifier {
         "observacion": observacion,
       };
 
-      final url = Uri.http(_baseUrl, '/autogestionterreno_dev/postsoportegpon');
+      final url = Uri.http(_baseUrl, '/autogestionterreno/postsoportegpon');
 
       final resp = await http.post(url,
           headers: {'Content-Type': 'application/json', 'x-token': token!},
@@ -111,5 +110,6 @@ class SoporteGponService extends ChangeNotifier {
     } catch (e) {
       NotificactionService.showSnackBar(e.toString());
     }
+    return null;
   }
 }

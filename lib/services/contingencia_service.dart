@@ -1,12 +1,11 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:http/http.dart' as http;
-
 import 'package:autogestion_tecnico/global/globals.dart';
 import 'package:autogestion_tecnico/models/models.dart';
 import 'package:autogestion_tecnico/services/services.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart' as http;
 
 class ContingenciaService extends ChangeNotifier {
   final String _baseUrl = baseUrl;
@@ -32,7 +31,7 @@ class ContingenciaService extends ChangeNotifier {
       final String? token = await storage.read(key: 'token');
 
       final url =
-          Uri.http(_baseUrl, '/autogestionterreno_dev/getcontingenciabyuser');
+          Uri.http(_baseUrl, '/autogestionterreno/getcontingenciabyuser');
 
       final resp = await http.get(url,
           headers: {'Content-Type': 'application/json', 'x-token': token!});
@@ -80,8 +79,7 @@ class ContingenciaService extends ChangeNotifier {
         "macsale": macsale,
       };
 
-      final url =
-          Uri.http(_baseUrl, '/autogestionterreno_dev/postcontingencia');
+      final url = Uri.http(_baseUrl, '/autogestionterreno/postcontingencia');
 
       final resp = await http.post(url,
           headers: {'Content-Type': 'application/json', 'x-token': token!},
@@ -96,6 +94,7 @@ class ContingenciaService extends ChangeNotifier {
     } catch (e) {
       NotificactionService.showSnackBar(e.toString());
     }
+    return null;
   }
 
   Future<List<Map<String, dynamic>>> getTipoProducto() async {
