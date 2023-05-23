@@ -1,13 +1,12 @@
 import 'dart:convert';
+
+import 'package:autogestion_tecnico/global/globals.dart';
 import 'package:autogestion_tecnico/models/consulta_queja_model.dart';
 import 'package:autogestion_tecnico/services/services.dart';
 import 'package:flutter/foundation.dart';
-
 //import 'package:autogestion_tecnico/services/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
-
-import 'package:autogestion_tecnico/global/globals.dart';
 
 class ConsultaQuejasService extends ChangeNotifier {
   final String _baseUrl = baseUrl;
@@ -65,6 +64,40 @@ class ConsultaQuejasService extends ChangeNotifier {
       notifyListeners();
 
       return null;
+    } catch (e) {
+      NotificactionService.showSnackBar(e.toString());
+    }
+    return null;
+  }
+
+  Future<Map?> postQuejaGo({
+    required String observacion,
+    required Object data,
+  }) async {
+    try {
+      print('function');
+      isLoading = true;
+      notifyListeners();
+
+      final String? token = await storage.read(key: 'token');
+
+      final Map<String, dynamic> quejaGoData = {
+        "observacion": observacion,
+        "otro": data,
+      };
+
+      final url = Uri.http(_baseUrl, '/autogestionterreno_dev/postquejago');
+
+      final resp = await http.post(url,
+          headers: {'Content-Type': 'application/json', 'x-token': token!},
+          body: json.encode(quejaGoData));
+
+      final Map<String, dynamic> decodeResp = json.decode(resp.body);
+
+      isLoading = false;
+      notifyListeners();
+
+      return decodeResp;
     } catch (e) {
       NotificactionService.showSnackBar(e.toString());
     }

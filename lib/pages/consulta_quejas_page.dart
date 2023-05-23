@@ -1,12 +1,11 @@
 import 'package:autogestion_tecnico/global/custom_show_dialog.dart';
+import 'package:autogestion_tecnico/global/globals.dart';
+import 'package:autogestion_tecnico/models/models.dart';
+import 'package:autogestion_tecnico/providers/providers.dart';
+import 'package:autogestion_tecnico/services/services.dart';
 import 'package:autogestion_tecnico/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import 'package:autogestion_tecnico/providers/providers.dart';
-import 'package:autogestion_tecnico/services/services.dart';
-import 'package:autogestion_tecnico/global/globals.dart';
-import 'package:autogestion_tecnico/models/models.dart';
 
 class ConsultaQuejasPage extends StatefulWidget {
   const ConsultaQuejasPage({super.key});
@@ -27,8 +26,9 @@ class _ConsultaQuejasPageState extends State<ConsultaQuejasPage> {
   @override
   void dispose() {
     tareaController.dispose();
-    if (_formKeyCodInc.currentState != null)
+    if (_formKeyCodInc.currentState != null) {
       _formKeyCodInc.currentState!.dispose();
+    }
 
     data = [];
     quejaRes = '';
@@ -40,6 +40,73 @@ class _ConsultaQuejasPageState extends State<ConsultaQuejasPage> {
     final mq = MediaQuery.of(context).size;
     final uiProvider = Provider.of<UiProvider>(context);
     final consultaQuejaService = Provider.of<ConsultaQuejasService>(context);
+
+    final textController = TextEditingController();
+    final focusNode = FocusNode();
+
+    final outLineInputBorder = UnderlineInputBorder(
+        borderSide: const BorderSide(color: Colors.redAccent),
+        borderRadius: BorderRadius.circular(40));
+
+    final inputDecoration = InputDecoration(
+      hintText: 'Enviar observación',
+      enabledBorder: outLineInputBorder,
+      focusedBorder: outLineInputBorder,
+      filled: true,
+      suffixIcon: IconButton(
+          icon: const Icon(Icons.send_outlined),
+          onPressed: () {
+            final textValue = textController.value.text;
+            if (textValue == '') {
+              CustomShowDialog.alert(
+                context: context,
+                title: 'Error',
+                message: 'Debes agregar una observación',
+              );
+              return;
+            } else {
+              print('Robin');
+              /* consultaQuejaService.postQuejaGo(
+                  observacion: textValue, data: data); */
+              /* CustomButton(
+                function: consultaQuejaService.isLoading
+                    ? null
+                    : () async {
+                        final Map? resp = await consultaQuejaService
+                            .postQuejaGo(observacion: textValue);
+                        if (resp!['type'] == 'error') {
+                          CustomShowDialog.alert(
+                              context: context,
+                              title: 'Error',
+                              message: resp['message']);
+                          return false;
+                        } else {
+                          CustomShowDialog.alert(
+                              context: context,
+                              title: 'Excelente',
+                              message: resp['message']);
+                          print(resp);
+
+                          await Future.delayed(
+                              const Duration(milliseconds: 500));
+
+                          uiProvider.selectedMenuOpt = 99;
+                          uiProvider.selectedMenuName = 'Soporte GPON';
+
+                          await Future.delayed(const Duration(seconds: 1));
+
+                          uiProvider.selectedMenuOpt = 2;
+                          uiProvider.selectedMenuName = 'Soporte GPON';
+                        }
+                      },
+                mq: mq,
+                color: blueColor,
+                colorText: Colors.black38,
+                text: 'hola',
+              ); */
+            }
+          }),
+    );
 
     final authServices = Provider.of<AuthService>(context, listen: false);
     authServices.getMenuApp();
@@ -134,226 +201,155 @@ class _ConsultaQuejasPageState extends State<ConsultaQuejasPage> {
                                   child: Text(quejaRes),
                                 )
                         else
-                          SizedBox(
-                            width: mq.width * 0.90,
-                            height: mq.height * 300,
-                            child: ListView.separated(
-                              itemCount: data.length,
-                              separatorBuilder:
-                                  (BuildContext context, int index) {
-                                return SizedBox(
-                                  height: mq.height * 0.03,
-                                );
-                              },
-                              itemBuilder: (BuildContext context, int index) {
-                                return Container(
-                                  width: mq.width,
-                                  height: mq.height * 500,
-                                  padding: EdgeInsets.only(
-                                      left: mq.width * 0.03,
-                                      right: mq.width * 0.03,
-                                      top: mq.width * 0.03,
-                                      bottom: mq.width * 0.03),
-                                  margin: EdgeInsets.symmetric(
-                                      horizontal: mq.width * 0.01),
-                                  decoration: BoxDecoration(
-                                    color: whiteColor,
-                                    boxShadow: const [
-                                      BoxShadow(
-                                          color: Colors.black26,
-                                          blurRadius: 15,
-                                          offset: Offset(3, 2),
-                                          spreadRadius: -5),
-                                    ],
-                                    borderRadius: BorderRadius.circular(
-                                      20.0,
-                                    ),
-                                  ),
-                                  child: Column(children: [
-                                    for (int i = 0; i < data.length; i++)
-                                      Container(
-                                        width: mq.width * 0.90,
-                                        padding: EdgeInsets.only(
-                                            left: mq.width * 0.03),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            FittedBox(
-                                                child: Text('SS:',
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ))),
-                                            FittedBox(
-                                                child: Text(data[i].SS,
-                                                    style: TextStyle(
-                                                        color: Colors.grey[600],
-                                                        fontSize: 12))),
-                                            FittedBox(
-                                                child: Text('Nombre Cuenta:',
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ))),
-                                            FittedBox(
-                                                child: Text(
-                                                    data[i].NOMBRE_CUENTA,
-                                                    style: TextStyle(
-                                                        color: Colors.grey[600],
-                                                        fontSize: 12))),
-                                            FittedBox(
-                                                child: Text('Identificacion',
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ))),
-                                            FittedBox(
-                                                child: Text(
-                                                    data[i].IDENTIFICACION,
-                                                    style: TextStyle(
-                                                        color: Colors.grey[600],
-                                                        fontSize: 12))),
-                                            FittedBox(
-                                                child: Text('Celular:',
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ))),
-                                            Text(
-                                              data[i].CELULAR,
-                                              style: TextStyle(fontSize: 12),
-                                            ),
-                                            FittedBox(
-                                                child: Text('Fijo:',
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ))),
-                                            FittedBox(
-                                                child: Text(data[i].FIJO,
-                                                    style: TextStyle(
-                                                        color: Colors.grey[600],
-                                                        fontSize: 12))),
-                                            Container(height: 2),
-                                            FittedBox(
-                                                child: Text('Dirección:',
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ))),
-                                            FittedBox(
-                                                child: Text(data[i].DIRECCION,
-                                                    style: TextStyle(
-                                                        color: Colors.grey[600],
-                                                        fontSize: 12))),
-                                            Container(height: 2),
-                                            FittedBox(
-                                                child: Text('Descripcion:',
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ))),
-                                            Text(
-                                              data[i].DESCRIPCION,
-                                              style: TextStyle(fontSize: 12),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    /*Container(
-                                              width: mq.width * 0.90,
-                                              padding: EdgeInsets.only(
-                                                  left: mq.width * 0.03),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  FittedBox(
-                                                      child: Text(
-                                                          'Hora Contingencia:',
-                                                          style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                          ))),
-                                                  FittedBox(
-                                                      child: Text(data[index]
-                                                          .horacontingencia)),
-                                                ],
-                                              ),
-                                            ),
-                                            Container(
-                                              width: mq.width * 0.90,
-                                              height: mq.height * 0.05,
-                                              padding: EdgeInsets.only(
-                                                  left: mq.width * 0.03),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  FittedBox(
-                                                      child: Text('Finalizado:',
-                                                          style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                          ))),
-                                                  FittedBox(
-                                                      child: Text(data[index]
-                                                          .finalizado)),
-                                                ],
-                                              ),
-                                            ),
-                                            Container(
-                                              width: mq.width * 0.90,
-                                              height: mq.height * 0.45,
-                                              padding: EdgeInsets.only(
-                                                  left: mq.width * 0.03),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  FittedBox(
-                                                    child: Text(
-                                                      'Observacion:',
-                                                      style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Text(data[index].observacion,
-                                                      style: TextStyle(
-                                                          fontSize: 12)),
-                                                ],
-                                                //FittedBox(
-                                                //),
-                                              ),
-                                            ),*/
-                                  ]),
-                                );
-                              },
-                            ),
+                          /* TextFormField(
+                              focusNode: focusNode,
+                              controller: textController,
+                              decoration: inputDecoration,
+                              onFieldSubmitted: ((value) {
+                                textController.clear();
+                                //focusNode.requestFocus();
+                              })), */
+                          const SizedBox(
+                            height: 10,
                           ),
+                        SizedBox(
+                          width: mq.width * 0.90,
+                          height: mq.height * 300,
+                          child: ListView.separated(
+                            itemCount: data.length,
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return SizedBox(
+                                height: mq.height * 0.03,
+                              );
+                            },
+                            itemBuilder: (BuildContext context, int index) {
+                              return Container(
+                                width: mq.width,
+                                height: mq.height * 500,
+                                padding: EdgeInsets.only(
+                                    left: mq.width * 0.03,
+                                    right: mq.width * 0.03,
+                                    top: mq.width * 0.03,
+                                    bottom: mq.width * 0.03),
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: mq.width * 0.01),
+                                decoration: BoxDecoration(
+                                  color: whiteColor,
+                                  boxShadow: const [
+                                    BoxShadow(
+                                        color: Colors.black26,
+                                        blurRadius: 15,
+                                        offset: Offset(3, 2),
+                                        spreadRadius: -5),
+                                  ],
+                                  borderRadius: BorderRadius.circular(
+                                    20.0,
+                                  ),
+                                ),
+                                child: Column(children: [
+                                  for (int i = 0; i < data.length; i++)
+                                    Container(
+                                      width: mq.width * 0.90,
+                                      padding: EdgeInsets.only(
+                                          left: mq.width * 0.03),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          const FittedBox(
+                                              child: Text('SS:',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                  ))),
+                                          FittedBox(
+                                              child: Text(data[i].SS,
+                                                  style: TextStyle(
+                                                      color: Colors.grey[600],
+                                                      fontSize: 12))),
+                                          const FittedBox(
+                                              child: Text('Nombre Cuenta:',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                  ))),
+                                          FittedBox(
+                                              child: Text(data[i].NOMBRE_CUENTA,
+                                                  style: TextStyle(
+                                                      color: Colors.grey[600],
+                                                      fontSize: 12))),
+                                          const FittedBox(
+                                              child: Text('Identificacion',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                  ))),
+                                          FittedBox(
+                                              child: Text(
+                                                  data[i].IDENTIFICACION,
+                                                  style: TextStyle(
+                                                      color: Colors.grey[600],
+                                                      fontSize: 12))),
+                                          const FittedBox(
+                                              child: Text('Celular:',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                  ))),
+                                          Text(
+                                            data[i].CELULAR,
+                                            style:
+                                                const TextStyle(fontSize: 12),
+                                          ),
+                                          const FittedBox(
+                                              child: Text('Fijo:',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                  ))),
+                                          FittedBox(
+                                              child: Text(data[i].FIJO,
+                                                  style: TextStyle(
+                                                      color: Colors.grey[600],
+                                                      fontSize: 12))),
+                                          Container(height: 2),
+                                          const FittedBox(
+                                              child: Text('Dirección:',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                  ))),
+                                          FittedBox(
+                                              child: Text(data[i].DIRECCION,
+                                                  style: TextStyle(
+                                                      color: Colors.grey[600],
+                                                      fontSize: 12))),
+                                          Container(height: 2),
+                                          const FittedBox(
+                                              child: Text('Descripcion:',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                  ))),
+                                          Text(
+                                            data[i].DESCRIPCION,
+                                            style:
+                                                const TextStyle(fontSize: 12),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                ]),
+                              );
+                            },
+                          ),
+                        ),
                       ]),
                 ),
               ))),
       floatingActionButton: FloatingActionButton.small(
-        //tareaController.text = '';
         onPressed: () {
           setState(() {
             tareaController.text = '';
             data.clear();
           });
         },
-
         backgroundColor: cyanColor,
         child: const Icon(Icons.restore_from_trash_rounded),
       ),
