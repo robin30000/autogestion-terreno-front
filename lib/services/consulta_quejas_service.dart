@@ -13,7 +13,12 @@ class ConsultaQuejasService extends ChangeNotifier {
   final storage = const FlutterSecureStorage();
 
   List<QUEJAS> quejas = [];
+  List<QUEJASLIST> quejaslist = [];
   bool isLoading = false;
+
+  ConsultaQuejasService() {
+    getQuejasGoByUser();
+  }
 
   Future<List?> getQueja({
     required String pedido,
@@ -57,9 +62,6 @@ class ConsultaQuejasService extends ChangeNotifier {
         quejas.addAll(newResponse.quejas);
       }
 
-      /*List<Map<String, String>> respbody = [
-        {'type': decodeResp['type'], 'message': decodeResp['message']}
-      ];*/
       isLoading = false;
       notifyListeners();
 
@@ -70,27 +72,29 @@ class ConsultaQuejasService extends ChangeNotifier {
     return null;
   }
 
-  Future<Map?> postQuejaGo({
-    required String observacion,
-    required Object data,
-  }) async {
+  Future<Map?> postQuejaGo(
+      {required String observacion,
+      required Object data,
+      required dynamic identificacion,
+      required dynamic nombre}) async {
     try {
-      print('function');
       isLoading = true;
       notifyListeners();
 
       final String? token = await storage.read(key: 'token');
 
-      final Map<String, dynamic> quejaGoData = {
+      final Map<String, dynamic> contingenciaData = {
         "observacion": observacion,
-        "otro": data,
+        "data": data,
+        "identificacion": identificacion,
+        "nombre": nombre
       };
 
       final url = Uri.http(_baseUrl, '/autogestionterreno_dev/postquejago');
 
       final resp = await http.post(url,
           headers: {'Content-Type': 'application/json', 'x-token': token!},
-          body: json.encode(quejaGoData));
+          body: json.encode(contingenciaData));
 
       final Map<String, dynamic> decodeResp = json.decode(resp.body);
 
@@ -102,5 +106,41 @@ class ConsultaQuejasService extends ChangeNotifier {
       NotificactionService.showSnackBar(e.toString());
     }
     return null;
+  }
+
+  getQuejasGoByUser() async {
+    try {
+      quejaslist = [];
+
+      isLoading = true;
+      notifyListeners();
+
+      final String? token = await storage.read(key: 'token');
+
+      final url =
+          Uri.http(_baseUrl, '/autogestionterreno_dev/getquejasgobyuser');
+
+      final resp = await http.get(url,
+          headers: {'Content-Type': 'application/json', 'x-token': token!});
+
+      final Map<String, dynamic> decodeResp = json.decode(resp.body);
+
+      if (decodeResp['type'] == 'errorAuth') {
+        List<Map<String, String>> resp = [
+          {'type': decodeResp['type'], 'message': decodeResp['message']}
+        ];
+        return resp;
+      }
+
+      if (decodeResp['type'] == 'success') {
+        final newResponse = newReponseMisQuejasFromJson(resp.body);
+        quejaslist.addAll(newResponse.quejaslist);
+      }
+
+      isLoading = false;
+      notifyListeners();
+    } catch (e) {
+      NotificactionService.showSnackBar(e.toString());
+    }
   }
 }

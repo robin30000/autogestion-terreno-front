@@ -5,6 +5,7 @@ export 'package:autogestion_tecnico/pages/consulta_quejas_page.dart';
 export 'package:autogestion_tecnico/pages/contingencia_page.dart';
 export 'package:autogestion_tecnico/pages/home_page.dart';
 export 'package:autogestion_tecnico/pages/lista_contingencia_page.dart';
+export 'package:autogestion_tecnico/pages/lista_quejasgo_page.dart';
 export 'package:autogestion_tecnico/pages/lista_soporte_gpon_page.dart';
 export 'package:autogestion_tecnico/pages/loader_page.dart';
 export 'package:autogestion_tecnico/pages/login.dart';

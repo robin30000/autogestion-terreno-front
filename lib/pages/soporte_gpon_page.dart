@@ -43,8 +43,9 @@ class _SoporteGponPageState extends State<SoporteGponPage> {
     contactoController.dispose();
     nombreContactoController.dispose();
     detalleSolicitudController.dispose();
-    if (_formKeySoporteGpon.currentState != null)
+    if (_formKeySoporteGpon.currentState != null) {
       _formKeySoporteGpon.currentState!.dispose();
+    }
     super.dispose();
   }
 
@@ -326,7 +327,7 @@ class _SoporteGponPageState extends State<SoporteGponPage> {
           uiProvider.selectedMenuOpt = 4;
           uiProvider.selectedMenuName = 'Lista Soporte GPON';
         },
-        backgroundColor: cyanColor,
+        backgroundColor: const Color.fromARGB(255, 0, 51, 94),
         child: const Icon(Icons.list_rounded),
       ),
     );

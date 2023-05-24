@@ -1,12 +1,11 @@
 import 'package:autogestion_tecnico/global/custom_show_dialog.dart';
+import 'package:autogestion_tecnico/global/globals.dart';
+import 'package:autogestion_tecnico/models/models.dart';
+import 'package:autogestion_tecnico/providers/providers.dart';
+import 'package:autogestion_tecnico/services/services.dart';
 import 'package:autogestion_tecnico/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import 'package:autogestion_tecnico/providers/providers.dart';
-import 'package:autogestion_tecnico/services/services.dart';
-import 'package:autogestion_tecnico/global/globals.dart';
-import 'package:autogestion_tecnico/models/models.dart';
 
 class ConsultaGponPage extends StatefulWidget {
   const ConsultaGponPage({super.key});
@@ -23,13 +22,14 @@ class _ConsultaGponPageState extends State<ConsultaGponPage> {
   //String codIncRes = '';
   List<GPON> data = [];
   String gponRes = '';
-  int _count = 0;
+  final int _count = 0;
 
   @override
   void dispose() {
     tareaController.dispose();
-    if (_formKeyCodInc.currentState != null)
+    if (_formKeyCodInc.currentState != null) {
       _formKeyCodInc.currentState!.dispose();
+    }
 
     data = [];
     gponRes = '';
@@ -182,19 +182,18 @@ class _ConsultaGponPageState extends State<ConsultaGponPage> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                            FittedBox(
+                                            const FittedBox(
                                                 child: Text('Hora Ingreso:',
                                                     style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
                                                     ))),
                                             FittedBox(
-                                                child: Text(
-                                                    data[i].horagestion,
+                                                child: Text(data[i].horagestion,
                                                     style: TextStyle(
                                                         color: Colors.grey[600],
                                                         fontSize: 12))),
-                                            FittedBox(
+                                            const FittedBox(
                                                 child: Text('Hora Gestion:',
                                                     style: TextStyle(
                                                       fontWeight:
@@ -202,24 +201,22 @@ class _ConsultaGponPageState extends State<ConsultaGponPage> {
                                                     ))),
                                             FittedBox(
                                                 child: Text(
-                                                    data[i]
-                                                        .horacontingencia,
+                                                    data[i].horacontingencia,
                                                     style: TextStyle(
                                                         color: Colors.grey[600],
                                                         fontSize: 12))),
-                                            FittedBox(
+                                            const FittedBox(
                                                 child: Text('Estado',
                                                     style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
                                                     ))),
                                             FittedBox(
-                                                child: Text(
-                                                    data[i].finalizado,
+                                                child: Text(data[i].finalizado,
                                                     style: TextStyle(
                                                         color: Colors.grey[600],
                                                         fontSize: 12))),
-                                            FittedBox(
+                                            const FittedBox(
                                                 child: Text('Observacion:',
                                                     style: TextStyle(
                                                       fontWeight:
@@ -227,10 +224,13 @@ class _ConsultaGponPageState extends State<ConsultaGponPage> {
                                                     ))),
                                             Text(
                                               data[i].observacion,
-                                              style: TextStyle(fontSize: 12),
+                                              style:
+                                                  const TextStyle(fontSize: 12),
                                             ),
                                             Container(height: 2),
-                                            const Divider(thickness: 2, color: Colors.black),
+                                            const Divider(
+                                                thickness: 2,
+                                                color: Colors.black),
                                             Container(height: 2),
                                           ],
                                         ),
@@ -326,7 +326,7 @@ class _ConsultaGponPageState extends State<ConsultaGponPage> {
           });
         },
 
-        backgroundColor: cyanColor,
+        backgroundColor: const Color.fromARGB(255, 0, 51, 94),
         child: const Icon(Icons.restore_from_trash_rounded),
       ),
     );

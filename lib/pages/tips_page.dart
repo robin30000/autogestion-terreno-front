@@ -29,42 +29,10 @@ class TipsPage extends StatelessWidget {
             child: const Text('Soporte GPON (Ver video)',
                 style: TextStyle(
                   fontSize: 16,
-                  color: Colors.blueGrey,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 0, 51, 94),
                 )))
       ],
     );
   }
-
-  /* return Scaffold(
-        body: GestureDetector(
-      onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
-      child: Expanded(
-          child: Stack(children: [
-        IconButton(
-          icon: const Icon(Icons.search),
-          tooltip: 'Search',
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const TutorialGpon()),
-            );
-          },
-        ),
-        TextButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const TutorialGpon()),
-              );
-            },
-            child: const Text(
-              'Soporte GPON (Ver video)',
-              style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold),
-            )),
-      ])),
-    )); */
-
 }

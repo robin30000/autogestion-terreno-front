@@ -1,12 +1,11 @@
 import 'package:autogestion_tecnico/global/custom_show_dialog.dart';
+import 'package:autogestion_tecnico/global/globals.dart';
+import 'package:autogestion_tecnico/providers/providers.dart';
 import 'package:autogestion_tecnico/services/services.dart';
+import 'package:autogestion_tecnico/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:textfield_tags/textfield_tags.dart';
-
-import 'package:autogestion_tecnico/global/globals.dart';
-import 'package:autogestion_tecnico/providers/providers.dart';
-import 'package:autogestion_tecnico/widgets/widgets.dart';
 
 class ContingenciaPage extends StatefulWidget {
   const ContingenciaPage({super.key});
@@ -339,7 +338,7 @@ class _ContingenciaPageState extends State<ContingenciaPage> {
           uiProvider.selectedMenuOpt = 3;
           uiProvider.selectedMenuName = 'Lista Contingencias';
         },
-        backgroundColor: cyanColor,
+        backgroundColor: const Color.fromARGB(255, 0, 51, 94),
         child: const Icon(Icons.list_rounded),
       ),
     );

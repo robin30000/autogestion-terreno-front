@@ -43,6 +43,9 @@ class ScreenPage extends StatelessWidget {
       case 9:
         return const TipsPage();
 
+      case 10:
+        return const ListQuejasGoPage();
+
       default:
         return const LoaderPage();
     }
