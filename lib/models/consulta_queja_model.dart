@@ -117,6 +117,7 @@ class QUEJASLIST {
     this.fecha_gestion,
     required this.id,
     required this.fecha,
+    required this.asesor,
   });
 
   String en_gestion;
@@ -127,19 +128,20 @@ class QUEJASLIST {
   dynamic fecha_gestion;
   String id;
   DateTime fecha;
+  String asesor;
 
   factory QUEJASLIST.fromJson(Map<String, dynamic> json) => QUEJASLIST(
-        en_gestion: json["en_gestion"],
-        gestion_asesor: json["gestion_asesor"] ?? '',
-        accion: json["accion"] ?? '',
-        observacion_gestion: json["observacion_gestion"] ?? '',
-        pedido: json["pedido"],
-        fecha_gestion: json["fecha_gestion"] == null
-            ? ''
-            : DateTime.parse(json["fecha_gestion"]),
-        id: json["id"] ?? '',
-        fecha: DateTime.parse(json["fecha"]),
-      );
+      en_gestion: json["en_gestion"],
+      gestion_asesor: json["gestion_asesor"] ?? '',
+      accion: json["accion"] ?? '',
+      observacion_gestion: json["observacion_gestion"] ?? '',
+      pedido: json["pedido"],
+      fecha_gestion: json["fecha_gestion"] == null
+          ? ''
+          : DateTime.parse(json["fecha_gestion"]),
+      id: json["id"] ?? '',
+      fecha: DateTime.parse(json["fecha"]),
+      asesor: json["asesor"]);
 
   Map<String, dynamic> toJson() => {
         "en_gestion": en_gestion,
@@ -149,6 +151,7 @@ class QUEJASLIST {
         "pedido": pedido,
         "fecha_gestion": fecha_gestion,
         "id": id,
-        "fecha": fecha
+        "fecha": fecha,
+        "asesor": asesor
       };
 }

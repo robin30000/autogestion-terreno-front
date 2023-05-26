@@ -45,7 +45,7 @@ class _ListQuejasGoPageState extends State<ListQuejasGoPage> {
                         padding: EdgeInsets.zero,
                         onPressed: () {
                           uiProvider.selectedMenuOpt = 8;
-                          uiProvider.selectedMenuName = 'Gestíon QuejasGo';
+                          uiProvider.selectedMenuName = 'Gestión QuejasGo';
                         },
                         icon: const Icon(Icons.arrow_back_ios_rounded)),
                   ),
@@ -75,7 +75,7 @@ class _ListQuejasGoPageState extends State<ListQuejasGoPage> {
                       ]),
                       Padding(
                           padding:
-                              EdgeInsets.symmetric(horizontal: mq.width * 0.05),
+                              EdgeInsets.symmetric(horizontal: mq.width * 0.01),
                           child: SizedBox(
                             width: mq.width,
                             height: mq.height * 0.75,
@@ -184,7 +184,7 @@ class _ListQuejasGoPageState extends State<ListQuejasGoPage> {
                                                           .quejaslist[index]
                                                           .en_gestion ==
                                                       "0"
-                                                  ? 'No gestión'
+                                                  ? 'Sin gestión'
                                                   : consultaquejasService
                                                               .quejaslist[index]
                                                               .en_gestion ==
@@ -293,6 +293,14 @@ class _ListQuejasGoPageState extends State<ListQuejasGoPage> {
                     const Text('Gestión:',
                         style: TextStyle(fontWeight: FontWeight.bold)),
                     Text(data.gestion_asesor)
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('Asesor:',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(data.asesor)
                   ],
                 ),
                 Row(
