@@ -306,7 +306,7 @@ class _ListQuejasGoPageState extends State<ListQuejasGoPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Observacion asesor:',
+                    const Text('Observación asesor:',
                         style: TextStyle(fontWeight: FontWeight.bold)),
                     Text(data.observacion_gestion)
                   ],
@@ -331,7 +331,7 @@ class _ListQuejasGoPageState extends State<ListQuejasGoPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Concecutivo respuesta:',
+                    const Text('Consecutivo respuesta:',
                         style: TextStyle(fontWeight: FontWeight.bold)),
                     Text(data.id)
                   ],
