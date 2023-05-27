@@ -2,6 +2,7 @@ import 'package:autogestion_tecnico/global/custom_show_dialog.dart';
 import 'package:autogestion_tecnico/global/globals.dart';
 import 'package:autogestion_tecnico/providers/providers.dart';
 import 'package:autogestion_tecnico/services/services.dart';
+import 'package:autogestion_tecnico/widgets/qr.dart';
 import 'package:autogestion_tecnico/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -51,258 +52,277 @@ class _ContingenciaPageState extends State<ContingenciaPage> {
     authServices.getMenuApp();
 
     return Scaffold(
-      body: GestureDetector(
-        onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
-        child: SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            child: Column(children: [
-              Container(
-                alignment: Alignment.center,
-                margin: EdgeInsets.only(
-                    top: mq.height * 0.01,
-                    bottom: 0,
-                    left: mq.width * 0.10,
-                    right: mq.width * 0.10),
-                child: Text(
-                  'Formulario de solicitud de contingencias',
-                  style: TextStyle(
-                    color: blueColor,
-                    fontWeight: FontWeight.w500,
-                    fontSize: mq.width * 0.06,
+        body: GestureDetector(
+          onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+          child: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
+              child: Column(children: [
+                Container(
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(
+                      top: mq.height * 0.01,
+                      bottom: 0,
+                      left: mq.width * 0.10,
+                      right: mq.width * 0.10),
+                  child: Text(
+                    'Formulario de solicitud de contingencias',
+                    style: TextStyle(
+                      color: blueColor,
+                      fontWeight: FontWeight.w500,
+                      fontSize: mq.width * 0.06,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
                 ),
-              ),
-              CustomDivider(mq: mq, colors: [
-                whiteColor,
-                blueColor,
-                whiteColor,
-              ]),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: mq.width * 0.05),
-                child: Column(children: [
-                  // Pedido
-                  CustomField(
+                CustomDivider(mq: mq, colors: [
+                  whiteColor,
+                  blueColor,
+                  whiteColor,
+                ]),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: mq.width * 0.05),
+                  child: Column(children: [
+                    // Pedido
+                    CustomField(
                       controller: pedidoController,
                       hintText: 'Pedido*',
-                      icon: Icons.document_scanner_outlined),
+                      icon: Icons.document_scanner_outlined,
+                      width: 50.0,
+                    ),
+                    /* IconButton(
+                        color: greyColor,
+                        padding: EdgeInsets.zero,
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => Qr(),
+                          ));
 
-                  SizedBox(
-                    height: mq.height * 0.02,
-                  ),
+                          Future.delayed(const Duration(seconds: 3), () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => const ContingenciaPage(),
+                            ));
+                          });
+                        },
+                        icon: const Icon(Icons.qr_code_rounded)), */
 
-                  // Tipo Producto
-                  FutureBuilder(
-                    future: contingenciasService.getTipoProducto(),
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      if (!snapshot.hasData) {
-                        return Column(
-                          children: [
-                            Container(
-                                width: double.infinity,
-                                alignment: Alignment.center,
-                                child: const CircularProgressIndicator()),
-                          ],
-                        );
-                      }
+                    SizedBox(
+                      height: mq.height * 0.02,
+                    ),
 
-                      return CustomDropdown(
-                          mq: mq,
-                          options: snapshot.data,
-                          value: tipoProducto,
-                          function: (value) async {
-                            tipoProducto = value!;
-                            uiProvider.notifyListeners();
-                          },
-                          functionOnTap: () {
-                            tipoProducto = '';
-                            tipoContingencia = '';
-                            uiProvider.notifyListeners();
-                          },
-                          hintText: 'Tipo de producto*',
-                          icon: Icons.devices_outlined);
-                    },
-                  ),
+                    // Tipo Producto
+                    FutureBuilder(
+                      future: contingenciasService.getTipoProducto(),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (!snapshot.hasData) {
+                          return Column(
+                            children: [
+                              Container(
+                                  width: double.infinity,
+                                  alignment: Alignment.center,
+                                  child: const CircularProgressIndicator()),
+                            ],
+                          );
+                        }
 
-                  SizedBox(
-                    height: mq.height * 0.02,
-                  ),
+                        return CustomDropdown(
+                            mq: mq,
+                            options: snapshot.data,
+                            value: tipoProducto,
+                            function: (value) async {
+                              tipoProducto = value!;
+                              uiProvider.notifyListeners();
+                            },
+                            functionOnTap: () {
+                              tipoProducto = '';
+                              tipoContingencia = '';
+                              uiProvider.notifyListeners();
+                            },
+                            hintText: 'Tipo de producto*',
+                            icon: Icons.devices_outlined);
+                      },
+                    ),
 
-                  // Tipo Contingencia
-                  tipoProducto == ''
-                      ? CustomDropdown(
-                          mq: mq,
-                          options: const [
-                            {
-                              'name': 'Tipo de contingencia*',
-                              'value': '',
-                              'state': true
-                            }
-                          ],
-                          value: '',
-                          function: (value) async {},
-                          hintText: 'Tipo de contingencia*',
-                          icon: Icons.fire_truck_outlined)
-                      : FutureBuilder(
-                          future: contingenciasService.getTipoContingencia(
-                              tipoProducto: tipoProducto),
-                          builder:
-                              (BuildContext context, AsyncSnapshot snapshot) {
-                            if (!snapshot.hasData) {
-                              return Column(
-                                children: [
-                                  Container(
-                                      width: double.infinity,
-                                      alignment: Alignment.center,
-                                      child: const CircularProgressIndicator()),
-                                ],
-                              );
-                            }
+                    SizedBox(
+                      height: mq.height * 0.02,
+                    ),
 
-                            return CustomDropdown(
-                                mq: mq,
-                                options: snapshot.data,
-                                value: '',
-                                function: (value) {
-                                  tipoContingencia = value!;
-                                },
-                                hintText: 'Tipo de contingencia*',
-                                icon: Icons.fire_truck_outlined);
-                          },
-                        ),
+                    // Tipo Contingencia
+                    tipoProducto == ''
+                        ? CustomDropdown(
+                            mq: mq,
+                            options: const [
+                              {
+                                'name': 'Tipo de contingencia*',
+                                'value': '',
+                                'state': true
+                              }
+                            ],
+                            value: '',
+                            function: (value) async {},
+                            hintText: 'Tipo de contingencia*',
+                            icon: Icons.fire_truck_outlined)
+                        : FutureBuilder(
+                            future: contingenciasService.getTipoContingencia(
+                                tipoProducto: tipoProducto),
+                            builder:
+                                (BuildContext context, AsyncSnapshot snapshot) {
+                              if (!snapshot.hasData) {
+                                return Column(
+                                  children: [
+                                    Container(
+                                        width: double.infinity,
+                                        alignment: Alignment.center,
+                                        child:
+                                            const CircularProgressIndicator()),
+                                  ],
+                                );
+                              }
 
-                  SizedBox(
-                    height: mq.height * 0.02,
-                  ),
+                              return CustomDropdown(
+                                  mq: mq,
+                                  options: snapshot.data,
+                                  value: '',
+                                  function: (value) {
+                                    tipoContingencia = value!;
+                                  },
+                                  hintText: 'Tipo de contingencia*',
+                                  icon: Icons.fire_truck_outlined);
+                            },
+                          ),
 
-                  // Detalle de solicitud
-                  CustomField(
-                    controller: detalleSolicitudController,
-                    hintText: 'Detalle de solicitud*',
-                    icon: null,
-                    minLines: 6,
-                    maxLines: 6,
-                    height: null,
-                    paddingTop: 20,
-                    paddingLeft: 20,
-                  ),
+                    SizedBox(
+                      height: mq.height * 0.02,
+                    ),
 
-                  SizedBox(
-                    height: mq.height * 0.02,
-                  ),
+                    // Detalle de solicitud
+                    CustomField(
+                      controller: detalleSolicitudController,
+                      hintText: 'Detalle de solicitud*',
+                      icon: null,
+                      minLines: 6,
+                      maxLines: 6,
+                      height: null,
+                      paddingTop: 20,
+                      paddingLeft: 20,
+                    ),
 
-                  // MAC Entra
-                  CustomTag(
+                    SizedBox(
+                      height: mq.height * 0.02,
+                    ),
+
+                    // MAC Entra
+                    CustomTag(
+                        mq: mq,
+                        controller: macEntraController,
+                        hintText: 'MAC Entra...*',
+                        colorTag: blueColor),
+
+                    //SizedBox(height: mq.height * 0.02,),
+
+                    //CustomTag(mq: mq, controller: macSaleController, hintText: 'MAC Sale...', colorTag: blueColor),
+
+                    SizedBox(
+                      height: mq.height * 0.02,
+                    ),
+
+                    // Boton Enviar Solicitud
+                    CustomButton(
                       mq: mq,
-                      controller: macEntraController,
-                      hintText: 'MAC Entra...*',
-                      colorTag: blueColor),
+                      function: contingenciasService.isLoading
+                          ? null
+                          : () async {
+                              final authService = Provider.of<AuthService>(
+                                  context,
+                                  listen: false);
 
-                  //SizedBox(height: mq.height * 0.02,),
+                              FocusScope.of(context).unfocus();
 
-                  //CustomTag(mq: mq, controller: macSaleController, hintText: 'MAC Sale...', colorTag: blueColor),
+                              if (pedidoController.text == '' ||
+                                  detalleSolicitudController.text == '' ||
+                                  tipoProducto == '' ||
+                                  tipoProducto.isEmpty ||
+                                  tipoContingencia == '' ||
+                                  tipoContingencia.isEmpty) {
+                                CustomShowDialog.alert(
+                                    context: context,
+                                    title: 'Error',
+                                    message:
+                                        'Debes de diligenciar los campos obligatorios.');
+                                return false;
+                              }
 
-                  SizedBox(
-                    height: mq.height * 0.02,
-                  ),
+                              if (macEntraController.getTags!.isEmpty) {
+                                CustomShowDialog.alert(
+                                    context: context,
+                                    title: 'Error',
+                                    message: 'Mac entra es obligatorio.');
+                                return false;
+                              }
 
-                  // Boton Enviar Solicitud
-                  CustomButton(
-                    mq: mq,
-                    function: contingenciasService.isLoading
-                        ? null
-                        : () async {
-                            final authService = Provider.of<AuthService>(
-                                context,
-                                listen: false);
-
-                            FocusScope.of(context).unfocus();
-
-                            if (pedidoController.text == '' ||
-                                detalleSolicitudController.text == '' ||
-                                tipoProducto == '' ||
-                                tipoProducto.isEmpty ||
-                                tipoContingencia == '' ||
-                                tipoContingencia.isEmpty) {
-                              CustomShowDialog.alert(
-                                  context: context,
-                                  title: 'Error',
-                                  message:
-                                      'Debes de diligenciar los campos obligatorios.');
-                              return false;
-                            }
-
-                            if (macEntraController.getTags!.isEmpty) {
-                              CustomShowDialog.alert(
-                                  context: context,
-                                  title: 'Error',
-                                  message: 'Mac entra es obligatorio.');
-                              return false;
-                            }
-
-                            /* if (macSaleController.getTags!.isEmpty && tipoContingencia == 'Cambio de Equipo') {
+                              /* if (macSaleController.getTags!.isEmpty && tipoContingencia == 'Cambio de Equipo') {
                             CustomShowDialog.alert(context: context, title: 'Error', message: 'Mac sale es obligatorio.');
                             return false;
                           } */
 
-                            pedidoController.text;
-                            detalleSolicitudController.text;
-                            tipoProducto;
-                            tipoContingencia;
-                            String macEntraFormat =
-                                macEntraController.getTags!.join('-');
-                            //String macSaleFormat = macSaleController.getTags!.join('-');
-                            String macSaleFormat = '';
+                              pedidoController.text;
+                              detalleSolicitudController.text;
+                              tipoProducto;
+                              tipoContingencia;
+                              String macEntraFormat =
+                                  macEntraController.getTags!.join('-');
+                              //String macSaleFormat = macSaleController.getTags!.join('-');
+                              String macSaleFormat = '';
 
-                            final Map? resp =
-                                await contingenciasService.postContingencia(
-                              pedido: pedidoController.text,
-                              observacion: detalleSolicitudController.text,
-                              tipoproducto: tipoProducto,
-                              tipocontingencia: tipoContingencia,
-                              macentra: macEntraFormat,
-                              macsale: macSaleFormat,
-                            );
+                              final Map? resp =
+                                  await contingenciasService.postContingencia(
+                                pedido: pedidoController.text,
+                                observacion: detalleSolicitudController.text,
+                                tipoproducto: tipoProducto,
+                                tipocontingencia: tipoContingencia,
+                                macentra: macEntraFormat,
+                                macsale: macSaleFormat,
+                              );
 
-                            if (resp!['type'] == 'errorAuth') {
-                              final String resp = await authService.logout();
+                              if (resp!['type'] == 'errorAuth') {
+                                final String resp = await authService.logout();
 
-                              if (resp == 'OK') {
-                                uiProvider.selectedMenuOpt = 0;
-                                uiProvider.selectedMenuName =
-                                    'Autogestión Terreno';
-                                Navigator.pushReplacementNamed(
-                                    context, 'login');
+                                if (resp == 'OK') {
+                                  uiProvider.selectedMenuOpt = 0;
+                                  uiProvider.selectedMenuName =
+                                      'Autogestión Terreno';
+                                  Navigator.pushReplacementNamed(
+                                      context, 'login');
+                                }
+
+                                return false;
                               }
 
-                              return false;
-                            }
+                              if (resp['type'] == 'error') {
+                                CustomShowDialog.alert(
+                                    context: context,
+                                    title: 'Error',
+                                    message: resp['message']);
+                                return false;
+                              } else {
+                                CustomShowDialog.alert(
+                                    context: context,
+                                    title: 'Excelente',
+                                    message: resp['message']);
 
-                            if (resp['type'] == 'error') {
-                              CustomShowDialog.alert(
-                                  context: context,
-                                  title: 'Error',
-                                  message: resp['message']);
-                              return false;
-                            } else {
-                              CustomShowDialog.alert(
-                                  context: context,
-                                  title: 'Excelente',
-                                  message: resp['message']);
+                                await Future.delayed(
+                                    const Duration(milliseconds: 500));
 
-                              await Future.delayed(
-                                  const Duration(milliseconds: 500));
+                                uiProvider.selectedMenuOpt = 99;
+                                uiProvider.selectedMenuName = 'Contingencias';
 
-                              uiProvider.selectedMenuOpt = 99;
-                              uiProvider.selectedMenuName = 'Contingencias';
+                                await Future.delayed(
+                                    const Duration(seconds: 1));
 
-                              await Future.delayed(const Duration(seconds: 1));
+                                uiProvider.selectedMenuOpt = 1;
+                                uiProvider.selectedMenuName = 'Contingencias';
 
-                              uiProvider.selectedMenuOpt = 1;
-                              uiProvider.selectedMenuName = 'Contingencias';
-
-                              /* pedidoController.clear();
+                                /* pedidoController.clear();
                             pedidoController.text = '';
                             detalleSolicitudController.clear();
                             detalleSolicitudController.text = '';
@@ -313,34 +333,88 @@ class _ContingenciaPageState extends State<ContingenciaPage> {
 
                             _formKey.currentState!.reset(); */
 
-                            }
-                          },
-                    color:
-                        contingenciasService.isLoading ? greyColor : blueColor,
-                    colorText: whiteColor,
-                    text: contingenciasService.isLoading
-                        ? 'Cargando...'
-                        : 'Enviar Solicitud',
-                    height: 0.05,
-                  ),
+                              }
+                            },
+                      color: contingenciasService.isLoading
+                          ? greyColor
+                          : blueColor,
+                      colorText: whiteColor,
+                      text: contingenciasService.isLoading
+                          ? 'Cargando...'
+                          : 'Enviar Solicitud',
+                      height: 0.05,
+                    ),
 
-                  SizedBox(
-                    height: mq.height * 0.02,
-                  ),
-                ]),
-              )
-            ]),
+                    SizedBox(
+                      height: mq.height * 0.02,
+                    ),
+                  ]),
+                )
+              ]),
+            ),
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton.small(
+        floatingActionButton: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            CustomButtom2(
+              icon: Icons.qr_code_scanner,
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => Qr(),
+                ));
+
+                /* Future.delayed(const Duration(seconds: 3), () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const ContingenciaPage(),
+                  ));
+                }); */
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            CustomButtom2(
+              icon: Icons.list_rounded,
+              onPressed: () {
+                setState(() {
+                  uiProvider.selectedMenuOpt = 3;
+                  uiProvider.selectedMenuName = 'Lista Contingencias';
+                });
+              },
+            ),
+          ],
+        )
+
+        /* floatingActionButton: FloatingActionButton.small(
         onPressed: () {
           uiProvider.selectedMenuOpt = 3;
           uiProvider.selectedMenuName = 'Lista Contingencias';
         },
         backgroundColor: const Color.fromARGB(255, 0, 51, 94),
         child: const Icon(Icons.list_rounded),
-      ),
+      ), */
+        );
+  }
+}
+
+class CustomButtom2 extends StatelessWidget {
+  final IconData icon;
+  final VoidCallback? onPressed;
+
+  const CustomButtom2({
+    Key? key,
+    required this.icon,
+    this.onPressed,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton.small(
+      shape: const StadiumBorder(),
+      onPressed: onPressed,
+      backgroundColor: const Color.fromARGB(255, 0, 51, 94),
+      child: Icon(icon),
     );
   }
 }

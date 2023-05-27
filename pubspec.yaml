@@ -41,6 +41,8 @@ dependencies:
   internet_connection_checker: ^1.0.0+1
   intl: ^0.17.0
   provider: ^6.0.3
+  qr_code_scanner: ^1.0.1
+  qr_mobile_vision: ^4.1.0
   textfield_tags: ^2.0.1
   youtube_player_flutter: ^8.1.2
 

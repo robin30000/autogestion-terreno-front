@@ -28,7 +28,7 @@ class SoporteGponService extends ChangeNotifier {
       final String? token = await storage.read(key: 'token');
 
       final url =
-          Uri.http(_baseUrl, '/autogestionterreno/getsoportegponbyuser');
+          Uri.http(_baseUrl, '/autogestionterreno_dev/getsoportegponbyuser');
 
       final resp = await http.get(url,
           headers: {'Content-Type': 'application/json', 'x-token': token!});
@@ -95,7 +95,7 @@ class SoporteGponService extends ChangeNotifier {
         "observacion": observacion,
       };
 
-      final url = Uri.http(_baseUrl, '/autogestionterreno/postsoportegpon');
+      final url = Uri.http(_baseUrl, '/autogestionterreno_dev/postsoportegpon');
 
       final resp = await http.post(url,
           headers: {'Content-Type': 'application/json', 'x-token': token!},
