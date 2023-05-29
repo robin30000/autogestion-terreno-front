@@ -2,11 +2,13 @@ import 'package:autogestion_tecnico/global/custom_show_dialog.dart';
 import 'package:autogestion_tecnico/global/globals.dart';
 import 'package:autogestion_tecnico/providers/providers.dart';
 import 'package:autogestion_tecnico/services/services.dart';
-import 'package:autogestion_tecnico/widgets/qr.dart';
 import 'package:autogestion_tecnico/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:textfield_tags/textfield_tags.dart';
+
+import '../widgets/qr.dart';
 
 class ContingenciaPage extends StatefulWidget {
   const ContingenciaPage({super.key});
@@ -50,6 +52,8 @@ class _ContingenciaPageState extends State<ContingenciaPage> {
 
     final authServices = Provider.of<AuthService>(context, listen: false);
     authServices.getMenuApp();
+
+    print(Clipboard.getData(Clipboard.kTextPlain));
 
     return Scaffold(
         body: GestureDetector(
@@ -95,17 +99,17 @@ class _ContingenciaPageState extends State<ContingenciaPage> {
                         padding: EdgeInsets.zero,
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => Qr(),
+                            builder: (context) => QRScannerExample(),
                           ));
 
-                          Future.delayed(const Duration(seconds: 3), () {
+                          /*  Future.delayed(const Duration(seconds: 3), () {
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => const ContingenciaPage(),
                             ));
-                          });
+                          }); */
                         },
-                        icon: const Icon(Icons.qr_code_rounded)), */
-
+                        icon: const Icon(Icons.qr_code_rounded)),
+ */
                     SizedBox(
                       height: mq.height * 0.02,
                     ),
@@ -354,67 +358,27 @@ class _ContingenciaPageState extends State<ContingenciaPage> {
             ),
           ),
         ),
-        floatingActionButton: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            CustomButtom2(
-              icon: Icons.qr_code_scanner,
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => Qr(),
-                ));
-
-                /* Future.delayed(const Duration(seconds: 3), () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const ContingenciaPage(),
-                  ));
-                }); */
-              },
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            CustomButtom2(
-              icon: Icons.list_rounded,
-              onPressed: () {
-                setState(() {
-                  uiProvider.selectedMenuOpt = 3;
-                  uiProvider.selectedMenuName = 'Lista Contingencias';
-                });
-              },
-            ),
-          ],
-        )
-
-        /* floatingActionButton: FloatingActionButton.small(
-        onPressed: () {
-          uiProvider.selectedMenuOpt = 3;
-          uiProvider.selectedMenuName = 'Lista Contingencias';
-        },
-        backgroundColor: const Color.fromARGB(255, 0, 51, 94),
-        child: const Icon(Icons.list_rounded),
-      ), */
-        );
-  }
-}
-
-class CustomButtom2 extends StatelessWidget {
-  final IconData icon;
-  final VoidCallback? onPressed;
-
-  const CustomButtom2({
-    Key? key,
-    required this.icon,
-    this.onPressed,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return FloatingActionButton.small(
-      shape: const StadiumBorder(),
-      onPressed: onPressed,
-      backgroundColor: const Color.fromARGB(255, 0, 51, 94),
-      child: Icon(icon),
-    );
+        floatingActionButton:
+            Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+          FloatingActionButton.small(
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => QRScanner(),
+              ));
+            },
+            backgroundColor: const Color.fromARGB(255, 0, 51, 94),
+            child: const Icon(Icons.qr_code_scanner),
+          ),
+          FloatingActionButton.small(
+            onPressed: () {
+              setState(() {
+                uiProvider.selectedMenuOpt = 3;
+                uiProvider.selectedMenuName = 'Lista Contingencias';
+              });
+            },
+            backgroundColor: const Color.fromARGB(255, 0, 51, 94),
+            child: const Icon(Icons.list_rounded),
+          ),
+        ]));
   }
 }

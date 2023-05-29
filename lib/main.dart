@@ -1,15 +1,15 @@
 import 'dart:async';
+
+import 'package:autogestion_tecnico/global/globals.dart';
+import 'package:autogestion_tecnico/pages/pages.dart';
+import 'package:autogestion_tecnico/providers/providers.dart';
+import 'package:autogestion_tecnico/routes/routes.dart';
+import 'package:autogestion_tecnico/services/services.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-
-import 'package:autogestion_tecnico/routes/routes.dart';
-import 'package:autogestion_tecnico/providers/providers.dart';
-import 'package:autogestion_tecnico/services/services.dart';
-import 'package:autogestion_tecnico/pages/pages.dart';
-import 'package:autogestion_tecnico/global/globals.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
