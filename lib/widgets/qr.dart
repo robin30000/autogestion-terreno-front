@@ -70,26 +70,16 @@ class _QRScannerState extends State<QRScanner> {
             backgroundColor: const Color.fromARGB(255, 0, 51, 94),
             child: const Icon(Icons.refresh_outlined),
           ),
-          /* FloatingActionButton.small(
-            onPressed: () {
-              Clipboard.setData(ClipboardData(text: qrText));
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                content: Text('Copiado (dale pegar en el campo pedido)!'),
-              ));
-            },
-            backgroundColor: const Color.fromARGB(255, 0, 51, 94),
-            child: const Icon(Icons.content_copy),
-          ), */
         ]));
   }
 
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
-
+    controller.resumeCamera();
     controller.scannedDataStream.listen((scanData) {
       setState(() {
         qrText = scanData.code!;
-        Clipboard.setData(ClipboardData(text: qrText));
+        Clipboard.setData(ClipboardData(text: scanData.code));
       });
     });
   }

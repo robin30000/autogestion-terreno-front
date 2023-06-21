@@ -4,11 +4,8 @@ import 'package:autogestion_tecnico/providers/providers.dart';
 import 'package:autogestion_tecnico/services/services.dart';
 import 'package:autogestion_tecnico/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:textfield_tags/textfield_tags.dart';
-
-import '../widgets/qr.dart';
 
 class ContingenciaPage extends StatefulWidget {
   const ContingenciaPage({super.key});
@@ -19,6 +16,7 @@ class ContingenciaPage extends StatefulWidget {
 
 class _ContingenciaPageState extends State<ContingenciaPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController inputFieldController = TextEditingController();
 
   TextEditingController pedidoController = TextEditingController();
   TextEditingController detalleSolicitudController = TextEditingController();
@@ -29,19 +27,20 @@ class _ContingenciaPageState extends State<ContingenciaPage> {
   TextfieldTagsController macEntraController = TextfieldTagsController();
   //TextfieldTagsController macSaleController = TextfieldTagsController();
 
+  String data = '';
+  final TextEditingController _controller =
+      TextEditingController(); // controlador para TextFormField
+
   @override
   void dispose() {
     pedidoController.dispose();
     detalleSolicitudController.dispose();
-    macEntraController.dispose();
+    _controller.text = data; // inicializa el controlador con el valor de data
+
+    //macEntraController.dispose();
     //macSaleController.dispose();
     if (_formKey.currentState != null) _formKey.currentState!.dispose();
     super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
   }
 
   @override
@@ -52,8 +51,6 @@ class _ContingenciaPageState extends State<ContingenciaPage> {
 
     final authServices = Provider.of<AuthService>(context, listen: false);
     authServices.getMenuApp();
-
-    print(Clipboard.getData(Clipboard.kTextPlain));
 
     return Scaffold(
         body: GestureDetector(
@@ -360,7 +357,7 @@ class _ContingenciaPageState extends State<ContingenciaPage> {
         ),
         floatingActionButton:
             Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-          FloatingActionButton.small(
+          /* FloatingActionButton.small(
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => QRScanner(),
@@ -368,7 +365,7 @@ class _ContingenciaPageState extends State<ContingenciaPage> {
             },
             backgroundColor: const Color.fromARGB(255, 0, 51, 94),
             child: const Icon(Icons.qr_code_scanner),
-          ),
+          ), */
           FloatingActionButton.small(
             onPressed: () {
               setState(() {
