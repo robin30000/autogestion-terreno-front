@@ -56,7 +56,7 @@ class _MasterPageState extends State<MasterPage> {
                 width: 128.0,
                 height: 128.0,
                 margin: const EdgeInsets.only(
-                  top: 20.0,
+                  top: 5.0,
                   bottom: 15.0,
                 ),
                 clipBehavior: Clip.antiAlias,

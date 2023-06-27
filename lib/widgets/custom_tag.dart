@@ -1,7 +1,5 @@
 import 'package:autogestion_tecnico/global/globals.dart';
-import 'package:autogestion_tecnico/widgets/qr.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:textfield_tags/textfield_tags.dart';
 
 class CustomTag extends StatefulWidget {
@@ -60,21 +58,27 @@ class _CustomTagState extends State<CustomTag> {
               ),
               child: GestureDetector(
                 child: TextFormField(
-                  onTap: () async {
+                  /* onTap: () async {
                     Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => QRScanner(),
                     ));
-                    ClipboardData? clipboardData =
-                        await Clipboard.getData('text/plain');
+                    //ClipboardData? clipboardData =
+                    //await Clipboard.getData('text/plain');
+                    /* final ClipboardData? clipboardData =
+                        await Clipboard.getData(Clipboard.kTextPlain);
+                    String clipboardText =
+                        clipboardData?.text?.toString() ?? '';
+
+                    //print(clipboardText);
 
                     print(clipboardData);
                     setState(() {
                       String tec = clipboardData as String;
-                    });
-                  },
+                    }); */
+                  }, */
                   //initialValue: data,
                   autocorrect: false,
-                  readOnly: true,
+                  //readOnly: true,
                   controller: tec,
                   focusNode: fn,
                   decoration: InputDecoration(

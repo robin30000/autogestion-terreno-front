@@ -7,24 +7,24 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class ListQuejasGoPage extends StatefulWidget {
-  const ListQuejasGoPage({super.key});
+class ListEquipoPage extends StatefulWidget {
+  const ListEquipoPage({super.key});
 
   @override
-  State<ListQuejasGoPage> createState() => _ListQuejasGoPageState();
+  State<ListEquipoPage> createState() => _ListEquipoPageState();
 }
 
-class _ListQuejasGoPageState extends State<ListQuejasGoPage> {
+class _ListEquipoPageState extends State<ListEquipoPage> {
   @override
   Widget build(BuildContext context) {
     final mq = MediaQuery.of(context).size;
 
     final uiProvider = Provider.of<UiProvider>(context);
-    final consultaquejasService = Provider.of<ConsultaQuejasService>(context);
+    final registroEquipoService = Provider.of<RegistroEquiposService>(context);
 
     return Scaffold(
       body: SingleChildScrollView(
-        child: consultaquejasService.isLoading
+        child: registroEquipoService.isLoading
             ? SizedBox(
                 width: mq.width * 1,
                 height: mq.height * 0.75,
@@ -44,8 +44,8 @@ class _ListQuejasGoPageState extends State<ListQuejasGoPage> {
                         color: greyColor,
                         padding: EdgeInsets.zero,
                         onPressed: () {
-                          uiProvider.selectedMenuOpt = 8;
-                          uiProvider.selectedMenuName = 'Gestión QuejasGo';
+                          uiProvider.selectedMenuOpt = 11;
+                          uiProvider.selectedMenuName = 'Registro equipos';
                         },
                         icon: const Icon(Icons.arrow_back_ios_rounded)),
                   ),
@@ -59,7 +59,7 @@ class _ListQuejasGoPageState extends State<ListQuejasGoPage> {
                             left: mq.width * 0.10,
                             right: mq.width * 0.10),
                         child: Text(
-                          'Estado de mis quejasGo',
+                          'Mi registro de equipos',
                           style: TextStyle(
                             color: blueColor,
                             fontWeight: FontWeight.w500,
@@ -79,13 +79,13 @@ class _ListQuejasGoPageState extends State<ListQuejasGoPage> {
                           child: SizedBox(
                             width: mq.width,
                             height: mq.height * 0.75,
-                            child: consultaquejasService.quejaslist.isEmpty
+                            child: registroEquipoService.equipos.isEmpty
                                 ? const Center(
                                     child: Text('Sin gestiones para listar'),
                                   )
                                 : ListView.separated(
                                     itemCount:
-                                        consultaquejasService.quejaslist.length,
+                                        registroEquipoService.equipos.length,
                                     separatorBuilder:
                                         (BuildContext context, int index) {
                                       return SizedBox(
@@ -118,20 +118,21 @@ class _ListQuejasGoPageState extends State<ListQuejasGoPage> {
                                           onTap: () {
                                             _showModalBottomSheet(
                                                 context,
-                                                consultaquejasService
-                                                    .quejaslist[index]);
+                                                registroEquipoService
+                                                    .equipos[index]);
                                           },
                                           title: Text(
-                                            consultaquejasService
-                                                .quejaslist[index].pedido,
+                                            registroEquipoService
+                                                .equipos[index].pedido,
                                             textAlign: TextAlign.left,
                                             style: TextStyle(
                                                 fontSize: mq.width * 0.05),
                                           ),
                                           subtitle: Text(
                                             DateFormat('yyyy-MM-dd HH:mm:ss')
-                                                .format(consultaquejasService
-                                                    .quejaslist[index].fecha),
+                                                .format(registroEquipoService
+                                                    .equipos[index]
+                                                    .fecha_ingreso),
                                             textAlign: TextAlign.left,
                                             style: TextStyle(
                                                 fontSize: mq.width * 0.035),
@@ -141,27 +142,27 @@ class _ListQuejasGoPageState extends State<ListQuejasGoPage> {
                                             padding: EdgeInsets.symmetric(
                                                 horizontal: mq.width * 0.02),
                                             child: Text(
-                                              consultaquejasService
-                                                          .quejaslist[index]
-                                                          .en_gestion ==
+                                              registroEquipoService
+                                                          .equipos[index]
+                                                          .pedido ==
                                                       "0"
                                                   ? 'Sin gestión'
-                                                  : consultaquejasService
-                                                              .quejaslist[index]
-                                                              .en_gestion ==
+                                                  : registroEquipoService
+                                                              .equipos[index]
+                                                              .pedido ==
                                                           "1"
                                                       ? 'En gestión'
                                                       : 'Finalizado',
                                               style: TextStyle(
-                                                  color: consultaquejasService
-                                                              .quejaslist[index]
-                                                              .en_gestion ==
+                                                  color: registroEquipoService
+                                                              .equipos[index]
+                                                              .pedido ==
                                                           "0"
                                                       ? greyColor
-                                                      : consultaquejasService
-                                                                  .quejaslist[
+                                                      : registroEquipoService
+                                                                  .equipos[
                                                                       index]
-                                                                  .en_gestion ==
+                                                                  .pedido ==
                                                               "1"
                                                           ? blueColor
                                                           : greenColor,
@@ -184,8 +185,8 @@ class _ListQuejasGoPageState extends State<ListQuejasGoPage> {
 
           authService.getMenuApp();
 
-          final resp = await consultaquejasService.getQuejasGoByUser();
-          print('hora $resp');
+          final resp = await registroEquipoService.getRegistroEquiposByUser();
+
           if (resp != null) {
             if (resp[0]['type'] == 'errorAuth') {
               final String resp = await authService.logout();
@@ -204,7 +205,7 @@ class _ListQuejasGoPageState extends State<ListQuejasGoPage> {
     );
   }
 
-  void _showModalBottomSheet(BuildContext context, QUEJASLIST data) {
+  void _showModalBottomSheet(BuildContext context, RegistrosEq data) {
     showModalBottomSheet<void>(
       context: context,
       shape: const RoundedRectangleBorder(
@@ -235,118 +236,9 @@ class _ListQuejasGoPageState extends State<ListQuejasGoPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Numero SS:',
+                    const Text('Pedido:',
                         style: TextStyle(fontWeight: FontWeight.bold)),
                     Text(data.pedido)
-                  ],
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text('Acción:',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text(data.accion)
-                  ],
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text('Gestión:',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text(data.gestion_asesor)
-                  ],
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text('Asesor:',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text(data.asesor)
-                  ],
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text('Observación asesor:',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                    /* Expanded(
-                      child: ConstrainedBox(
-                        constraints: const BoxConstraints(
-                          maxHeight:
-                              200, // aquí se establece el máximo de altura
-                        ),
-                        child: SingleChildScrollView(
-                          child: Text(data.observacion_gestion),
-                        ),
-                      ),
-                    ), */
-                    Expanded(
-                      child: ConstrainedBox(
-                        constraints: const BoxConstraints(
-                          maxHeight:
-                              200, // aquí se establece el máximo de altura
-                        ),
-                        /* child: SingleChildScrollView(
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 8.0), // aquí se establece el padding
-                            child: Text(
-                              data.observacion_gestion,
-                              //style: const TextStyle(fontSize: 16.0),
-                              textAlign: TextAlign.justify,
-                            ),
-                          ),
-                        ), */
-                        child: SingleChildScrollView(
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 8.0,
-                                top: 2.0,
-                                bottom: 2.0), // set padding and margin
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 5.0), // add internal margin
-                              child: Text(
-                                data.observacion_gestion,
-                                textAlign: TextAlign.justify,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text('Fecha ingreso:',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text(DateFormat('yyyy-MM-dd HH:mm:ss').format(data.fecha))
-                  ],
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text('Fecha gestion:',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text(DateFormat('yyyy-MM-dd HH:mm:ss')
-                        .format(data.fecha_gestion))
-                  ],
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text('Consecutivo respuesta:',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text(data.id)
                   ],
                 ),
               ],

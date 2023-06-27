@@ -46,6 +46,12 @@ class ScreenPage extends StatelessWidget {
       case 10:
         return const ListQuejasGoPage();
 
+      case 11:
+        return const RegistroEquipos();
+
+      case 12:
+        return const ListEquipoPage();
+
       default:
         return const LoaderPage();
     }

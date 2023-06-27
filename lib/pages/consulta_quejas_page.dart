@@ -349,17 +349,6 @@ class _ConsultaQuejasPageState extends State<ConsultaQuejasPage> {
                         ]),
                   ),
                 ))),
-        /* floatingActionButton: FloatingActionButton.small(
-        onPressed: () {
-          setState(() {
-            tareaController.text = '';
-            data.clear();
-          });
-        },
-        backgroundColor: cyanColor,
-        child: const Icon(Icons.restore_from_trash_rounded),
-      ), */
-
         floatingActionButton: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -386,26 +375,5 @@ class _ConsultaQuejasPageState extends State<ConsultaQuejasPage> {
             ),
           ],
         ));
-  }
-}
-
-class CustomButtom extends StatelessWidget {
-  final IconData icon;
-  final VoidCallback? onPressed;
-
-  const CustomButtom({
-    Key? key,
-    required this.icon,
-    this.onPressed,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return FloatingActionButton.small(
-      shape: const StadiumBorder(),
-      onPressed: onPressed,
-      backgroundColor: const Color.fromARGB(255, 0, 51, 94),
-      child: Icon(icon),
-    );
   }
 }

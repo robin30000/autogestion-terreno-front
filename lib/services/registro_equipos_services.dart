@@ -1,34 +1,37 @@
 import 'dart:convert';
 
 import 'package:autogestion_tecnico/global/globals.dart';
-import 'package:autogestion_tecnico/models/models.dart';
-import 'package:autogestion_tecnico/services/services.dart';
+/* import 'package:autogestion_tecnico/models/models.dart'; */
+/* import 'package:autogestion_tecnico/services/services.dart'; */
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
-class SoporteGponService extends ChangeNotifier {
+import '../models/registro_equipos_model.dart';
+import 'notification_service.dart';
+
+class RegistroEquiposService extends ChangeNotifier {
   final String _baseUrl = baseUrl;
   final storage = const FlutterSecureStorage();
 
-  List<SoporteGpon> soportegpon = [];
+  List<RegistrosEq> equipos = [];
   bool isLoading = false;
 
-  SoporteGponService() {
-    getSoporteGponByUser();
+  RegistroEquiposService() {
+    getRegistroEquiposByUser();
   }
 
-  getSoporteGponByUser() async {
+  getRegistroEquiposByUser() async {
     try {
-      soportegpon = [];
+      equipos = [];
 
       isLoading = true;
       notifyListeners();
 
       final String? token = await storage.read(key: 'token');
 
-      final url =
-          Uri.http(_baseUrl, '/autogestionterreno-dev/getsoportegponbyuser');
+      final url = Uri.http(
+          _baseUrl, '/autogestionterreno-dev/getregistroequiposbyuser');
 
       final resp = await http.get(url,
           headers: {'Content-Type': 'application/json', 'x-token': token!});
@@ -43,8 +46,8 @@ class SoporteGponService extends ChangeNotifier {
       }
 
       if (decodeResp['type'] == 'success') {
-        final newResponse = newReponseSoporteGponFromJson(resp.body);
-        soportegpon.addAll(newResponse.soportegpon);
+        final newResponse = NewReponseRegistroEquiposFromJson(resp.body);
+        equipos.addAll(newResponse.equipos);
       }
 
       isLoading = false;
@@ -55,21 +58,9 @@ class SoporteGponService extends ChangeNotifier {
   }
 
   Future<Map?> postContingencia({
-    required String tarea,
-    required String arpon,
-    required String nap,
-    required String hilo,
-    required String internetPort1,
-    required String internetPort2,
-    required String internetPort3,
-    required String internetPort4,
-    required String tvPort1,
-    required String tvPort2,
-    required String tvPort3,
-    required String tvPort4,
-    required String numeroContacto,
-    required String nombreContacto,
+    required String pedido,
     required String observacion,
+    required String macentra,
   }) async {
     try {
       isLoading = true;
@@ -77,29 +68,18 @@ class SoporteGponService extends ChangeNotifier {
 
       final String? token = await storage.read(key: 'token');
 
-      final Map<String, dynamic> soportegponData = {
-        "tarea": tarea,
-        "arpon": arpon,
-        "nap": nap,
-        "hilo": hilo,
-        "internet_port1": internetPort1,
-        "internet_port2": internetPort2,
-        "internet_port3": internetPort3,
-        "internet_port4": internetPort4,
-        "tv_port1": tvPort1,
-        "tv_port2": tvPort2,
-        "tv_port3": tvPort3,
-        "tv_port4": tvPort4,
-        "numero_contacto": numeroContacto,
-        "nombre_contacto": nombreContacto,
+      final Map<String, dynamic> contingenciaData = {
+        "pedido": pedido,
         "observacion": observacion,
+        "macentra": macentra,
       };
 
-      final url = Uri.http(_baseUrl, '/autogestionterreno-dev/postsoportegpon');
+      final url =
+          Uri.http(_baseUrl, '/autogestionterreno-dev/postregistroequipos');
 
       final resp = await http.post(url,
           headers: {'Content-Type': 'application/json', 'x-token': token!},
-          body: json.encode(soportegponData));
+          body: json.encode(contingenciaData));
 
       final Map<String, dynamic> decodeResp = json.decode(resp.body);
 
