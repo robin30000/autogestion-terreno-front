@@ -8,7 +8,6 @@ import 'package:textfield_tags/textfield_tags.dart';
 
 import '../services/auth_service.dart';
 import '../services/registro_equipos_services.dart';
-import '../widgets/qr.dart';
 
 class RegistroEquipos extends StatefulWidget {
   const RegistroEquipos({super.key});
@@ -77,11 +76,77 @@ class _RegistroEquiposState extends State<RegistroEquipos> {
                   padding: EdgeInsets.symmetric(horizontal: mq.width * 0.05),
                   child: Column(children: [
                     // Pedido
-                    CustomField(
+                    /* CustomField(
                       controller: pedidoController,
                       hintText: 'Pedido*',
                       icon: Icons.document_scanner_outlined,
                       width: 50.0,
+                    ),
+
+                    SizedBox(
+                      height: mq.height * 0.02,
+                    ),
+
+                    CustomButtom(
+                      icon: Icons.search,
+                      onPressed: () async {
+                        try {
+                          var response = await contingenciasService
+                              .validaPedido(pedido: pedidoController.text);
+                          if (response!['type'] == 'error') {
+                            CustomShowDialog.alert(
+                                context: context,
+                                title: 'Error',
+                                message: response['message']);
+                          } else {
+                            CustomShowDialog.alert(
+                                context: context,
+                                title: 'Bien',
+                                message: response['message']);
+                          }
+                        } catch (error) {
+                          // Handle the error response
+                        }
+                      },
+                    ), */
+
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 8,
+                          child: CustomField(
+                            controller: pedidoController,
+                            hintText: 'Pedido*',
+                            icon: Icons.document_scanner_outlined,
+                          ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: IconButton(
+                            icon: const Icon(Icons.search),
+                            onPressed: () async {
+                              try {
+                                var response =
+                                    await contingenciasService.validaPedido(
+                                        pedido: pedidoController.text);
+                                if (response!['type'] == 'error') {
+                                  CustomShowDialog.alert(
+                                      context: context,
+                                      title: 'Error',
+                                      message: response['message']);
+                                } else {
+                                  CustomShowDialog.alert(
+                                      context: context,
+                                      title: 'Bien',
+                                      message: response['message']);
+                                }
+                              } catch (error) {
+                                // Handle the error response
+                              }
+                            },
+                          ),
+                        ),
+                      ],
                     ),
 
                     SizedBox(
@@ -158,21 +223,7 @@ class _RegistroEquiposState extends State<RegistroEquipos> {
                                 macentra: macEntraFormat,
                               );
 
-                              if (resp!['type'] == 'errorAuth') {
-                                final String resp = await authService.logout();
-
-                                if (resp == 'OK') {
-                                  uiProvider.selectedMenuOpt = 0;
-                                  uiProvider.selectedMenuName =
-                                      'Autogestión Terreno';
-                                  Navigator.pushReplacementNamed(
-                                      context, 'login');
-                                }
-
-                                return false;
-                              }
-
-                              if (resp['type'] == 'error') {
+                              if (resp!['type'] == 'error') {
                                 CustomShowDialog.alert(
                                     context: context,
                                     title: 'Error',
@@ -205,7 +256,7 @@ class _RegistroEquiposState extends State<RegistroEquipos> {
                       colorText: whiteColor,
                       text: contingenciasService.isLoading
                           ? 'Cargando...'
-                          : 'Enviar Solicitud',
+                          : 'Enviar',
                       height: 0.05,
                     ),
 
@@ -224,9 +275,10 @@ class _RegistroEquiposState extends State<RegistroEquipos> {
             CustomButtom(
               icon: Icons.qr_code_scanner_outlined,
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => QRScanner(),
-                ));
+                setState(() {
+                  uiProvider.selectedMenuOpt = 11;
+                  uiProvider.selectedMenuName = 'Lista registro equipos';
+                });
               },
             ),
             const SizedBox(

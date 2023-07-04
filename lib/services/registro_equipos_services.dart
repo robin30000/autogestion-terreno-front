@@ -15,10 +15,47 @@ class RegistroEquiposService extends ChangeNotifier {
   final storage = const FlutterSecureStorage();
 
   List<RegistrosEq> equipos = [];
+  List<ValidaPedido> response = [];
   bool isLoading = false;
 
   RegistroEquiposService() {
     getRegistroEquiposByUser();
+  }
+
+  Future<Map<String, dynamic>?> validaPedido({
+    required String pedido,
+  }) async {
+    try {
+      response = [];
+
+      //isLoading = true;
+      //notifyListeners();
+
+      final String? token = await storage.read(key: 'token');
+
+      final url =
+          Uri.http(_baseUrl, '/autogestionterreno-dev/getregistropedido', {
+        'pedido': pedido,
+      });
+
+      final resp = await http.get(url,
+          headers: {'Content-Type': 'application/json', 'x-token': token!});
+
+      //final Map<String, dynamic> decodeResp = json.decode(resp.body);
+      final Map<String, dynamic> decodeResp = json.decode(resp.body);
+
+      return decodeResp;
+      /*  if (decodeResp['type'] == 'success') {
+        final newResponse = NewReponseRegistroEquiposPedidoFromJson(resp.body);
+        response.addAll(newResponse.pedido);
+      } */
+
+      //isLoading = true;
+      //notifyListeners();
+    } catch (e) {
+      NotificactionService.showSnackBar(e.toString());
+    }
+    return null;
   }
 
   getRegistroEquiposByUser() async {
@@ -63,7 +100,7 @@ class RegistroEquiposService extends ChangeNotifier {
     required String macentra,
   }) async {
     try {
-      isLoading = true;
+      //isLoading = true;
       notifyListeners();
 
       final String? token = await storage.read(key: 'token');
@@ -83,7 +120,7 @@ class RegistroEquiposService extends ChangeNotifier {
 
       final Map<String, dynamic> decodeResp = json.decode(resp.body);
 
-      isLoading = false;
+      //isLoading = false;
       notifyListeners();
 
       return decodeResp;

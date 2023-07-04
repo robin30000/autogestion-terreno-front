@@ -58,27 +58,7 @@ class _CustomTagState extends State<CustomTag> {
               ),
               child: GestureDetector(
                 child: TextFormField(
-                  /* onTap: () async {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => QRScanner(),
-                    ));
-                    //ClipboardData? clipboardData =
-                    //await Clipboard.getData('text/plain');
-                    /* final ClipboardData? clipboardData =
-                        await Clipboard.getData(Clipboard.kTextPlain);
-                    String clipboardText =
-                        clipboardData?.text?.toString() ?? '';
-
-                    //print(clipboardText);
-
-                    print(clipboardData);
-                    setState(() {
-                      String tec = clipboardData as String;
-                    }); */
-                  }, */
-                  //initialValue: data,
                   autocorrect: false,
-                  //readOnly: true,
                   controller: tec,
                   focusNode: fn,
                   decoration: InputDecoration(
@@ -145,8 +125,6 @@ class _CustomTagState extends State<CustomTag> {
                         : null,
                   ),
                   onChanged: onChanged,
-
-                  //onSubmitted: onSubmitted,
                 ),
               ));
         });

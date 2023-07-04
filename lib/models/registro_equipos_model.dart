@@ -10,6 +10,52 @@ NewReponseRegistroEquipos NewReponseRegistroEquiposFromJson(String str) =>
 String NewReponseRegistroEquiposToJson(NewReponseRegistroEquipos data) =>
     json.encode(data.toJson());
 
+NewReponseRegistroEquiposPedido NewReponseRegistroEquiposPedidoFromJson(
+        String str) =>
+    NewReponseRegistroEquiposPedido.fromJson(json.decode(str));
+
+String NewReponseRegistroEquiposPedidoToJson(
+        NewReponseRegistroEquiposPedido data) =>
+    json.encode(data.toJson());
+
+class NewReponseRegistroEquiposPedido {
+  NewReponseRegistroEquiposPedido({
+    required this.type,
+    required this.pedido,
+  });
+
+  String type;
+  List<ValidaPedido> pedido;
+
+  factory NewReponseRegistroEquiposPedido.fromJson(Map<String, dynamic> json) =>
+      NewReponseRegistroEquiposPedido(
+        type: json["type"],
+        pedido: List<ValidaPedido>.from(
+            json["message"].map((x) => RegistrosEq.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "type": type,
+        "pedido": List<dynamic>.from(pedido.map((x) => x.toJson())),
+      };
+}
+
+class ValidaPedido {
+  ValidaPedido({
+    required this.pedido,
+  });
+
+  String pedido;
+
+  factory ValidaPedido.fromJson(Map<String, dynamic> json) => ValidaPedido(
+        pedido: json["pedido"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "pedido": pedido,
+      };
+}
+
 class NewReponseRegistroEquipos {
   NewReponseRegistroEquipos({
     required this.type,
@@ -18,6 +64,7 @@ class NewReponseRegistroEquipos {
 
   String type;
   List<RegistrosEq> equipos;
+  //List<validaPedido> pedido;
 
   factory NewReponseRegistroEquipos.fromJson(Map<String, dynamic> json) =>
       NewReponseRegistroEquipos(

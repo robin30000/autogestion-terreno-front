@@ -199,7 +199,7 @@ class _ContingenciaPageState extends State<ContingenciaPage> {
 
                     // MAC Entra
                     CustomTag(
-                        mq: mq,
+                        mq: const Size(double.infinity, 900.0),
                         controller: macEntraController,
                         hintText: 'MAC Entra...*',
                         colorTag: blueColor),
