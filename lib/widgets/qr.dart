@@ -79,15 +79,9 @@ class _QRScannerState extends State<QRScanner> {
     controller.scannedDataStream.listen((scanData) {
       setState(() {
         qrText = scanData.code!;
-        Clipboard.setData(ClipboardData(text: scanData.code));
+        Clipboard.setData(ClipboardData(text: qrText));
+        print('Scanned QR Code: $qrText');
       });
     });
   }
-
-/*   void restartCamera() {
-    if (controller != null) {
-      controller.resumeCamera();
-    }
-  } */
-
 }

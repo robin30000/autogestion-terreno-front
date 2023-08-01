@@ -30,7 +30,7 @@ class BB8Service extends ChangeNotifier {
 
       final String? token = await storage.read(key: 'token');
 
-      final url = Uri.http(_baseUrl, '/autogestionterreno-dev/getbb8',
+      final url = Uri.https(_baseUrl, '/autogestionterreno/getbb8',
           {'direccion': direccion, 'ciudad': ciudad});
 
       final resp = await http.get(url,

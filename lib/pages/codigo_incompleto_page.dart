@@ -1,11 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
+import 'package:autogestion_tecnico/global/custom_show_dialog.dart';
+import 'package:autogestion_tecnico/global/globals.dart';
 import 'package:autogestion_tecnico/providers/providers.dart';
 import 'package:autogestion_tecnico/services/services.dart';
-import 'package:autogestion_tecnico/global/globals.dart';
-import 'package:autogestion_tecnico/global/custom_show_dialog.dart';
 import 'package:autogestion_tecnico/widgets/widgets.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CodigoIncompletoPage extends StatefulWidget {
   const CodigoIncompletoPage({super.key});
@@ -24,8 +23,9 @@ class _CodigoIncompletoPageState extends State<CodigoIncompletoPage> {
   @override
   void dispose() {
     tareaController.dispose();
-    if (_formKeyCodInc.currentState != null)
+    if (_formKeyCodInc.currentState != null) {
       _formKeyCodInc.currentState!.dispose();
+    }
     codIncRes = '';
     super.dispose();
   }
@@ -51,7 +51,7 @@ class _CodigoIncompletoPageState extends State<CodigoIncompletoPage> {
                   padding: EdgeInsets.only(
                       left: mq.width * 0.05,
                       right: mq.width * 0.05,
-                      top: mq.height * 0.25),
+                      top: mq.height * 0.05),
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

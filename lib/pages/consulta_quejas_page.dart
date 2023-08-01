@@ -360,9 +360,7 @@ class _ConsultaQuejasPageState extends State<ConsultaQuejasPage> {
                   data.clear();
                 });
               },
-            ),
-            const SizedBox(
-              height: 10,
+              heroTag: 'Limpiar',
             ),
             CustomButtom(
               icon: Icons.list_rounded,
@@ -372,6 +370,7 @@ class _ConsultaQuejasPageState extends State<ConsultaQuejasPage> {
                   uiProvider.selectedMenuName = 'Lista QuejasGo';
                 });
               },
+              heroTag: 'ListQueja',
             ),
           ],
         ));

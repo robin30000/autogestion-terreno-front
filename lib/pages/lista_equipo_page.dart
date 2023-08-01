@@ -116,10 +116,10 @@ class _ListEquipoPageState extends State<ListEquipoPage> {
                                                   BorderRadius.circular(15)),
                                           tileColor: whiteColor,
                                           onTap: () {
-                                            _showModalBottomSheet(
+                                            /* _showModalBottomSheet(
                                                 context,
                                                 registroEquipoService
-                                                    .equipos[index]);
+                                                    .equipos[index]); */
                                           },
                                           title: Text(
                                             registroEquipoService
@@ -146,13 +146,13 @@ class _ListEquipoPageState extends State<ListEquipoPage> {
                                                           .equipos[index]
                                                           .pedido ==
                                                       "0"
-                                                  ? 'Sin gestión'
+                                                  ? 'Enviado'
                                                   : registroEquipoService
                                                               .equipos[index]
                                                               .pedido ==
                                                           "1"
-                                                      ? 'En gestión'
-                                                      : 'Finalizado',
+                                                      ? 'Enviado'
+                                                      : 'Enviado',
                                               style: TextStyle(
                                                   color: registroEquipoService
                                                               .equipos[index]

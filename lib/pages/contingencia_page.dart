@@ -346,13 +346,12 @@ class _ContingenciaPageState extends State<ContingenciaPage> {
             CustomButtom(
               icon: Icons.qr_code_scanner_outlined,
               onPressed: () {
+                FocusScope.of(context).unfocus();
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => QRScanner(),
                 ));
               },
-            ),
-            const SizedBox(
-              height: 10,
+              heroTag: 'scan',
             ),
             CustomButtom(
               icon: Icons.list_rounded,
@@ -362,6 +361,7 @@ class _ContingenciaPageState extends State<ContingenciaPage> {
                   uiProvider.selectedMenuName = 'Lista contingencias';
                 });
               },
+              heroTag: 'listCon',
             ),
           ],
         ));

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatefulWidget {
-  
   final Size mq;
   dynamic function;
   double? height;
@@ -9,7 +8,7 @@ class CustomButton extends StatefulWidget {
   Color color;
   Color colorText;
   String text;
-  
+
   CustomButton({
     Key? key,
     required this.mq,
@@ -33,17 +32,16 @@ class _CustomButtonState extends State<CustomButton> {
       onTap: widget.function,
       child: Container(
         alignment: Alignment.center,
-        width: widget.mq.width,
+        width: widget.mq.width * 0.6,
         height: widget.mq.height * widget.height!,
         decoration: BoxDecoration(
           color: widget.color,
           boxShadow: const [
             BoxShadow(
-              color: Colors.black26,
-              blurRadius: 15,
-              offset: Offset(3, 2),
-              spreadRadius: -3
-            ),
+                color: Colors.black26,
+                blurRadius: 15,
+                offset: Offset(3, 2),
+                spreadRadius: -3),
           ],
           borderRadius: BorderRadius.circular(30.0),
         ),
@@ -51,9 +49,8 @@ class _CustomButtonState extends State<CustomButton> {
           widget.text,
           textAlign: TextAlign.center,
           style: TextStyle(
-            fontSize: widget.mq.height * widget.fontSize!,
-            color: widget.colorText
-          ),
+              fontSize: widget.mq.height * widget.fontSize!,
+              color: widget.colorText),
         ),
       ),
     );

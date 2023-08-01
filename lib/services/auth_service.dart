@@ -21,7 +21,8 @@ class AuthService extends ChangeNotifier {
         "password": password,
       };
 
-      final url = Uri.http(_baseUrl, '/autogestionterreno-dev/ingresar');
+      final url = Uri.https(_baseUrl, '/autogestionterreno/ingresar');
+      print(url);
 
       final resp = await http.post(url,
           headers: {
@@ -81,7 +82,7 @@ class AuthService extends ChangeNotifier {
 
   Future getMenuApp() async {
     try {
-      final url = Uri.http(_baseUrl, '/autogestionterreno-dev/validarmenu');
+      final url = Uri.https(_baseUrl, '/autogestionterreno/validarmenu');
       final resp = await http.get(url, headers: {
         'Content-Type': 'application/json',
       });
