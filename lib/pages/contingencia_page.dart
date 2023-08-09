@@ -27,7 +27,8 @@ class _ContingenciaPageState extends State<ContingenciaPage> {
   String tipoContingencia = '';
 
   TextfieldTagsController macEntraController = TextfieldTagsController();
-  //TextfieldTagsController macSaleController = TextfieldTagsController();
+  bool showMacSale = false;
+  TextfieldTagsController macSaleController = TextfieldTagsController();
 
   String data = '';
   final TextEditingController _controller =
@@ -199,14 +200,32 @@ class _ContingenciaPageState extends State<ContingenciaPage> {
 
                     // MAC Entra
                     CustomTag(
-                        mq: const Size(double.infinity, 900.0),
+                        //mq: const Size(double.infinity, 900.0),
+                        mq: mq,
                         controller: macEntraController,
                         hintText: 'MAC Entra...*',
                         colorTag: blueColor),
 
-                    //SizedBox(height: mq.height * 0.02,),
+                    SizedBox(
+                      height: mq.height * 0.02,
+                    ),
 
-                    //CustomTag(mq: mq, controller: macSaleController, hintText: 'MAC Sale...', colorTag: blueColor),
+                    /* Visibility(
+                      visible: tipoContingencia == 'Cambio de Equipo',
+                      child: CustomTag(
+                        //mq: mq,
+                        mq: const Size(double.infinity, 900.0),
+                        controller: macSaleController,
+                        hintText: 'MAC Sale...',
+                        colorTag: blueColor,
+                      ),
+                    ), */
+
+                    CustomTag(
+                        mq: mq,
+                        controller: macSaleController,
+                        hintText: 'MAC Sale...',
+                        colorTag: blueColor),
 
                     SizedBox(
                       height: mq.height * 0.02,
@@ -246,10 +265,14 @@ class _ContingenciaPageState extends State<ContingenciaPage> {
                                 return false;
                               }
 
-                              /* if (macSaleController.getTags!.isEmpty && tipoContingencia == 'Cambio de Equipo') {
-                            CustomShowDialog.alert(context: context, title: 'Error', message: 'Mac sale es obligatorio.');
-                            return false;
-                          } */
+                              /* if (macSaleController.getTags!.isEmpty &&
+                                  tipoContingencia == 'Cambio de Equipo') {
+                                CustomShowDialog.alert(
+                                    context: context,
+                                    title: 'Error',
+                                    message: 'Mac sale es obligatorio.');
+                                return false;
+                              } */
 
                               pedidoController.text;
                               detalleSolicitudController.text;
@@ -257,8 +280,9 @@ class _ContingenciaPageState extends State<ContingenciaPage> {
                               tipoContingencia;
                               String macEntraFormat =
                                   macEntraController.getTags!.join('-');
-                              //String macSaleFormat = macSaleController.getTags!.join('-');
-                              String macSaleFormat = '';
+                              String macSaleFormat =
+                                  macSaleController.getTags!.join('-');
+                              //String macSaleFormat = '';
 
                               final Map? resp =
                                   await contingenciasService.postContingencia(
