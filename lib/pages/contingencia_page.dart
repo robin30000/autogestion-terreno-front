@@ -7,8 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:textfield_tags/textfield_tags.dart';
 
-import '../widgets/qr.dart';
-
 class ContingenciaPage extends StatefulWidget {
   const ContingenciaPage({super.key});
 
@@ -26,9 +24,8 @@ class _ContingenciaPageState extends State<ContingenciaPage> {
   String tipoProducto = '';
   String tipoContingencia = '';
 
-  TextfieldTagsController macEntraController = TextfieldTagsController();
-  bool showMacSale = false;
   TextfieldTagsController macSaleController = TextfieldTagsController();
+  TextfieldTagsController macEntraController = TextfieldTagsController();
 
   String data = '';
   final TextEditingController _controller =
@@ -171,7 +168,15 @@ class _ContingenciaPageState extends State<ContingenciaPage> {
                                   options: snapshot.data,
                                   value: '',
                                   function: (value) {
-                                    tipoContingencia = value!;
+                                    setState(() {
+                                      tipoContingencia = value!;
+                                    });
+                                  },
+                                  functionOnTap: () {
+                                    setState(() {
+                                      tipoContingencia =
+                                          ''; // Reinicia el valor de tipoContingencia
+                                    });
                                   },
                                   hintText: 'Tipo de contingencia*',
                                   icon: Icons.fire_truck_outlined);
@@ -210,28 +215,23 @@ class _ContingenciaPageState extends State<ContingenciaPage> {
                       height: mq.height * 0.02,
                     ),
 
-                    /* Visibility(
-                      visible: tipoContingencia == 'Cambio de Equipo',
-                      child: CustomTag(
-                        //mq: mq,
-                        mq: const Size(double.infinity, 900.0),
+                    // MAC SALE
+                    if (tipoContingencia == 'Cambio de Equipo' &&
+                        tipoProducto != '')
+                      CustomTag(
+                        mq: mq,
                         controller: macSaleController,
                         hintText: 'MAC Sale...',
                         colorTag: blueColor,
                       ),
-                    ), */
 
-                    CustomTag(
-                        mq: mq,
-                        controller: macSaleController,
-                        hintText: 'MAC Sale...',
-                        colorTag: blueColor),
+                    if (tipoContingencia == 'Cambio de Equipo' &&
+                        tipoProducto != '')
+                      SizedBox(
+                        height: mq.height * 0.02,
+                      ),
 
-                    SizedBox(
-                      height: mq.height * 0.02,
-                    ),
-
-                    // Boton Enviar Solicitud
+                    // Enviar Solicitud
                     CustomButton(
                       mq: mq,
                       function: contingenciasService.isLoading
@@ -265,24 +265,24 @@ class _ContingenciaPageState extends State<ContingenciaPage> {
                                 return false;
                               }
 
-                              /* if (macSaleController.getTags!.isEmpty &&
+                              if (macSaleController.getTags!.isEmpty &&
                                   tipoContingencia == 'Cambio de Equipo') {
                                 CustomShowDialog.alert(
                                     context: context,
                                     title: 'Error',
                                     message: 'Mac sale es obligatorio.');
                                 return false;
-                              } */
+                              }
 
                               pedidoController.text;
                               detalleSolicitudController.text;
                               tipoProducto;
                               tipoContingencia;
-                              String macEntraFormat =
-                                  macEntraController.getTags!.join('-');
                               String macSaleFormat =
                                   macSaleController.getTags!.join('-');
-                              //String macSaleFormat = '';
+                              String macEntraFormat =
+                                  macEntraController.getTags!.join('-');
+                              //String macEntraFormat = '';
 
                               final Map? resp =
                                   await contingenciasService.postContingencia(
@@ -342,7 +342,6 @@ class _ContingenciaPageState extends State<ContingenciaPage> {
                             macSaleController.clearTags();
 
                             _formKey.currentState!.reset(); */
-
                               }
                             },
                       color: contingenciasService.isLoading
@@ -372,7 +371,7 @@ class _ContingenciaPageState extends State<ContingenciaPage> {
               onPressed: () {
                 FocusScope.of(context).unfocus();
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => QRScanner(),
+                  builder: (context) => const QRScanner(),
                 ));
               },
               heroTag: 'scan',

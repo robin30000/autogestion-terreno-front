@@ -1,3 +1,4 @@
+export 'package:autogestion_tecnico/widgets/custom.qr.dart';
 export 'package:autogestion_tecnico/widgets/custom_buttom.dart';
 export 'package:autogestion_tecnico/widgets/custom_button.dart';
 export 'package:autogestion_tecnico/widgets/custom_checkbox.dart';

@@ -22,7 +22,7 @@ class _ConsultaGponPageState extends State<ConsultaGponPage> {
   //String codIncRes = '';
   List<GPON> data = [];
   String gponRes = '';
-  final int _count = 0;
+  //final int _count = 0;
 
   @override
   void dispose() {
