@@ -13,6 +13,7 @@ export 'package:autogestion_tecnico/pages/login.dart';
 export 'package:autogestion_tecnico/pages/master.dart';
 export 'package:autogestion_tecnico/pages/registro_equipos_page.dart';
 export 'package:autogestion_tecnico/pages/screen_page.dart';
+export 'package:autogestion_tecnico/pages/soporte_etp_page.dart';
 export 'package:autogestion_tecnico/pages/soporte_gpon_page.dart';
 export 'package:autogestion_tecnico/pages/splash.dart';
 export 'package:autogestion_tecnico/pages/tips_page.dart';

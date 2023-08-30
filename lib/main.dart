@@ -37,6 +37,7 @@ class _AppInitState extends State<AppInit> {
         ChangeNotifierProvider(create: (_) => UiProvider()),
         ChangeNotifierProvider(create: (_) => ContingenciaService()),
         ChangeNotifierProvider(create: (_) => SoporteGponService()),
+        ChangeNotifierProvider(create: (_) => SoporteEtpService()),
         ChangeNotifierProvider(create: (_) => BB8Service()),
         ChangeNotifierProvider(create: (_) => CodigoIncompletoService()),
         ChangeNotifierProvider(create: (_) => ConsultaGponService()),

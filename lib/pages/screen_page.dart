@@ -22,6 +22,9 @@ class ScreenPage extends StatelessWidget {
       case 2:
         return const SoporteGponPage();
 
+      case 13:
+        return const SoporteEtpPage();
+
       case 3:
         return const ListContingenciaPage();
 

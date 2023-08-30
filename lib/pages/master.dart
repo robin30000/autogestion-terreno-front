@@ -56,8 +56,8 @@ class _MasterPageState extends State<MasterPage> {
                 width: 128.0,
                 height: 128.0,
                 margin: const EdgeInsets.only(
-                  top: 5.0,
-                  bottom: 15.0,
+                  top: 1.0,
+                  bottom: 1.0,
                 ),
                 clipBehavior: Clip.antiAlias,
                 decoration: const BoxDecoration(
@@ -85,23 +85,44 @@ class _MasterPageState extends State<MasterPage> {
                     children: [
                       for (int i = 0; i < menus.length; i++)
                         if (menus[i]['estado'])
-                          ListTile(
+                          GestureDetector(
                             onTap: () {
                               _advancedDrawerController.hideDrawer();
                               uiProvider.selectedMenuOpt = menus[i]['menuOpt'];
                               uiProvider.selectedMenuName =
                                   menus[i]['pageName'];
                             },
-                            leading: Icon(
-                              IconData(menus[i]['menuIcon'],
-                                  fontFamily: 'MaterialIcons'),
-                              size: mq.width * 0.08,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10,
+                                  horizontal:
+                                      16), // Ajusta los valores según tu preferencia
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    IconData(
+                                      menus[i]['menuIcon'],
+                                      fontFamily: 'MaterialIcons',
+                                    ),
+                                    size: mq.width * 0.07,
+                                    color: const Color.fromARGB(255, 229, 231,
+                                        233), // Cambia el color del texto
+                                  ),
+                                  SizedBox(
+                                    width: mq.width * 0.02,
+                                  ), // Agrega un espacio horizontal si es necesario
+                                  Text(
+                                    menus[i]['menuName'],
+                                    style: TextStyle(
+                                      fontSize: mq.width * 0.05,
+                                      color: const Color.fromARGB(255, 229, 231,
+                                          233), // Cambia el color del texto
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                            title: Text(
-                              menus[i]['menuName'],
-                              style: TextStyle(fontSize: mq.width * 0.05),
-                            ),
-                          )
+                          ),
                     ],
                   );
                 },
@@ -109,12 +130,12 @@ class _MasterPageState extends State<MasterPage> {
               const Spacer(),
               DefaultTextStyle(
                 style: const TextStyle(
-                  fontSize: 12,
+                  fontSize: 10,
                   color: Colors.white54,
                 ),
                 child: Container(
                   margin: const EdgeInsets.symmetric(
-                    vertical: 16.0,
+                    vertical: 14.0,
                   ),
                   child: const Text('Version 1.7'),
                 ),

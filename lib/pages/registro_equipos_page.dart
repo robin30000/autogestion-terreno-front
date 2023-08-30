@@ -39,7 +39,6 @@ class _RegistroEquiposState extends State<RegistroEquipos> {
     super.didUpdateWidget(oldWidget);
     final clipboard = await Clipboard.getData(Clipboard.kTextPlain);
     String clipboardText = clipboard?.text ?? '';
-    print('$clipboardText RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR');
   }
 
   @override
