@@ -28,7 +28,7 @@ class SoporteGponService extends ChangeNotifier {
       final String? token = await storage.read(key: 'token');
 
       final url =
-          Uri.https(_baseUrl, '/autogestionterreno-dev/getsoportegponbyuser');
+          Uri.https(_baseUrl, '/autogestionterreno/getsoportegponbyuser');
 
       final resp = await http.get(url,
           headers: {'Content-Type': 'application/json', 'x-token': token!});
@@ -54,23 +54,23 @@ class SoporteGponService extends ChangeNotifier {
     }
   }
 
-  Future<Map?> postContingencia({
-    required String tarea,
-    required String arpon,
-    required String nap,
-    required String hilo,
-    required String internetPort1,
-    required String internetPort2,
-    required String internetPort3,
-    required String internetPort4,
-    required String tvPort1,
-    required String tvPort2,
-    required String tvPort3,
-    required String tvPort4,
-    required String numeroContacto,
-    required String nombreContacto,
-    required String observacion,
-  }) async {
+  Future<Map?> postContingencia(
+      {required String tarea,
+      required String arpon,
+      required String nap,
+      required String hilo,
+      required String internetPort1,
+      required String internetPort2,
+      required String internetPort3,
+      required String internetPort4,
+      required String tvPort1,
+      required String tvPort2,
+      required String tvPort3,
+      required String tvPort4,
+      required String numeroContacto,
+      required String nombreContacto,
+      required String observacion,
+      required String infraestructura}) async {
     try {
       isLoading = true;
       notifyListeners();
@@ -93,10 +93,10 @@ class SoporteGponService extends ChangeNotifier {
         "numero_contacto": numeroContacto,
         "nombre_contacto": nombreContacto,
         "observacion": observacion,
+        "infraestrutura": infraestructura
       };
 
-      final url =
-          Uri.https(_baseUrl, '/autogestionterreno-dev/postsoportegpon');
+      final url = Uri.https(_baseUrl, '/autogestionterreno/postsoportegpon');
 
       final resp = await http.post(url,
           headers: {'Content-Type': 'application/json', 'x-token': token!},

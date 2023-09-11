@@ -63,13 +63,12 @@ class SoporteEtp {
         unepedido: json["unepedido"],
         tasktypecategory: json["tasktypecategory"],
         statusSoporte: json["status_soporte"],
-        fechaSolicitudFirebase:
-            DateTime.parse(json["fecha_solicitud_firebase"]),
-        respuestaSoporte: json["respuesta_soporte"],
+        fechaSolicitudFirebase: DateTime.parse(json["fecha_crea"]),
+        respuestaSoporte: json["tipificaciones2"],
         observacion: json["observacion"],
-        fechaRespuesta: json["fecha_respuesta"] == null
+        fechaRespuesta: json["fecha_gestion"] == null
             ? ''
-            : DateTime.parse(json["fecha_respuesta"]),
+            : DateTime.parse(json["fecha_gestion"]),
         observacionTerreno: json["observacion_terreno"],
       );
 
@@ -80,7 +79,7 @@ class SoporteEtp {
         "tasktypecategory": tasktypecategory,
         "status_soporte": statusSoporte,
         "fecha_solicitud_firebase": fechaSolicitudFirebase.toIso8601String(),
-        "respuesta_soporte": respuestaSoporte,
+        //"respuesta_soporte": respuestaSoporte,
         "observacion": observacion,
         "fecha_respuesta": fechaRespuesta,
         "observacion_terreno": observacionTerreno,

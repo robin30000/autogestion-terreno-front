@@ -16,10 +16,10 @@ class SoporteEtpService extends ChangeNotifier {
   bool isLoading = false;
 
   SoporteEtpService() {
-    //getSoporteEtpByUser();
+    getsoporteetpbyuser();
   }
 
-  getSoporteEtpByUser() async {
+  getsoporteetpbyuser() async {
     try {
       soporteetp = [];
 
@@ -29,7 +29,7 @@ class SoporteEtpService extends ChangeNotifier {
       final String? token = await storage.read(key: 'token');
 
       final url =
-          Uri.https(_baseUrl, '/autogestionterreno-dev/getsoporteetpbyuser');
+          Uri.https(_baseUrl, '/autogestionterreno/getsoporteetpbyuser');
 
       final resp = await http.get(url,
           headers: {'Content-Type': 'application/json', 'x-token': token!});
@@ -66,8 +66,8 @@ class SoporteEtpService extends ChangeNotifier {
 
       final String? token = await storage.read(key: 'token');
 
-      final url = Uri.https(_baseUrl, '/autogestionterreno-dev/validapedidoetp',
-          {'tarea': pedido});
+      final url = Uri.https(
+          _baseUrl, '/autogestionterreno/validapedidoetp', {'tarea': pedido});
 
       final resp = await http.get(url,
           headers: {'Content-Type': 'application/json', 'x-token': token!});
@@ -131,7 +131,7 @@ class SoporteEtpService extends ChangeNotifier {
         "replanteo": replanteo
       };
 
-      final url = Uri.https(_baseUrl, '/autogestionterreno-dev/postPedidoETP');
+      final url = Uri.https(_baseUrl, '/autogestionterreno/postpedidoetp');
 
       final resp = await http.post(url,
           headers: {'Content-Type': 'application/json', 'x-token': token!},

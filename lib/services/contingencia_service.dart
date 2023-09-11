@@ -31,7 +31,7 @@ class ContingenciaService extends ChangeNotifier {
       final String? token = await storage.read(key: 'token');
 
       final url =
-          Uri.https(_baseUrl, '/autogestionterreno-dev/getcontingenciabyuser');
+          Uri.https(_baseUrl, '/autogestionterreno/getcontingenciabyuser');
 
       final resp = await http.get(url,
           headers: {'Content-Type': 'application/json', 'x-token': token!});
@@ -79,8 +79,7 @@ class ContingenciaService extends ChangeNotifier {
         "macsale": macsale,
       };
 
-      final url =
-          Uri.https(_baseUrl, '/autogestionterreno-dev/postcontingencia');
+      final url = Uri.https(_baseUrl, '/autogestionterreno/postcontingencia');
 
       final resp = await http.post(url,
           headers: {'Content-Type': 'application/json', 'x-token': token!},
@@ -128,6 +127,11 @@ class ContingenciaService extends ChangeNotifier {
             'value': 'Cambio de Equipo',
             'state': true
           },
+          {
+            'name': 'Cambio Domicilio',
+            'value': 'Cambio Domicilio',
+            'state': true
+          }
         ];
         break;
 
@@ -152,6 +156,11 @@ class ContingenciaService extends ChangeNotifier {
             'value': 'Cambio de Equipo',
             'state': true
           },
+          {
+            'name': 'Cambio Domicilio',
+            'value': 'Cambio Domicilio',
+            'state': true
+          }
         ];
         break;
 
@@ -171,6 +180,11 @@ class ContingenciaService extends ChangeNotifier {
             'value': 'Cambio de Equipo',
             'state': true
           },
+          {
+            'name': 'Cambio Domicilio',
+            'value': 'Cambio Domicilio',
+            'state': true
+          }
         ];
         break;
 
@@ -195,6 +209,11 @@ class ContingenciaService extends ChangeNotifier {
             'value': 'Cambio de Equipo',
             'state': true
           },
+          {
+            'name': 'Cambio Domicilio',
+            'value': 'Cambio Domicilio',
+            'state': true
+          }
         ];
         break;
 
@@ -214,6 +233,11 @@ class ContingenciaService extends ChangeNotifier {
             'value': 'Cambio de Equipo',
             'state': true
           },
+          {
+            'name': 'Cambio Domicilio',
+            'value': 'Cambio Domicilio',
+            'state': true
+          }
         ];
         break;
     }

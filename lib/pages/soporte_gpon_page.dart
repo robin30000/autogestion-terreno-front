@@ -34,6 +34,8 @@ class _SoporteGponPageState extends State<SoporteGponPage> {
   bool tvPort3 = true;
   bool tvPort4 = true;
 
+  bool infraestructura = false;
+
   @override
   void dispose() {
     tareaController.dispose();
@@ -214,6 +216,24 @@ class _SoporteGponPageState extends State<SoporteGponPage> {
                   SizedBox(
                     height: mq.height * 0.02,
                   ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Checkbox(
+                            value: infraestructura,
+                            onChanged: (newValue) {
+                              setState(() {
+                                infraestructura = newValue!;
+                              });
+                            },
+                          ),
+                          const Text('Validar infraestructura?'),
+                        ],
+                      ),
+                    ],
+                  ),
                   CustomButton(
                     mq: mq,
                     function: soportegponService.isLoading
@@ -248,25 +268,29 @@ class _SoporteGponPageState extends State<SoporteGponPage> {
                             String strTvPort2 = (tvPort2) ? '1' : '0';
                             String strTvPort3 = (tvPort3) ? '1' : '0';
                             String strTvPort4 = (tvPort4) ? '1' : '0';
+                            String strInfraestructura =
+                                (infraestructura) ? '1' : '0';
 
                             final Map? resp =
                                 await soportegponService.postContingencia(
-                              tarea: tareaController.text,
-                              arpon: arponController.text,
-                              nap: napController.text,
-                              hilo: hiloController.text,
-                              internetPort1: strInternetPort1,
-                              internetPort2: strInternetPort2,
-                              internetPort3: strInternetPort3,
-                              internetPort4: strInternetPort4,
-                              tvPort1: strTvPort1,
-                              tvPort2: strTvPort2,
-                              tvPort3: strTvPort3,
-                              tvPort4: strTvPort4,
-                              numeroContacto: contactoController.text,
-                              nombreContacto: nombreContactoController.text,
-                              observacion: detalleSolicitudController.text,
-                            );
+                                    tarea: tareaController.text,
+                                    arpon: arponController.text,
+                                    nap: napController.text,
+                                    hilo: hiloController.text,
+                                    internetPort1: strInternetPort1,
+                                    internetPort2: strInternetPort2,
+                                    internetPort3: strInternetPort3,
+                                    internetPort4: strInternetPort4,
+                                    tvPort1: strTvPort1,
+                                    tvPort2: strTvPort2,
+                                    tvPort3: strTvPort3,
+                                    tvPort4: strTvPort4,
+                                    numeroContacto: contactoController.text,
+                                    nombreContacto:
+                                        nombreContactoController.text,
+                                    observacion:
+                                        detalleSolicitudController.text,
+                                    infraestructura: strInfraestructura);
 
                             if (resp!['type'] == 'error') {
                               CustomShowDialog.alert(

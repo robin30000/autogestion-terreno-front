@@ -216,8 +216,8 @@ class _ContingenciaPageState extends State<ContingenciaPage> {
                     ),
 
                     // MAC SALE
-                    if (tipoContingencia == 'Cambio de Equipo' &&
-                        tipoProducto != '')
+                    if (tipoContingencia == 'Cambio de Equipo' ||
+                        tipoContingencia == 'Cambio Domicilio')
                       CustomTag(
                         mq: mq,
                         controller: macSaleController,
@@ -225,8 +225,10 @@ class _ContingenciaPageState extends State<ContingenciaPage> {
                         colorTag: blueColor,
                       ),
 
-                    if (tipoContingencia == 'Cambio de Equipo' &&
-                        tipoProducto != '')
+                    // No necesitas hacer una asignación aquí, simplemente omítela.
+
+                    if (tipoContingencia == 'Cambio de Equipo' ||
+                        tipoContingencia == 'Cambio Domicilio')
                       SizedBox(
                         height: mq.height * 0.02,
                       ),
@@ -265,24 +267,36 @@ class _ContingenciaPageState extends State<ContingenciaPage> {
                                 return false;
                               }
 
-                              if (macSaleController.getTags!.isEmpty &&
-                                  tipoContingencia == 'Cambio de Equipo') {
+                              /* if ((macSaleController.getTags!.isEmpty &&
+                                      tipoContingencia == 'Cambio de Equipo') ||
+                                  (macSaleController.getTags!.isEmpty &&
+                                      tipoContingencia == 'Cambio Domicilio')) {
                                 CustomShowDialog.alert(
                                     context: context,
                                     title: 'Error',
                                     message: 'Mac sale es obligatorio.');
                                 return false;
-                              }
+                              } */
 
                               pedidoController.text;
                               detalleSolicitudController.text;
                               tipoProducto;
                               tipoContingencia;
-                              String macSaleFormat =
-                                  macSaleController.getTags!.join('-');
+                              /* String macSaleFormat =
+                                  macSaleController.getTags!.join('-'); */
                               String macEntraFormat =
                                   macEntraController.getTags!.join('-');
-                              //String macEntraFormat = '';
+
+                              String macSaleFormat = '';
+
+                              if (tipoContingencia == 'Cambio de Equipo' ||
+                                  tipoContingencia == 'Cambio Domicilio') {
+                                macSaleController ??= TextfieldTagsController();
+                                macSaleFormat =
+                                    macSaleController.getTags!.join('-');
+                              } else {
+                                macSaleFormat = '';
+                              }
 
                               final Map? resp =
                                   await contingenciasService.postContingencia(
