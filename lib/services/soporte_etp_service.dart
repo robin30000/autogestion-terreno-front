@@ -12,6 +12,7 @@ class SoporteEtpService extends ChangeNotifier {
   final storage = const FlutterSecureStorage();
 
   List<SoporteEtp> soporteetp = [];
+  List<Map<String, dynamic>> tipoAccion = [];
   List<ValidaPedido> response = [];
   bool isLoading = false;
 
@@ -29,7 +30,7 @@ class SoporteEtpService extends ChangeNotifier {
       final String? token = await storage.read(key: 'token');
 
       final url =
-          Uri.https(_baseUrl, '/autogestionterreno/getsoporteetpbyuser');
+          Uri.https(_baseUrl, '/autogestionterreno-dev/getsoporteetpbyuser');
 
       final resp = await http.get(url,
           headers: {'Content-Type': 'application/json', 'x-token': token!});
@@ -66,8 +67,8 @@ class SoporteEtpService extends ChangeNotifier {
 
       final String? token = await storage.read(key: 'token');
 
-      final url = Uri.https(
-          _baseUrl, '/autogestionterreno/validapedidoetp', {'tarea': pedido});
+      final url = Uri.https(_baseUrl, '/autogestionterreno-dev/validapedidoetp',
+          {'tarea': pedido});
 
       final resp = await http.get(url,
           headers: {'Content-Type': 'application/json', 'x-token': token!});
@@ -88,6 +89,26 @@ class SoporteEtpService extends ChangeNotifier {
     return null;
   }
 
+  Future<List<Map<String, dynamic>>> getTipoAccion() async {
+    tipoAccion = [
+      {'name': 'Accion*', 'value': '', 'state': true},
+      {
+        'name': 'Aprovisionamiento Equipos',
+        'value': 'Aprovisionamiento Equipos',
+        'state': true
+      },
+      {'name': 'Cambio equipo', 'value': 'Cambio equipo', 'state': true},
+      {'name': 'Cambio domicilio', 'value': 'Cambio domicilio', 'state': true},
+      {
+        'name': 'Entrega de códigos',
+        'value': 'Entrega de códigos',
+        'state': true
+      },
+      {'name': 'Replanteo', 'value': 'Replanteo', 'state': true},
+    ];
+    return tipoAccion;
+  }
+
   Future<Map?> postContingencia({
     required String tarea,
     required String arpon,
@@ -101,10 +122,13 @@ class SoporteEtpService extends ChangeNotifier {
     required String tvPort2,
     required String tvPort3,
     required String tvPort4,
-    required String numeroContacto,
-    required String nombreContacto,
+    /* required String numeroContacto,
+    required String nombreContacto, */
     required String observacion,
     required String replanteo,
+    required String accion,
+    required String macSale,
+    required String macEntra,
   }) async {
     try {
       isLoading = true;
@@ -125,13 +149,16 @@ class SoporteEtpService extends ChangeNotifier {
         "tv_port2": tvPort2,
         "tv_port3": tvPort3,
         "tv_port4": tvPort4,
-        "numero_contacto": numeroContacto,
-        "nombre_contacto": nombreContacto,
+        /* "numero_contacto": numeroContacto,
+        "nombre_contacto": nombreContacto, */
         "observacion": observacion,
-        "replanteo": replanteo
+        "replanteo": replanteo,
+        "accion": accion,
+        "macSale": macSale,
+        "macEntra": macEntra,
       };
 
-      final url = Uri.https(_baseUrl, '/autogestionterreno/postpedidoetp');
+      final url = Uri.https(_baseUrl, '/autogestionterreno-dev/postpedidoetp');
 
       final resp = await http.post(url,
           headers: {'Content-Type': 'application/json', 'x-token': token!},

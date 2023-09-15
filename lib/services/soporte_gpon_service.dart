@@ -28,7 +28,7 @@ class SoporteGponService extends ChangeNotifier {
       final String? token = await storage.read(key: 'token');
 
       final url =
-          Uri.https(_baseUrl, '/autogestionterreno/getsoportegponbyuser');
+          Uri.https(_baseUrl, '/autogestionterreno-dev/getsoportegponbyuser');
 
       final resp = await http.get(url,
           headers: {'Content-Type': 'application/json', 'x-token': token!});
@@ -67,8 +67,8 @@ class SoporteGponService extends ChangeNotifier {
       required String tvPort2,
       required String tvPort3,
       required String tvPort4,
-      required String numeroContacto,
-      required String nombreContacto,
+      /* required String numeroContacto,
+      required String nombreContacto, */
       required String observacion,
       required String infraestructura}) async {
     try {
@@ -90,13 +90,14 @@ class SoporteGponService extends ChangeNotifier {
         "tv_port2": tvPort2,
         "tv_port3": tvPort3,
         "tv_port4": tvPort4,
-        "numero_contacto": numeroContacto,
-        "nombre_contacto": nombreContacto,
+        /* "numero_contacto": numeroContacto,
+        "nombre_contacto": nombreContacto, */
         "observacion": observacion,
         "infraestrutura": infraestructura
       };
 
-      final url = Uri.https(_baseUrl, '/autogestionterreno/postsoportegpon');
+      final url =
+          Uri.https(_baseUrl, '/autogestionterreno-dev/postsoportegpon');
 
       final resp = await http.post(url,
           headers: {'Content-Type': 'application/json', 'x-token': token!},

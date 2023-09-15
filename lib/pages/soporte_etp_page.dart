@@ -5,6 +5,7 @@ import 'package:autogestion_tecnico/services/services.dart';
 import 'package:autogestion_tecnico/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:textfield_tags/textfield_tags.dart';
 
 class SoporteEtpPage extends StatefulWidget {
   const SoporteEtpPage({super.key});
@@ -35,6 +36,10 @@ class _SoporteEtpPageState extends State<SoporteEtpPage> {
   bool tvPort4 = true;
 
   bool replanteo = false;
+  String tipoAccion = '';
+
+  TextfieldTagsController macSaleController = TextfieldTagsController();
+  TextfieldTagsController macEntraController = TextfieldTagsController();
 
   int? soporte;
   void _updateSoporte(int value) {
@@ -84,7 +89,7 @@ class _SoporteEtpPageState extends State<SoporteEtpPage> {
                     left: mq.width * 0.10,
                     right: mq.width * 0.10),
                 child: Text(
-                  'Formulario de solicitud soporte ETP',
+                  'Formulario soporte ETP',
                   style: TextStyle(
                     color: blueColor,
                     fontWeight: FontWeight.w500,
@@ -93,16 +98,6 @@ class _SoporteEtpPageState extends State<SoporteEtpPage> {
                   textAlign: TextAlign.center,
                 ),
               ),
-/*               const SizedBox(
-                  height: 10), // Añadir espacio entre el título y el Text
-              Text(
-                'Valor de soporte: ${soporte ?? "Ninguno"}', // Mostrar el valor de soporte
-                style: TextStyle(
-                  color: Colors.black, // Cambiar el color según tus necesidades
-                  fontWeight: FontWeight.normal,
-                  fontSize: mq.width * 0.04,
-                ),
-              ), */
               CustomDivider(mq: mq, colors: [
                 whiteColor,
                 blueColor,
@@ -246,7 +241,7 @@ class _SoporteEtpPageState extends State<SoporteEtpPage> {
                         ),
                       ],
                     ),
-                    CustomField(
+                    /* CustomField(
                         controller: contactoController,
                         hintText: 'Contacto*',
                         icon: Icons.phone,
@@ -260,7 +255,7 @@ class _SoporteEtpPageState extends State<SoporteEtpPage> {
                         icon: Icons.person),
                     SizedBox(
                       height: mq.height * 0.02,
-                    ),
+                    ), */
                     CustomField(
                       controller: detalleSolicitudController,
                       hintText: 'Detalle de solicitud*',
@@ -274,7 +269,71 @@ class _SoporteEtpPageState extends State<SoporteEtpPage> {
                     SizedBox(
                       height: mq.height * 0.02,
                     ),
-                    Column(
+                    FutureBuilder(
+                      future: soporteEtpService.getTipoAccion(),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (!snapshot.hasData) {
+                          return Column(
+                            children: [
+                              Container(
+                                  width: double.infinity,
+                                  alignment: Alignment.center,
+                                  child: const CircularProgressIndicator()),
+                            ],
+                          );
+                        }
+
+                        return CustomDropdown(
+                            mq: mq,
+                            options: snapshot.data,
+                            value: tipoAccion,
+                            function: (value) async {
+                              tipoAccion = value!;
+                              uiProvider.notifyListeners();
+                            },
+                            functionOnTap: () {
+                              tipoAccion = '';
+                              uiProvider.notifyListeners();
+                            },
+                            hintText: 'Accion*',
+                            icon: Icons.wifi_find_sharp);
+                      },
+                    ),
+                    SizedBox(
+                      height: mq.height * 0.02,
+                    ),
+
+                    if (tipoAccion == 'Aprovisionamiento Equipos' ||
+                        tipoAccion == 'Cambio equipo')
+                      CustomTag(
+                          //mq: const Size(double.infinity, 900.0),
+                          mq: mq,
+                          controller: macEntraController,
+                          hintText: 'MAC Entra...*',
+                          colorTag: blueColor),
+
+                    if (tipoAccion == 'Aprovisionamiento Equipos' ||
+                        tipoAccion == 'Cambio equipo')
+                      SizedBox(
+                        height: mq.height * 0.02,
+                      ),
+
+                    // MAC SALE
+                    if (tipoAccion == 'Cambio equipo')
+                      CustomTag(
+                        mq: mq,
+                        controller: macSaleController,
+                        hintText: 'MAC Sale...',
+                        colorTag: blueColor,
+                      ),
+
+                    // No necesitas hacer una asignación aquí, simplemente omítela.
+
+                    if (tipoAccion == 'Cambio equipo')
+                      SizedBox(
+                        height: mq.height * 0.02,
+                      ),
+                    /* Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
@@ -291,7 +350,7 @@ class _SoporteEtpPageState extends State<SoporteEtpPage> {
                           ],
                         ),
                       ],
-                    ),
+                    ), */
                     CustomButton(
                       mq: mq,
                       function: soporteEtpService.isLoading
@@ -303,14 +362,22 @@ class _SoporteEtpPageState extends State<SoporteEtpPage> {
                                   arponController.text == '' ||
                                   napController.text == '' ||
                                   hiloController.text == '' ||
-                                  contactoController.text == '' ||
-                                  nombreContactoController.text == '' ||
+                                  /* contactoController.text == '' ||
+                                  nombreContactoController.text == '' || */
                                   detalleSolicitudController.text == '') {
                                 CustomShowDialog.alert(
                                     context: context,
                                     title: 'Error',
                                     message:
                                         'Debes de diligenciar los campos obligatorios.');
+                                return false;
+                              }
+
+                              if (tipoAccion == '') {
+                                CustomShowDialog.alert(
+                                    context: context,
+                                    title: 'Error',
+                                    message: 'Debes seleccionar la acción');
                                 return false;
                               }
 
@@ -329,6 +396,45 @@ class _SoporteEtpPageState extends State<SoporteEtpPage> {
 
                               String streplanteo = (replanteo) ? '1' : '0';
 
+                              String macSaleFormat = '';
+                              String macEntraFormat = '';
+
+                              if (tipoAccion == 'Cambio equipo' ||
+                                  tipoAccion == 'Aprovisionamiento Equipos') {
+                                if (macEntraController.getTags!.isEmpty) {
+                                  CustomShowDialog.alert(
+                                      context: context,
+                                      title: 'Error',
+                                      message: 'Mac entra es obligatorio.');
+                                  return false;
+                                } else {
+                                  macEntraFormat =
+                                      macEntraController.getTags!.join('-');
+                                }
+                              }
+                              if (tipoAccion == 'Cambio equipo') {
+                                if (macSaleController.getTags!.isEmpty) {
+                                  CustomShowDialog.alert(
+                                      context: context,
+                                      title: 'Error',
+                                      message: 'Mac sale es obligatorio.');
+                                  return false;
+                                } else {
+                                  macSaleFormat =
+                                      macSaleController.getTags!.join('-');
+                                }
+                              }
+
+/*                               if (tipoAccion == 'Aprovisionamiento Equipos' ||
+                                  tipoAccion == 'Cambio equipo') {
+                                macEntraController ??=
+                                    TextfieldTagsController();
+                                macSaleFormat =
+                                    macEntraController.getTags!.join('-');
+                              } else {
+                                macEntraFormat = '';
+                              } */
+
                               final Map? resp =
                                   await soporteEtpService.postContingencia(
                                       tarea: tareaController.text,
@@ -343,12 +449,15 @@ class _SoporteEtpPageState extends State<SoporteEtpPage> {
                                       tvPort2: strTvPort2,
                                       tvPort3: strTvPort3,
                                       tvPort4: strTvPort4,
-                                      numeroContacto: contactoController.text,
+                                      /* numeroContacto: contactoController.text,
                                       nombreContacto:
-                                          nombreContactoController.text,
+                                          nombreContactoController.text, */
                                       observacion:
                                           detalleSolicitudController.text,
-                                      replanteo: streplanteo);
+                                      replanteo: streplanteo,
+                                      accion: tipoAccion,
+                                      macEntra: macEntraFormat,
+                                      macSale: macSaleFormat);
 
                               if (resp!['type'] == 'error') {
                                 CustomShowDialog.alert(
@@ -388,7 +497,7 @@ class _SoporteEtpPageState extends State<SoporteEtpPage> {
                     )
                   ],
                   if (soporte == 2) ...[
-                    CustomField(
+                    /*  CustomField(
                         controller: contactoController,
                         hintText: 'Contacto*',
                         icon: Icons.phone,
@@ -402,7 +511,76 @@ class _SoporteEtpPageState extends State<SoporteEtpPage> {
                         icon: Icons.person),
                     SizedBox(
                       height: mq.height * 0.02,
+                    ), */
+                    FutureBuilder(
+                      future: soporteEtpService.getTipoAccion(),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (!snapshot.hasData) {
+                          return Column(
+                            children: [
+                              Container(
+                                  width: double.infinity,
+                                  alignment: Alignment.center,
+                                  child: const CircularProgressIndicator()),
+                            ],
+                          );
+                        }
+
+                        return CustomDropdown(
+                            mq: mq,
+                            options: snapshot.data,
+                            value: tipoAccion,
+                            function: (value) async {
+                              tipoAccion = value!;
+                              uiProvider.notifyListeners();
+                            },
+                            functionOnTap: () {
+                              tipoAccion = '';
+                              uiProvider.notifyListeners();
+                            },
+                            hintText: 'Accion*',
+                            icon: Icons.wifi_find_sharp);
+                      },
                     ),
+                    SizedBox(
+                      height: mq.height * 0.02,
+                    ),
+
+                    if (tipoAccion == 'Aprovisionamiento Equipos' ||
+                        tipoAccion == 'Cambio equipo' ||
+                        tipoAccion == 'Cambio domicilio')
+                      CustomTag(
+                          //mq: const Size(double.infinity, 900.0),
+                          mq: mq,
+                          controller: macEntraController,
+                          hintText: 'MAC Entra...*',
+                          colorTag: blueColor),
+
+                    if (tipoAccion == 'Aprovisionamiento Equipos' ||
+                        tipoAccion == 'Cambio equipo' ||
+                        tipoAccion == 'Cambio domicilio')
+                      SizedBox(
+                        height: mq.height * 0.02,
+                      ),
+
+                    // MAC SALE
+                    if (tipoAccion == 'Cambio equipo' ||
+                        tipoAccion == 'Cambio domicilio')
+                      CustomTag(
+                        mq: mq,
+                        controller: macSaleController,
+                        hintText: 'MAC Sale...',
+                        colorTag: blueColor,
+                      ),
+
+                    // No necesitas hacer una asignación aquí, simplemente omítela.
+
+                    if (tipoAccion == 'Cambio equipo' ||
+                        tipoAccion == 'Cambio domicilio')
+                      SizedBox(
+                        height: mq.height * 0.02,
+                      ),
+
                     CustomField(
                       controller: detalleSolicitudController,
                       hintText: 'Detalle de solicitud*',
@@ -416,7 +594,7 @@ class _SoporteEtpPageState extends State<SoporteEtpPage> {
                     SizedBox(
                       height: mq.height * 0.02,
                     ),
-                    Column(
+                    /* Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
@@ -433,7 +611,7 @@ class _SoporteEtpPageState extends State<SoporteEtpPage> {
                           ],
                         ),
                       ],
-                    ),
+                    ), */
                     CustomButton(
                       mq: mq,
                       function: soporteEtpService.isLoading
@@ -442,14 +620,22 @@ class _SoporteEtpPageState extends State<SoporteEtpPage> {
                               FocusScope.of(context).unfocus();
 
                               if (tareaController.text == '' ||
-                                  contactoController.text == '' ||
-                                  nombreContactoController.text == '' ||
+                                  /* contactoController.text == '' ||
+                                  nombreContactoController.text == '' || */
                                   detalleSolicitudController.text == '') {
                                 CustomShowDialog.alert(
                                     context: context,
                                     title: 'Error',
                                     message:
                                         'Debes de diligenciar los campos obligatorios.');
+                                return false;
+                              }
+
+                              if (tipoAccion == '') {
+                                CustomShowDialog.alert(
+                                    context: context,
+                                    title: 'Error',
+                                    message: 'Debes seleccionar la acción');
                                 return false;
                               }
 
@@ -467,6 +653,28 @@ class _SoporteEtpPageState extends State<SoporteEtpPage> {
                               String strTvPort4 = (tvPort4) ? '' : '';
                               String streplanteo = (replanteo) ? '1' : '0';
 
+                              String macSaleFormat = '';
+
+                              if (tipoAccion == 'Cambio equipo') {
+                                macSaleController ??= TextfieldTagsController();
+                                macSaleFormat =
+                                    macSaleController.getTags!.join('-');
+                              } else {
+                                macSaleFormat = '';
+                              }
+                              String macEntraFormat = '';
+
+                              if (tipoAccion == 'Aprovisionamiento Equipos' ||
+                                  tipoAccion == 'Cambio equipo' ||
+                                  tipoAccion == 'Cambio domicilio') {
+                                macEntraController ??=
+                                    TextfieldTagsController();
+                                macSaleFormat =
+                                    macEntraController.getTags!.join('-');
+                              } else {
+                                macEntraFormat = '';
+                              }
+
                               final Map? resp =
                                   await soporteEtpService.postContingencia(
                                 tarea: tareaController.text,
@@ -481,10 +689,13 @@ class _SoporteEtpPageState extends State<SoporteEtpPage> {
                                 tvPort2: strTvPort2,
                                 tvPort3: strTvPort3,
                                 tvPort4: strTvPort4,
-                                numeroContacto: contactoController.text,
-                                nombreContacto: nombreContactoController.text,
+                                /* numeroContacto: contactoController.text,
+                                nombreContacto: nombreContactoController.text, */
                                 observacion: detalleSolicitudController.text,
                                 replanteo: streplanteo,
+                                accion: tipoAccion,
+                                macEntra: macEntraFormat,
+                                macSale: macSaleFormat,
                               );
 
                               if (resp!['type'] == 'error') {
@@ -530,13 +741,40 @@ class _SoporteEtpPageState extends State<SoporteEtpPage> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton.small(
+      /* floatingActionButton: FloatingActionButton.small(
         onPressed: () {
           uiProvider.selectedMenuOpt = 14;
           uiProvider.selectedMenuName = 'Lista Soporte ETP';
         },
         backgroundColor: const Color.fromARGB(255, 0, 51, 94),
         child: const Icon(Icons.list_rounded),
+      ), */
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          if (tipoAccion == 'Aprovisionamiento Equipos' ||
+              tipoAccion == 'Cambio equipo')
+            CustomButtom(
+              icon: Icons.qr_code_scanner_outlined,
+              onPressed: () {
+                FocusScope.of(context).unfocus();
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const QRScanner(),
+                ));
+              },
+              heroTag: 'scan',
+            ),
+          CustomButtom(
+            icon: Icons.list_rounded,
+            onPressed: () {
+              setState(() {
+                uiProvider.selectedMenuOpt = 14;
+                uiProvider.selectedMenuName = 'Lista Soporte ETP';
+              });
+            },
+            heroTag: 'listCon',
+          ),
+        ],
       ),
     );
   }

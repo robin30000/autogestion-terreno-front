@@ -267,17 +267,6 @@ class _ContingenciaPageState extends State<ContingenciaPage> {
                                 return false;
                               }
 
-                              /* if ((macSaleController.getTags!.isEmpty &&
-                                      tipoContingencia == 'Cambio de Equipo') ||
-                                  (macSaleController.getTags!.isEmpty &&
-                                      tipoContingencia == 'Cambio Domicilio')) {
-                                CustomShowDialog.alert(
-                                    context: context,
-                                    title: 'Error',
-                                    message: 'Mac sale es obligatorio.');
-                                return false;
-                              } */
-
                               pedidoController.text;
                               detalleSolicitudController.text;
                               tipoProducto;
@@ -291,11 +280,16 @@ class _ContingenciaPageState extends State<ContingenciaPage> {
 
                               if (tipoContingencia == 'Cambio de Equipo' ||
                                   tipoContingencia == 'Cambio Domicilio') {
-                                macSaleController ??= TextfieldTagsController();
-                                macSaleFormat =
-                                    macSaleController.getTags!.join('-');
-                              } else {
-                                macSaleFormat = '';
+                                if (macSaleController.getTags!.isEmpty) {
+                                  CustomShowDialog.alert(
+                                      context: context,
+                                      title: 'Error',
+                                      message: 'Mac sale es obligatorio.');
+                                  return false;
+                                } else {
+                                  macSaleFormat =
+                                      macSaleController.getTags!.join('-');
+                                }
                               }
 
                               final Map? resp =

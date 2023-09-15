@@ -20,8 +20,8 @@ class _SoporteGponPageState extends State<SoporteGponPage> {
   TextEditingController arponController = TextEditingController();
   TextEditingController napController = TextEditingController();
   TextEditingController hiloController = TextEditingController();
-  TextEditingController contactoController = TextEditingController();
-  TextEditingController nombreContactoController = TextEditingController();
+  //TextEditingController contactoController = TextEditingController();
+  //TextEditingController nombreContactoController = TextEditingController();
   TextEditingController detalleSolicitudController = TextEditingController();
 
   bool internetPort1 = true;
@@ -42,8 +42,8 @@ class _SoporteGponPageState extends State<SoporteGponPage> {
     arponController.dispose();
     napController.dispose();
     hiloController.dispose();
-    contactoController.dispose();
-    nombreContactoController.dispose();
+    //contactoController.dispose();
+    //nombreContactoController.dispose();
     detalleSolicitudController.dispose();
     if (_formKeySoporteGpon.currentState != null) {
       _formKeySoporteGpon.currentState!.dispose();
@@ -188,7 +188,7 @@ class _SoporteGponPageState extends State<SoporteGponPage> {
                       ),
                     ],
                   ),
-                  CustomField(
+                  /* CustomField(
                       controller: contactoController,
                       hintText: 'Contacto*',
                       icon: Icons.phone,
@@ -202,7 +202,7 @@ class _SoporteGponPageState extends State<SoporteGponPage> {
                       icon: Icons.person),
                   SizedBox(
                     height: mq.height * 0.02,
-                  ),
+                  ), */
                   CustomField(
                     controller: detalleSolicitudController,
                     hintText: 'Detalle de solicitud*',
@@ -245,8 +245,8 @@ class _SoporteGponPageState extends State<SoporteGponPage> {
                                 arponController.text == '' ||
                                 napController.text == '' ||
                                 hiloController.text == '' ||
-                                contactoController.text == '' ||
-                                nombreContactoController.text == '' ||
+                                /* contactoController.text == '' ||
+                                nombreContactoController.text == '' || */
                                 detalleSolicitudController.text == '') {
                               CustomShowDialog.alert(
                                   context: context,
@@ -285,9 +285,9 @@ class _SoporteGponPageState extends State<SoporteGponPage> {
                                     tvPort2: strTvPort2,
                                     tvPort3: strTvPort3,
                                     tvPort4: strTvPort4,
-                                    numeroContacto: contactoController.text,
+                                    /* numeroContacto: contactoController.text,
                                     nombreContacto:
-                                        nombreContactoController.text,
+                                        nombreContactoController.text, */
                                     observacion:
                                         detalleSolicitudController.text,
                                     infraestructura: strInfraestructura);

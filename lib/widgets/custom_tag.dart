@@ -57,24 +57,35 @@ class _CustomTagState extends State<CustomTag> {
             Container(
               child: LayoutBuilder(
                 builder: (BuildContext context, BoxConstraints constraints) {
+                  final mq = MediaQuery.of(context).size;
                   return SizedBox(
-                    width: widget.mq.width * widget.width,
+                    //width: widget.mq.width * widget.width,
+                    width: widget.mq.width * widget.width * 0.8,
+                    height: widget.height == null
+                        ? null
+                        : mq.height * widget.height,
                     child: GestureDetector(
                       child: TextFormField(
                         autocorrect: false,
                         controller: _textEditingController,
                         decoration: InputDecoration(
                           contentPadding: const EdgeInsets.only(
-                              top: 1, bottom: 1, left: 20, right: 5),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30.0)),
+                              top: 1, bottom: 1, left: 10, right: 0),
+                          border: const OutlineInputBorder(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(
+                                  45.0), // Radio de borde para la esquina superior izquierda
+                              topRight: Radius.circular(
+                                  30.0), // Radio de borde para la esquina superior derecha
+                            ),
+                          ),
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: whiteColor),
-                            borderRadius: BorderRadius.circular(30.0),
+                            borderRadius: BorderRadius.circular(0.0),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: whiteColor),
-                            borderRadius: BorderRadius.circular(30.0),
+                            borderRadius: BorderRadius.circular(0.0),
                           ),
                           hintText: _textEditingController.text.isEmpty
                               ? widget.hintText
@@ -96,14 +107,14 @@ class _CustomTagState extends State<CustomTag> {
           for (int i = 0; i < tags.length; i++) {
             inputFields.add(
               Container(
-                width: widget.mq.width * widget.width * 0.6,
-                margin: const EdgeInsets.symmetric(vertical: 2.0),
+                width: widget.mq.width * widget.width * 0.8,
+                margin: const EdgeInsets.symmetric(vertical: 0.0),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: const BorderRadius.all(
-                        Radius.circular(20.0),
+                        Radius.circular(0.0),
                       ),
                       color: widget.colorTag,
                     ),
