@@ -93,7 +93,7 @@ class SoporteGponService extends ChangeNotifier {
         /* "numero_contacto": numeroContacto,
         "nombre_contacto": nombreContacto, */
         "observacion": observacion,
-        "infraestrutura": infraestructura
+        "infraestructura": infraestructura
       };
 
       final url =

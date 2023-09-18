@@ -241,21 +241,7 @@ class _SoporteEtpPageState extends State<SoporteEtpPage> {
                         ),
                       ],
                     ),
-                    /* CustomField(
-                        controller: contactoController,
-                        hintText: 'Contacto*',
-                        icon: Icons.phone,
-                        keyboardType: TextInputType.number),
-                    SizedBox(
-                      height: mq.height * 0.02,
-                    ),
-                    CustomField(
-                        controller: nombreContactoController,
-                        hintText: 'Nombre Contacto*',
-                        icon: Icons.person),
-                    SizedBox(
-                      height: mq.height * 0.02,
-                    ), */
+
                     CustomField(
                       controller: detalleSolicitudController,
                       hintText: 'Detalle de solicitud*',
@@ -304,7 +290,8 @@ class _SoporteEtpPageState extends State<SoporteEtpPage> {
                     ),
 
                     if (tipoAccion == 'Aprovisionamiento Equipos' ||
-                        tipoAccion == 'Cambio equipo')
+                        tipoAccion == 'Cambio equipo' ||
+                        tipoAccion == 'Cambio domicilio')
                       CustomTag(
                           //mq: const Size(double.infinity, 900.0),
                           mq: mq,
@@ -313,13 +300,15 @@ class _SoporteEtpPageState extends State<SoporteEtpPage> {
                           colorTag: blueColor),
 
                     if (tipoAccion == 'Aprovisionamiento Equipos' ||
-                        tipoAccion == 'Cambio equipo')
+                        tipoAccion == 'Cambio equipo' ||
+                        tipoAccion == 'Cambio domicilio')
                       SizedBox(
                         height: mq.height * 0.02,
                       ),
 
                     // MAC SALE
-                    if (tipoAccion == 'Cambio equipo')
+                    if (tipoAccion == 'Cambio equipo' ||
+                        tipoAccion == 'Cambio domicilio')
                       CustomTag(
                         mq: mq,
                         controller: macSaleController,
@@ -329,28 +318,12 @@ class _SoporteEtpPageState extends State<SoporteEtpPage> {
 
                     // No necesitas hacer una asignación aquí, simplemente omítela.
 
-                    if (tipoAccion == 'Cambio equipo')
+                    if (tipoAccion == 'Cambio equipo' ||
+                        tipoAccion == 'Cambio domicilio')
                       SizedBox(
                         height: mq.height * 0.02,
                       ),
-                    /* Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Checkbox(
-                              value: replanteo,
-                              onChanged: (newValue) {
-                                setState(() {
-                                  replanteo = newValue!;
-                                });
-                              },
-                            ),
-                            const Text('Es replanteo?'),
-                          ],
-                        ),
-                      ],
-                    ), */
+
                     CustomButton(
                       mq: mq,
                       function: soporteEtpService.isLoading
@@ -425,16 +398,6 @@ class _SoporteEtpPageState extends State<SoporteEtpPage> {
                                 }
                               }
 
-/*                               if (tipoAccion == 'Aprovisionamiento Equipos' ||
-                                  tipoAccion == 'Cambio equipo') {
-                                macEntraController ??=
-                                    TextfieldTagsController();
-                                macSaleFormat =
-                                    macEntraController.getTags!.join('-');
-                              } else {
-                                macEntraFormat = '';
-                              } */
-
                               final Map? resp =
                                   await soporteEtpService.postContingencia(
                                       tarea: tareaController.text,
@@ -497,21 +460,6 @@ class _SoporteEtpPageState extends State<SoporteEtpPage> {
                     )
                   ],
                   if (soporte == 2) ...[
-                    /*  CustomField(
-                        controller: contactoController,
-                        hintText: 'Contacto*',
-                        icon: Icons.phone,
-                        keyboardType: TextInputType.number),
-                    SizedBox(
-                      height: mq.height * 0.02,
-                    ),
-                    CustomField(
-                        controller: nombreContactoController,
-                        hintText: 'Nombre Contacto*',
-                        icon: Icons.person),
-                    SizedBox(
-                      height: mq.height * 0.02,
-                    ), */
                     FutureBuilder(
                       future: soporteEtpService.getTipoAccion(),
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
