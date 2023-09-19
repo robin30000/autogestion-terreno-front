@@ -65,7 +65,7 @@ class _RegistroEquiposState extends State<RegistroEquipos> {
                     left: mq.width * 0.10,
                     right: mq.width * 0.10),
                 child: Text(
-                  'Formulario registro de equipos',
+                  'Solicitud registro de equipos',
                   style: TextStyle(
                     color: blueColor,
                     fontWeight: FontWeight.w500,

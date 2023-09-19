@@ -112,15 +112,33 @@ class _ConsultaQuejasPageState extends State<ConsultaQuejasPage> {
             child: Form(
                 key: _formKeyCodInc,
                 child: SingleChildScrollView(
-                  child: Container(
+                  child: SizedBox(
                     width: mq.width,
-                    padding: EdgeInsets.only(
-                        left: mq.width * 0.05,
-                        right: mq.width * 0.05,
-                        top: mq.height * 0.05),
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+                          Container(
+                            alignment: Alignment.center,
+                            margin: EdgeInsets.only(
+                                top: mq.height * 0.01,
+                                bottom: 0,
+                                left: mq.width * 0.10,
+                                right: mq.width * 0.10),
+                            child: Text(
+                              'Consultar Quejas',
+                              style: TextStyle(
+                                color: blueColor,
+                                fontWeight: FontWeight.w500,
+                                fontSize: mq.width * 0.06,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          CustomDivider(mq: mq, colors: [
+                            whiteColor,
+                            blueColor,
+                            whiteColor,
+                          ]),
                           CustomField(
                               controller: tareaController,
                               hintText: 'Numero de SS',
@@ -186,11 +204,11 @@ class _ConsultaQuejasPageState extends State<ConsultaQuejasPage> {
                                 : 'Consultar',
                             height: 0.05,
                           ),
-                          CustomDivider(mq: mq, colors: [
+                          /* CustomDivider(mq: mq, colors: [
                             whiteColor,
                             blueColor,
                             whiteColor,
-                          ]),
+                          ]), */
                           if (data.isEmpty)
                             quejaRes == ''
                                 ? Container()

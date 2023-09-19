@@ -1,12 +1,11 @@
 import 'package:autogestion_tecnico/global/custom_show_dialog.dart';
+import 'package:autogestion_tecnico/global/globals.dart';
+import 'package:autogestion_tecnico/models/models.dart';
+import 'package:autogestion_tecnico/providers/providers.dart';
+import 'package:autogestion_tecnico/services/services.dart';
 import 'package:autogestion_tecnico/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import 'package:autogestion_tecnico/providers/providers.dart';
-import 'package:autogestion_tecnico/services/services.dart';
-import 'package:autogestion_tecnico/global/globals.dart';
-import 'package:autogestion_tecnico/models/models.dart';
 
 class Bb8Page extends StatefulWidget {
   const Bb8Page({super.key});
@@ -51,6 +50,28 @@ class _Bb8PageState extends State<Bb8Page> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
+                    Container(
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.only(
+                          top: mq.height * 0.01,
+                          bottom: 0,
+                          left: mq.width * 0.10,
+                          right: mq.width * 0.10),
+                      child: Text(
+                        'Consultar dirección',
+                        style: TextStyle(
+                          color: blueColor,
+                          fontWeight: FontWeight.w500,
+                          fontSize: mq.width * 0.06,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    CustomDivider(mq: mq, colors: [
+                      whiteColor,
+                      blueColor,
+                      whiteColor,
+                    ]),
                     Padding(
                         padding: EdgeInsets.only(
                             left: mq.width * 0.05,
@@ -128,11 +149,6 @@ class _Bb8PageState extends State<Bb8Page> {
                             height: 0.05,
                           )
                         ])),
-                    CustomDivider(mq: mq, colors: [
-                      whiteColor,
-                      blueColor,
-                      whiteColor,
-                    ]),
                     data.isEmpty
                         ? bb8Res == ''
                             ? Container()

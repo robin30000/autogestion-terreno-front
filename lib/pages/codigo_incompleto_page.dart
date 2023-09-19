@@ -49,12 +49,29 @@ class _CodigoIncompletoPageState extends State<CodigoIncompletoPage> {
                 child: Container(
                   width: mq.width,
                   padding: EdgeInsets.only(
-                      left: mq.width * 0.05,
-                      right: mq.width * 0.05,
-                      top: mq.height * 0.05),
+                      left: mq.width * 0.00,
+                      right: mq.width * 0.00,
+                      top: mq.height * 0.01),
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        Container(
+                          alignment: Alignment.center,
+                          child: Text(
+                            'Solicitud código incompleto',
+                            style: TextStyle(
+                              color: blueColor,
+                              fontWeight: FontWeight.w500,
+                              fontSize: mq.width * 0.06,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        CustomDivider(mq: mq, colors: [
+                          whiteColor,
+                          blueColor,
+                          whiteColor,
+                        ]),
                         CustomField(
                             controller: tareaController,
                             hintText: 'Tarea*',
@@ -120,11 +137,6 @@ class _CodigoIncompletoPageState extends State<CodigoIncompletoPage> {
                               : 'Obtener código',
                           height: 0.05,
                         ),
-                        CustomDivider(mq: mq, colors: [
-                          whiteColor,
-                          blueColor,
-                          whiteColor,
-                        ]),
                         codIncRes == ''
                             ? Container()
                             : const Text('Su código de incompleto es:'),

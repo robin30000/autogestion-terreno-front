@@ -65,7 +65,7 @@ class _ContingenciaPageState extends State<ContingenciaPage> {
                       left: mq.width * 0.10,
                       right: mq.width * 0.10),
                   child: Text(
-                    'Formulario de solicitud de contingencias',
+                    'Solicitud de contingencias',
                     style: TextStyle(
                       color: blueColor,
                       fontWeight: FontWeight.w500,

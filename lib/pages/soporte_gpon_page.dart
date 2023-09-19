@@ -75,7 +75,7 @@ class _SoporteGponPageState extends State<SoporteGponPage> {
                     left: mq.width * 0.10,
                     right: mq.width * 0.10),
                 child: Text(
-                  'Formulario de solicitud soporte GPON',
+                  'Solicitud soporte GPON',
                   style: TextStyle(
                     color: blueColor,
                     fontWeight: FontWeight.w500,

@@ -89,7 +89,7 @@ class _SoporteEtpPageState extends State<SoporteEtpPage> {
                     left: mq.width * 0.10,
                     right: mq.width * 0.10),
                 child: Text(
-                  'Formulario soporte ETP',
+                  'Solicitud soporte ETP',
                   style: TextStyle(
                     color: blueColor,
                     fontWeight: FontWeight.w500,
