@@ -67,8 +67,6 @@ class SoporteGponService extends ChangeNotifier {
       required String tvPort2,
       required String tvPort3,
       required String tvPort4,
-      /* required String numeroContacto,
-      required String nombreContacto, */
       required String observacion,
       required String infraestructura}) async {
     try {
@@ -90,8 +88,6 @@ class SoporteGponService extends ChangeNotifier {
         "tv_port2": tvPort2,
         "tv_port3": tvPort3,
         "tv_port4": tvPort4,
-        /* "numero_contacto": numeroContacto,
-        "nombre_contacto": nombreContacto, */
         "observacion": observacion,
         "infraestructura": infraestructura
       };
