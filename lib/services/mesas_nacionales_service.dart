@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
-class SoporteEtpService extends ChangeNotifier {
+class MesasNacService extends ChangeNotifier {
   final String _baseUrl = baseUrl;
   final storage = const FlutterSecureStorage();
 
@@ -16,7 +16,7 @@ class SoporteEtpService extends ChangeNotifier {
   List<ValidaPedido> response = [];
   bool isLoading = false;
 
-  SoporteEtpService() {
+  MesasNacService() {
     getsoporteetpbyuser();
   }
 

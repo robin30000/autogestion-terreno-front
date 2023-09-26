@@ -22,7 +22,7 @@ class CodigoIncompletoService extends ChangeNotifier {
       final String? token = await storage.read(key: 'token');
 
       final url =
-          Uri.https(_baseUrl, '/autogestionterreno-dev/getcodigoincompleto', {
+          Uri.https(_baseUrl, '/autogestionterreno/getcodigoincompleto', {
         'tarea': tarea,
       });
 
