@@ -7,22 +7,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
-class MesasNacService extends ChangeNotifier {
+class MesasNacionalesService extends ChangeNotifier {
   final String _baseUrl = baseUrl;
   final storage = const FlutterSecureStorage();
 
-  List<SoporteEtp> soporteetp = [];
-  List<Map<String, dynamic>> tipoAccion = [];
+  List<MesasNacionales> soporteMn = [];
+  List<Map<String, dynamic>> accion1 = [];
+  List<Map<String, dynamic>> accion2 = [];
+
   List<ValidaPedido> response = [];
   bool isLoading = false;
 
-  MesasNacService() {
+  MesasNacionalesService() {
     getsoporteetpbyuser();
   }
 
   getsoporteetpbyuser() async {
     try {
-      soporteetp = [];
+      soporteMn = [];
 
       isLoading = true;
       notifyListeners();
@@ -30,7 +32,7 @@ class MesasNacService extends ChangeNotifier {
       final String? token = await storage.read(key: 'token');
 
       final url =
-          Uri.https(_baseUrl, '/autogestionterreno/getsoporteetpbyuser');
+          Uri.https(_baseUrl, '/autogestionterreno-dev/getsoporteMnbyuser');
 
       final resp = await http.get(url,
           headers: {'Content-Type': 'application/json', 'x-token': token!});
@@ -45,8 +47,8 @@ class MesasNacService extends ChangeNotifier {
       }
 
       if (decodeResp['type'] == 'success') {
-        final newResponse = newReponseSoporteEtpFromJson(resp.body);
-        soporteetp.addAll(newResponse.soporteetp);
+        final newResponse = newReponseMesasNacionalesFromJson(resp.body);
+        soporteMn.addAll(newResponse.soporteMn);
       }
 
       isLoading = false;
@@ -67,8 +69,8 @@ class MesasNacService extends ChangeNotifier {
 
       final String? token = await storage.read(key: 'token');
 
-      final url = Uri.https(
-          _baseUrl, '/autogestionterreno/validapedidoetp', {'tarea': pedido});
+      final url = Uri.https(_baseUrl, '/autogestionterreno-dev/validaPedidoMn',
+          {'tarea': pedido});
 
       final resp = await http.get(url,
           headers: {'Content-Type': 'application/json', 'x-token': token!});
@@ -76,93 +78,71 @@ class MesasNacService extends ChangeNotifier {
       final Map<String, dynamic> decodeResp = json.decode(resp.body);
 
       return decodeResp;
-      /*  if (decodeResp['type'] == 'success') {
-        final newResponse = NewReponseRegistroEquiposPedidoFromJson(resp.body);
-        response.addAll(newResponse.pedido);
-      } */
-
-      //isLoading = true;
-      //notifyListeners();
     } catch (e) {
       NotificactionService.showSnackBar(e.toString());
     }
     return null;
   }
 
-  Future<List<Map<String, dynamic>>> getTipoAccion() async {
-    tipoAccion = [
-      {'name': 'Accion*', 'value': '', 'state': true},
-      {
-        'name': 'Aprovisionamiento Equipos',
-        'value': 'Aprovisionamiento Equipos',
-        'state': true
-      },
-      {'name': 'Cambio equipo', 'value': 'Cambio equipo', 'state': true},
-      {'name': 'Cambio domicilio', 'value': 'Cambio domicilio', 'state': true},
-      {
-        'name': 'Entrega de códigos',
-        'value': 'Entrega de códigos',
-        'state': true
-      },
-      {'name': 'Replanteo', 'value': 'Replanteo', 'state': true},
+  Future<List<Map<String, dynamic>>> getAccion1() async {
+    accion1 = [
+      {'name': 'Acción*', 'value': '', 'state': true},
+      {'name': 'Línea básica', 'value': 'Línea básica', 'state': true},
+      {'name': 'Cambio de equipo', 'value': 'Cambio de equipo', 'state': true},
+      {'name': 'Soporte general', 'value': 'Soporte general', 'state': true}
     ];
-    return tipoAccion;
+    return accion1;
+  }
+
+  Future<List<Map<String, dynamic>>> getAccion2() async {
+    accion2 = [
+      {'name': 'Acción*', 'value': '', 'state': true},
+      {
+        'name': 'Código de completo',
+        'value': 'Código de completo',
+        'state': true
+      },
+      {
+        'name': 'Código de incompleto',
+        'value': 'Código de incompleto',
+        'state': true
+      },
+      {
+        'name': 'Validación de parámetros',
+        'value': 'Validación de parámetros',
+        'state': true
+      },
+      {'name': 'Soporte general', 'value': 'Soporte general', 'state': true}
+    ];
+    return accion2;
   }
 
   Future<Map?> postContingencia({
     required String tarea,
-    required String arpon,
-    required String nap,
-    required String hilo,
-    required String internetPort1,
-    required String internetPort2,
-    required String internetPort3,
-    required String internetPort4,
-    required String tvPort1,
-    required String tvPort2,
-    required String tvPort3,
-    required String tvPort4,
-    /* required String numeroContacto,
-    required String nombreContacto, */
     required String observacion,
-    required String replanteo,
     required String accion,
     required String macSale,
     required String macEntra,
   }) async {
     try {
-      isLoading = true;
+      //isLoading = true;
       notifyListeners();
 
       final String? token = await storage.read(key: 'token');
 
-      final Map<String, dynamic> soporteEtpData = {
+      final Map<String, dynamic> soporteMnData = {
         "tarea": tarea,
-        "arpon": arpon,
-        "nap": nap,
-        "hilo": hilo,
-        "internet_port1": internetPort1,
-        "internet_port2": internetPort2,
-        "internet_port3": internetPort3,
-        "internet_port4": internetPort4,
-        "tv_port1": tvPort1,
-        "tv_port2": tvPort2,
-        "tv_port3": tvPort3,
-        "tv_port4": tvPort4,
-        /* "numero_contacto": numeroContacto,
-        "nombre_contacto": nombreContacto, */
         "observacion": observacion,
-        "replanteo": replanteo,
         "accion": accion,
         "macSale": macSale,
         "macEntra": macEntra,
       };
 
-      final url = Uri.https(_baseUrl, '/autogestionterreno/postpedidoetp');
+      final url = Uri.https(_baseUrl, '/autogestionterreno-dev/postPedidoMn');
 
       final resp = await http.post(url,
           headers: {'Content-Type': 'application/json', 'x-token': token!},
-          body: json.encode(soporteEtpData));
+          body: json.encode(soporteMnData));
 
       final Map<String, dynamic> decodeResp = json.decode(resp.body);
 

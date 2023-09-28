@@ -19,10 +19,10 @@ class AuthService extends ChangeNotifier {
       final Map<String, dynamic> authData = {
         "user": usuario,
         "password": password,
-        "version": 17
+        "version": 19
       };
 
-      final url = Uri.https(_baseUrl, '/autogestionterreno/ingresar');
+      final url = Uri.https(_baseUrl, '/autogestionterreno-dev/ingresar');
       print(url);
 
       final resp = await http.post(url,
@@ -83,7 +83,7 @@ class AuthService extends ChangeNotifier {
 
   Future getMenuApp() async {
     try {
-      final url = Uri.https(_baseUrl, '/autogestionterreno/validarmenu');
+      final url = Uri.https(_baseUrl, '/autogestionterreno-dev/validarmenu');
       final resp = await http.get(url, headers: {
         'Content-Type': 'application/json',
       });

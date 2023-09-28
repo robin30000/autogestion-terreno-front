@@ -45,7 +45,6 @@ class _SoporteEtpPageState extends State<SoporteEtpPage> {
   void _updateSoporte(int value) {
     setState(() {
       soporte = value;
-      print(soporte);
     });
   }
 

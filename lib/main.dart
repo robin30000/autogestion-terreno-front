@@ -43,6 +43,7 @@ class _AppInitState extends State<AppInit> {
         ChangeNotifierProvider(create: (_) => ConsultaGponService()),
         ChangeNotifierProvider(create: (_) => ConsultaQuejasService()),
         ChangeNotifierProvider(create: (_) => RegistroEquiposService()),
+        ChangeNotifierProvider(create: (_) => MesasNacionalesService()),
       ],
       child: const MyApp(),
     );

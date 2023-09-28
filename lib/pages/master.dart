@@ -81,7 +81,53 @@ class _MasterPageState extends State<MasterPage> {
 
                   dynamic menus = jsonDecode(snapshot.data);
 
-                  return Column(
+                  return SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        for (int i = 0; i < menus.length; i++)
+                          if (menus[i]['estado'])
+                            GestureDetector(
+                              onTap: () {
+                                _advancedDrawerController.hideDrawer();
+                                uiProvider.selectedMenuOpt =
+                                    menus[i]['menuOpt'];
+                                uiProvider.selectedMenuName =
+                                    menus[i]['pageName'];
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 7.4, horizontal: 16),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      IconData(
+                                        menus[i]['menuIcon'],
+                                        fontFamily: 'MaterialIcons',
+                                      ),
+                                      size: mq.width * 0.07,
+                                      color: const Color.fromARGB(
+                                          255, 229, 231, 233),
+                                    ),
+                                    SizedBox(
+                                      width: mq.width * 0.02,
+                                    ),
+                                    Text(
+                                      menus[i]['menuName'],
+                                      style: TextStyle(
+                                        fontSize: mq.width * 0.05,
+                                        color: const Color.fromARGB(
+                                            255, 229, 231, 233),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                      ],
+                    ),
+                  );
+
+                  /* return Column(
                     children: [
                       for (int i = 0; i < menus.length; i++)
                         if (menus[i]['estado'])
@@ -124,7 +170,7 @@ class _MasterPageState extends State<MasterPage> {
                             ),
                           ),
                     ],
-                  );
+                  ); */
                 },
               ),
               const Spacer(),
@@ -137,7 +183,7 @@ class _MasterPageState extends State<MasterPage> {
                   margin: const EdgeInsets.symmetric(
                     vertical: 14.0,
                   ),
-                  child: const Text('Version 1.8'),
+                  child: const Text('Version 1.9'),
                 ),
               ),
             ],

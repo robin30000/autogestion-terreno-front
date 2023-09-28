@@ -4,6 +4,7 @@ export 'package:autogestion_tecnico/services/codigo_incompleto_service.dart';
 export 'package:autogestion_tecnico/services/consulta_gpon_service.dart';
 export 'package:autogestion_tecnico/services/consulta_quejas_service.dart';
 export 'package:autogestion_tecnico/services/contingencia_service.dart';
+export 'package:autogestion_tecnico/services/mesas_nac_service.dart';
 export 'package:autogestion_tecnico/services/notification_service.dart';
 export 'package:autogestion_tecnico/services/registro_equipos_services.dart';
 export 'package:autogestion_tecnico/services/soporte_etp_service.dart';
