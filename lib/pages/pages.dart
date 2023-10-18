@@ -1,6 +1,6 @@
 export 'package:autogestion_tecnico/pages/bb8_page.dart';
 export 'package:autogestion_tecnico/pages/codigo_incompleto_page.dart';
-export 'package:autogestion_tecnico/pages/consulta_gpon_page.dart';
+export 'package:autogestion_tecnico/pages/consulta_contingencia_page.dart';
 export 'package:autogestion_tecnico/pages/consulta_quejas_page.dart';
 export 'package:autogestion_tecnico/pages/contingencia_page.dart';
 export 'package:autogestion_tecnico/pages/home_page.dart';

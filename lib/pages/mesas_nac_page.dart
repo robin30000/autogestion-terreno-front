@@ -109,6 +109,8 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
                                   _updateSoporte(1);
                                 } else if (response['message'] == 'ELT-POE') {
                                   _updateSoporte(2);
+                                } else if (response['message'] == 'PRE') {
+                                  _updateSoporte(3);
                                 }
                               }
                             } catch (error) {}
@@ -404,6 +406,91 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
 
                                     uiProvider.selectedMenuOpt = 20;
                                     uiProvider.selectedMenuName = 'Soporte ETP';
+                                  }
+                                },
+                          color: mesasNacionalesService.isLoading
+                              ? greyColor
+                              : blueColor,
+                          colorText: whiteColor,
+                          text: mesasNacionalesService.isLoading
+                              ? 'Cargando...'
+                              : 'Enviar Solicitud',
+                          height: 0.05,
+                        ),
+                        SizedBox(
+                          height: mq.height * 0.02,
+                        )
+                      ],
+                      if (soporte == 3) ...[
+                        CustomField(
+                          controller: detalleSolicitudController,
+                          hintText: 'Detalle de solicitud*',
+                          icon: null,
+                          minLines: 6,
+                          maxLines: 6,
+                          height: null,
+                          paddingTop: 20,
+                          paddingLeft: 20,
+                        ),
+                        SizedBox(
+                          height: mq.height * 0.02,
+                        ),
+                        CustomButton(
+                          mq: mq,
+                          function: mesasNacionalesService.isLoading
+                              ? null
+                              : () async {
+                                  FocusScope.of(context).unfocus();
+
+                                  if (tareaController.text == '' ||
+                                      detalleSolicitudController.text == '') {
+                                    CustomShowDialog.alert(
+                                        context: context,
+                                        title: 'Error',
+                                        message:
+                                            'Debes de diligenciar los campos obligatorios.');
+                                    return false;
+                                  }
+
+                                  String macSaleFormat = '';
+                                  String macEntraFormat = '';
+                                  String accion1 = 'Infraestructura';
+
+                                  final Map? resp = await mesasNacionalesService
+                                      .postContingencia(
+                                    tarea: tareaController.text,
+                                    observacion:
+                                        detalleSolicitudController.text,
+                                    accion: accion1,
+                                    macEntra: macEntraFormat,
+                                    macSale: macSaleFormat,
+                                  );
+
+                                  if (resp!['type'] == 'error') {
+                                    CustomShowDialog.alert(
+                                        context: context,
+                                        title: 'Error',
+                                        message: resp['message']);
+                                    return false;
+                                  } else {
+                                    CustomShowDialog.alert(
+                                        context: context,
+                                        title: 'Excelente',
+                                        message: resp['message']);
+
+                                    await Future.delayed(
+                                        const Duration(milliseconds: 500));
+
+                                    uiProvider.selectedMenuOpt = 99;
+                                    uiProvider.selectedMenuName =
+                                        'Operaciones Nacionales';
+
+                                    await Future.delayed(
+                                        const Duration(seconds: 1));
+
+                                    uiProvider.selectedMenuOpt = 20;
+                                    uiProvider.selectedMenuName =
+                                        'Operaciones Nacionales';
                                   }
                                 },
                           color: mesasNacionalesService.isLoading

@@ -10,6 +10,11 @@ class AuthService extends ChangeNotifier {
   final String _baseUrl = baseUrl;
 
   final storage = const FlutterSecureStorage();
+  bool isLoading = false;
+
+/*   AuthService() {
+    getEncuesta();
+  } */
 
   Future<Map?> login(
       {required String usuario, required String password}) async {
@@ -23,7 +28,6 @@ class AuthService extends ChangeNotifier {
       };
 
       final url = Uri.https(_baseUrl, '/autogestionterreno-dev/ingresar');
-      print(url);
 
       final resp = await http.post(url,
           headers: {
@@ -39,17 +43,19 @@ class AuthService extends ChangeNotifier {
         await storage.write(
             key: 'nombre', value: decodeResp['message']['nombre']);
         await storage.write(
+            key: 'alert', value: decodeResp['message']['alert']);
+        await storage.write(
             key: 'login_click', value: decodeResp['message']['login_click']);
         await storage.write(
             key: 'identificacion',
             value: decodeResp['message']['identificacion']);
         await storage.write(key: 'token', value: decodeResp['token']);
-        //await storage.write(key: 'menu', value: json.encode(menu) );
         await storage.write(
             key: 'menu', value: json.encode(decodeResp['message']['menu']));
 
         decodeResp['type'] = 'success';
         decodeResp['msg'] = 'OK';
+
         return decodeResp;
       }
     } catch (e) {
@@ -65,6 +71,7 @@ class AuthService extends ChangeNotifier {
     await storage.delete(key: 'identificacion');
     await storage.delete(key: 'token');
     await storage.delete(key: 'menu');
+    await storage.delete(key: 'alert');
 
     return 'OK';
   }
@@ -83,17 +90,58 @@ class AuthService extends ChangeNotifier {
 
   Future getMenuApp() async {
     try {
+      final String? token = await storage.read(key: 'token');
       final url = Uri.https(_baseUrl, '/autogestionterreno-dev/validarmenu');
-      final resp = await http.get(url, headers: {
-        'Content-Type': 'application/json',
-      });
+      final resp = await http.get(url,
+          headers: {'Content-Type': 'application/json', 'x-token': token!});
 
       final Map<String, dynamic> decodeResp = json.decode(resp.body);
       await storage.write(
           key: 'menu', value: json.encode(decodeResp['message']));
+
       notifyListeners();
     } catch (e) {
       NotificactionService.showSnackBar(e.toString());
     }
+  }
+
+  Future<Map<String, dynamic>?> validaEncuesta() async {
+    try {
+      final String? token = await storage.read(key: 'token');
+
+      final url = Uri.https(_baseUrl, '/autogestionterreno-dev/validaEncuesta');
+
+      final resp = await http.post(url,
+          headers: {'Content-Type': 'application/json', 'x-token': token!});
+
+      final Map<String, dynamic> decodeResp = json.decode(resp.body);
+
+      await storage.delete(key: 'alert');
+      await storage.write(key: 'alert', value: decodeResp['alert']);
+
+      print('valida 1 ${decodeResp['alert']}');
+    } catch (e) {
+      NotificactionService.showSnackBar(e.toString());
+    }
+    return null;
+  }
+
+  Future getEncuesta() async {
+    try {
+      final String? token = await storage.read(key: 'token');
+
+      final url = Uri.https(_baseUrl, '/autogestionterreno-dev/getEncuesta');
+
+      final resp = await http.get(url,
+          headers: {'Content-Type': 'application/json', 'x-token': token!});
+
+      final Map<String, dynamic> decodeResp = json.decode(resp.body);
+
+      await storage.delete(key: 'alert');
+      await storage.write(key: 'alert', value: decodeResp['alert']);
+    } catch (e) {
+      NotificactionService.showSnackBar(e.toString());
+    }
+    return null;
   }
 }

@@ -88,7 +88,7 @@ class MesasNacionalesService extends ChangeNotifier {
     accion1 = [
       {'name': 'Acción*', 'value': '', 'state': true},
       {'name': 'Línea básica', 'value': 'Línea básica', 'state': true},
-      {'name': 'Cambio de equipo', 'value': 'Cambio de equipo', 'state': true},
+      {'name': 'Cambio de puerto', 'value': 'Cambio de puerto', 'state': true},
       {'name': 'Soporte general', 'value': 'Soporte general', 'state': true}
     ];
     return accion1;

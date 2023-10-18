@@ -311,7 +311,7 @@ class _SoporteEtpPageState extends State<SoporteEtpPage> {
                       CustomTag(
                         mq: mq,
                         controller: macSaleController,
-                        hintText: 'MAC Sale...',
+                        hintText: 'MAC Sale...*',
                         colorTag: blueColor,
                       ),
 
@@ -519,8 +519,6 @@ class _SoporteEtpPageState extends State<SoporteEtpPage> {
                         hintText: 'MAC Sale...',
                         colorTag: blueColor,
                       ),
-
-                    // No necesitas hacer una asignación aquí, simplemente omítela.
 
                     if (tipoAccion == 'Cambio equipo' ||
                         tipoAccion == 'Cambio domicilio')

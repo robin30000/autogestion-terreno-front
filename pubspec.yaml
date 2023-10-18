@@ -44,7 +44,9 @@ dependencies:
   qr_code_scanner: ^1.0.1
   qr_mobile_vision: ^4.1.0
   textfield_tags: ^2.0.1
+  url_launcher: ^6.1.14
   youtube_player_flutter: ^8.1.2
+
 
 dev_dependencies:
   flutter_launcher_icons: ^0.13.1
