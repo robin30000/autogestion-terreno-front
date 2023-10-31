@@ -25,7 +25,7 @@ class ContingenciaService extends ChangeNotifier {
     try {
       contingencias = [];
 
-      isLoading = true;
+      //isLoading = true;
       notifyListeners();
 
       final String? token = await storage.read(key: 'token');
@@ -65,7 +65,7 @@ class ContingenciaService extends ChangeNotifier {
       required String macentra,
       required String macsale}) async {
     try {
-      isLoading = true;
+      //isLoading = true;
       notifyListeners();
 
       final String? token = await storage.read(key: 'token');
