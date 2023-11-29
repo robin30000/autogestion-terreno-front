@@ -85,7 +85,7 @@ class _ContingenciaPageState extends State<ContingenciaPage> {
                     // Pedido
                     CustomField(
                       controller: pedidoController,
-                      hintText: 'Pedido*',
+                      hintText: 'Tarea*',
                       icon: Icons.document_scanner_outlined,
                       width: 50.0,
                     ),

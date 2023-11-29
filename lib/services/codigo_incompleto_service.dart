@@ -9,27 +9,42 @@ import 'package:http/http.dart' as http;
 class CodigoIncompletoService extends ChangeNotifier {
   final String _baseUrl = baseUrl;
   final storage = const FlutterSecureStorage();
-
+  List<Map<String, dynamic>> tipoCodigo = [];
   bool isLoading = false;
 
-  Future<List?> getCodigoIncompleto({
-    required String tarea,
-  }) async {
+  Future<List?> getCodigoIncompleto(
+      {required String tarea, required String tipoCodigo}) async {
     try {
       isLoading = true;
       notifyListeners();
 
       final String? token = await storage.read(key: 'token');
 
-      final url =
-          Uri.https(_baseUrl, '/autogestionterreno-dev/getcodigoincompleto', {
-        'tarea': tarea,
-      });
+      final Map<String, dynamic> codigoData = {
+        "codigo": tarea,
+        "tipo": tipoCodigo,
+      };
 
-      final resp = await http.get(url,
-          headers: {'Content-Type': 'application/json', 'x-token': token!});
+      final url =
+          Uri.https(_baseUrl, '/autogestionterreno/getcodigoincompleto');
+
+      final resp = await http.post(url,
+          headers: {'Content-Type': 'application/json', 'x-token': token!},
+          body: json.encode(codigoData));
 
       final Map<String, dynamic> decodeResp = json.decode(resp.body);
+
+      //final Map<String, dynamic> decodeResp = json.decode(resp.body);
+
+      // final url =
+      //     Uri.https(_baseUrl, '/autogestionterreno/getcodigoincompleto', {
+      //   'tarea': tarea,
+      // });
+
+      // final resp = await http.post(url,
+      //     headers: {'Content-Type': 'application/json', 'x-token': token!});
+
+      // final Map<String, dynamic> decodeResp = json.decode(resp.body);
 
       if (decodeResp['type'] == 'errorAuth') {
         List<Map<String, String>> resp = [
@@ -51,5 +66,14 @@ class CodigoIncompletoService extends ChangeNotifier {
       NotificactionService.showSnackBar(e.toString());
     }
     return null;
+  }
+
+  Future<List<Map<String, dynamic>>> getTipoCodigo() async {
+    tipoCodigo = [
+      {'name': 'Tipo de código*', 'value': '', 'state': true},
+      {'name': 'Código completo', 'value': 'completo', 'state': true},
+      {'name': 'Codigo incompleto', 'value': 'incompleto', 'state': true},
+    ];
+    return tipoCodigo;
   }
 }

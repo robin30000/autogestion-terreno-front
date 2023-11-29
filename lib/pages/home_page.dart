@@ -39,7 +39,6 @@ class _HomePageState extends State<HomePage> {
               child: CircularProgressIndicator(),
             );
           }
-          print("ACA ${snapshot.data['alert']}");
 
           //print(snapshot.data['alert']);
 

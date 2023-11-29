@@ -31,8 +31,7 @@ class MesasNacionalesService extends ChangeNotifier {
 
       final String? token = await storage.read(key: 'token');
 
-      final url =
-          Uri.https(_baseUrl, '/autogestionterreno-dev/getsoporteMnbyuser');
+      final url = Uri.https(_baseUrl, '/autogestionterreno/getsoporteMnbyuser');
 
       final resp = await http.get(url,
           headers: {'Content-Type': 'application/json', 'x-token': token!});
@@ -69,8 +68,8 @@ class MesasNacionalesService extends ChangeNotifier {
 
       final String? token = await storage.read(key: 'token');
 
-      final url = Uri.https(_baseUrl, '/autogestionterreno-dev/validaPedidoMn',
-          {'tarea': pedido});
+      final url = Uri.https(
+          _baseUrl, '/autogestionterreno/validaPedidoMn', {'tarea': pedido});
 
       final resp = await http.get(url,
           headers: {'Content-Type': 'application/json', 'x-token': token!});
@@ -138,7 +137,7 @@ class MesasNacionalesService extends ChangeNotifier {
         "macEntra": macEntra,
       };
 
-      final url = Uri.https(_baseUrl, '/autogestionterreno-dev/postPedidoMn');
+      final url = Uri.https(_baseUrl, '/autogestionterreno/postPedidoMn');
 
       final resp = await http.post(url,
           headers: {'Content-Type': 'application/json', 'x-token': token!},

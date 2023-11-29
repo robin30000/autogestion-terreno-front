@@ -63,7 +63,7 @@ class _ConsultaGponPageState extends State<ConsultaGponPage> {
                         Container(
                           alignment: Alignment.center,
                           child: Text(
-                            'Consulta Tarea',
+                            'Consulta Contingencia',
                             style: TextStyle(
                               color: blueColor,
                               fontWeight: FontWeight.w500,
@@ -149,107 +149,7 @@ class _ConsultaGponPageState extends State<ConsultaGponPage> {
                                   child: Text(gponRes),
                                 )
                         else
-
-                          // SingleChildScrollView(
-                          //   child: ListView.separated(
-                          //     shrinkWrap: true, // Esto es importante
-                          //     itemCount: data.length,
-                          //     separatorBuilder:
-                          //         (BuildContext context, int index) {
-                          //       return SizedBox(
-                          //         height: mq.height * 0.03,
-                          //       );
-                          //     },
-                          //     itemBuilder: (BuildContext context, int index) {
-                          //       return Container(
-                          //         width: mq.width,
-                          //         padding: EdgeInsets.only(
-                          //           left: mq.width * 0.03,
-                          //           right: mq.width * 0.03,
-                          //           top: mq.width * 0.03,
-                          //           bottom: mq.width * 0.03,
-                          //         ),
-                          //         margin: EdgeInsets.symmetric(
-                          //             horizontal: mq.width * 0.01),
-                          //         decoration: BoxDecoration(
-                          //           color: whiteColor,
-                          //           boxShadow: const [
-                          //             BoxShadow(
-                          //               color: Colors.black26,
-                          //               blurRadius: 15,
-                          //               offset: Offset(3, 2),
-                          //               spreadRadius: -5,
-                          //             ),
-                          //           ],
-                          //           borderRadius: BorderRadius.circular(20.0),
-                          //         ),
-                          //         child: Column(
-                          //           crossAxisAlignment: CrossAxisAlignment.start,
-                          //           mainAxisAlignment: MainAxisAlignment.center,
-                          //           children: [
-                          //             const FittedBox(
-                          //               child: Text(
-                          //                 'Modulo:',
-                          //                 style: TextStyle(
-                          //                   fontWeight: FontWeight.bold,
-                          //                 ),
-                          //               ),
-                          //             ),
-                          //             FittedBox(
-                          //               child: Text(data[index].modulo,
-                          //                   style: TextStyle(
-                          //                       color: Colors.grey[600],
-                          //                       fontSize: 12)),
-                          //             ),
-                          //             const FittedBox(
-                          //                 child: Text('Hora Ingreso:',
-                          //                     style: TextStyle(
-                          //                       fontWeight: FontWeight.bold,
-                          //                     ))),
-                          //             FittedBox(
-                          //                 child: Text(data[index].fecha_ingreso,
-                          //                     style: TextStyle(
-                          //                         color: Colors.grey[600],
-                          //                         fontSize: 12))),
-                          //             const FittedBox(
-                          //                 child: Text('Hora Gestion:',
-                          //                     style: TextStyle(
-                          //                       fontWeight: FontWeight.bold,
-                          //                     ))),
-                          //             FittedBox(
-                          //                 child: Text(data[index].fecha_fin,
-                          //                     style: TextStyle(
-                          //                         color: Colors.grey[600],
-                          //                         fontSize: 12))),
-                          //             const FittedBox(
-                          //                 child: Text('Estado',
-                          //                     style: TextStyle(
-                          //                       fontWeight: FontWeight.bold,
-                          //                     ))),
-                          //             FittedBox(
-                          //                 child: Text(data[index].gestion,
-                          //                     style: TextStyle(
-                          //                         color: Colors.grey[600],
-                          //                         fontSize: 12))),
-                          //             const FittedBox(
-                          //                 child: Text('Observacion:',
-                          //                     style: TextStyle(
-                          //                       fontWeight: FontWeight.bold,
-                          //                     ))),
-                          //             Text(
-                          //               data[index].observacion,
-                          //               style: const TextStyle(fontSize: 12),
-                          //             ),
-                          //             Container(height: 2),
-                          //             const Divider(
-                          //                 thickness: 2, color: Colors.black),
-                          //             Container(height: 2),
-                          //           ],
-                          //         ),
-                          //       );
-                          //     },
-                          //   ),
-                          // )
+                          //99995290580
                           SizedBox(
                             //width: mq.width * 0.90,
                             height: mq.height * 300,
@@ -288,9 +188,6 @@ class _ConsultaGponPageState extends State<ConsultaGponPage> {
                                   child: Column(children: [
                                     for (int i = 0; i < data.length; i++)
                                       Container(
-                                        //width: mq.width * 0.90,
-                                        // padding: EdgeInsets.only(
-                                        //     left: mq.width * 0.03),
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -298,13 +195,13 @@ class _ConsultaGponPageState extends State<ConsultaGponPage> {
                                               MainAxisAlignment.center,
                                           children: [
                                             const FittedBox(
-                                                child: Text('Modulo:',
+                                                child: Text('Tarea:',
                                                     style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
                                                     ))),
                                             FittedBox(
-                                                child: Text(data[i].modulo,
+                                                child: Text(data[i].pedido,
                                                     style: TextStyle(
                                                         color: Colors.grey[600],
                                                         fontSize: 12))),
@@ -315,8 +212,7 @@ class _ConsultaGponPageState extends State<ConsultaGponPage> {
                                                           FontWeight.bold,
                                                     ))),
                                             FittedBox(
-                                                child: Text(
-                                                    data[i].fecha_ingreso,
+                                                child: Text(data[i].horagestion,
                                                     style: TextStyle(
                                                         color: Colors.grey[600],
                                                         fontSize: 12))),
@@ -327,7 +223,8 @@ class _ConsultaGponPageState extends State<ConsultaGponPage> {
                                                           FontWeight.bold,
                                                     ))),
                                             FittedBox(
-                                                child: Text(data[i].fecha_fin,
+                                                child: Text(
+                                                    data[i].horacontingencia,
                                                     style: TextStyle(
                                                         color: Colors.grey[600],
                                                         fontSize: 12))),
@@ -338,7 +235,7 @@ class _ConsultaGponPageState extends State<ConsultaGponPage> {
                                                           FontWeight.bold,
                                                     ))),
                                             FittedBox(
-                                                child: Text(data[i].gestion,
+                                                child: Text(data[i].finalizado,
                                                     style: TextStyle(
                                                         color: Colors.grey[600],
                                                         fontSize: 12))),

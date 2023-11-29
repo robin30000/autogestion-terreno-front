@@ -19,7 +19,7 @@ class _CodigoIncompletoPageState extends State<CodigoIncompletoPage> {
   TextEditingController tareaController = TextEditingController();
 
   String codIncRes = '';
-
+  String tipoCodigo = '';
   @override
   void dispose() {
     tareaController.dispose();
@@ -58,7 +58,7 @@ class _CodigoIncompletoPageState extends State<CodigoIncompletoPage> {
                         Container(
                           alignment: Alignment.center,
                           child: Text(
-                            'Solicitud código incompleto',
+                            'Solicitud códigos',
                             style: TextStyle(
                               color: blueColor,
                               fontWeight: FontWeight.w500,
@@ -72,6 +72,41 @@ class _CodigoIncompletoPageState extends State<CodigoIncompletoPage> {
                           blueColor,
                           whiteColor,
                         ]),
+                        FutureBuilder(
+                          future: codigoIncompletoService.getTipoCodigo(),
+                          builder:
+                              (BuildContext context, AsyncSnapshot snapshot) {
+                            if (!snapshot.hasData) {
+                              return Column(
+                                children: [
+                                  Container(
+                                      width: double.infinity,
+                                      alignment: Alignment.center,
+                                      child: const CircularProgressIndicator()),
+                                ],
+                              );
+                            }
+
+                            return CustomDropdown(
+                                mq: mq,
+                                options: snapshot.data,
+                                value: tipoCodigo,
+                                function: (value) async {
+                                  tipoCodigo = value!;
+                                  uiProvider.notifyListeners();
+                                },
+                                functionOnTap: () {
+                                  tipoCodigo = '';
+
+                                  uiProvider.notifyListeners();
+                                },
+                                hintText: 'Tipo código*',
+                                icon: Icons.devices_outlined);
+                          },
+                        ),
+                        SizedBox(
+                          height: mq.height * 0.02,
+                        ),
                         CustomField(
                             controller: tareaController,
                             hintText: 'Tarea*',
@@ -90,7 +125,8 @@ class _CodigoIncompletoPageState extends State<CodigoIncompletoPage> {
                                       context,
                                       listen: false);
 
-                                  if (tareaController.text == '') {
+                                  if (tareaController.text == '' ||
+                                      tipoCodigo == '') {
                                     CustomShowDialog.alert(
                                         context: context,
                                         title: 'Error',
@@ -101,7 +137,8 @@ class _CodigoIncompletoPageState extends State<CodigoIncompletoPage> {
 
                                   final resp = await codigoIncompletoService
                                       .getCodigoIncompleto(
-                                          tarea: tareaController.text);
+                                          tarea: tareaController.text,
+                                          tipoCodigo: tipoCodigo);
 
                                   if (resp![0]['type'] == 'errorAuth') {
                                     final String respauth =
@@ -137,9 +174,12 @@ class _CodigoIncompletoPageState extends State<CodigoIncompletoPage> {
                               : 'Obtener código',
                           height: 0.05,
                         ),
+                        SizedBox(
+                          height: mq.height * 0.02,
+                        ),
                         codIncRes == ''
                             ? Container()
-                            : const Text('Su código de incompleto es:'),
+                            : const Text('Su código es:'),
                         Text(
                           codIncRes,
                           style: TextStyle(
@@ -149,6 +189,19 @@ class _CodigoIncompletoPageState extends State<CodigoIncompletoPage> {
                       ]),
                 ),
               ))),
+      floatingActionButton: FloatingActionButton.small(
+        //tareaController.text = '';
+        onPressed: () {
+          setState(() {
+            tareaController.text = '';
+            tipoCodigo = '';
+            codIncRes = '';
+          });
+        },
+
+        backgroundColor: const Color.fromARGB(255, 0, 51, 94),
+        child: const Icon(Icons.restore_from_trash_rounded),
+      ),
     );
   }
 }

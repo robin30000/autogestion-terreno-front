@@ -36,32 +36,31 @@ class NewReponseConsultaGpon {
 
 class GPON {
   GPON(
-      {required this.modulo,
-      //required this.pedido,
-      required this.fecha_ingreso,
-      required this.fecha_fin,
-      required this.gestion,
+      {required this.pedido,
+      required this.horagestion,
+      required this.horacontingencia,
+      required this.finalizado,
       required this.observacion});
 
-  String modulo;
-  String fecha_ingreso;
-  String fecha_fin;
-  String gestion;
+  String pedido;
+  String horagestion;
+  String horacontingencia;
+  String finalizado;
   String observacion;
 
   factory GPON.fromJson(Map<String, dynamic> json) => GPON(
-        modulo: json["modulo"],
-        fecha_ingreso: json["fecha_ingreso"],
-        fecha_fin: json["fecha_fin"],
-        gestion: json["gestion"],
+        pedido: json["tarea"],
+        horagestion: json["horagestion"],
+        horacontingencia: json["horacontingencia"],
+        finalizado: json["finalizado"],
         observacion: json["observacion"],
       );
 
   Map<String, dynamic> toJson() => {
-        "modulo": modulo,
-        "fecha_ingreso": fecha_ingreso,
-        "fecha_fin": fecha_fin,
-        "gestion": gestion,
+        "pedido": pedido,
+        "horagestion": horagestion,
+        "horacontingencia": horacontingencia,
+        "finalizado": finalizado,
         "observacion": observacion
       };
 }
