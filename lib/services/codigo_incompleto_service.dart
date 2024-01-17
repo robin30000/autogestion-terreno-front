@@ -10,10 +10,13 @@ class CodigoIncompletoService extends ChangeNotifier {
   final String _baseUrl = baseUrl;
   final storage = const FlutterSecureStorage();
   List<Map<String, dynamic>> tipoCodigo = [];
+  List<Map<String, dynamic>> catCodigo = [];
   bool isLoading = false;
 
   Future<List?> getCodigoIncompleto(
-      {required String tarea, required String tipoCodigo}) async {
+      {required String tarea,
+      required String tipoCodigo,
+      required String catCodigo}) async {
     try {
       isLoading = true;
       notifyListeners();
@@ -23,6 +26,7 @@ class CodigoIncompletoService extends ChangeNotifier {
       final Map<String, dynamic> codigoData = {
         "codigo": tarea,
         "tipo": tipoCodigo,
+        "categoria": catCodigo
       };
 
       final url =
@@ -68,11 +72,20 @@ class CodigoIncompletoService extends ChangeNotifier {
     return null;
   }
 
+  Future<List<Map<String, dynamic>>> getCategoriaCodigo() async {
+    catCodigo = [
+      {'name': 'Tipo código*', 'value': '', 'state': true},
+      {'name': 'Salesforce', 'value': 'Salesforce', 'state': true},
+      {'name': 'Incompleto click', 'value': 'click', 'state': true},
+    ];
+    return catCodigo;
+  }
+
   Future<List<Map<String, dynamic>>> getTipoCodigo() async {
     tipoCodigo = [
-      {'name': 'Tipo de código*', 'value': '', 'state': true},
-      {'name': 'Código completo', 'value': 'completo', 'state': true},
-      {'name': 'Codigo incompleto', 'value': 'incompleto', 'state': true},
+      {'name': 'Seleccione código*', 'value': '', 'state': true},
+      {'name': 'Completo', 'value': 'completo', 'state': true},
+      {'name': 'Incompleto', 'value': 'incompleto', 'state': true},
     ];
     return tipoCodigo;
   }

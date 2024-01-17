@@ -20,6 +20,7 @@ class _CodigoIncompletoPageState extends State<CodigoIncompletoPage> {
 
   String codIncRes = '';
   String tipoCodigo = '';
+  String catCodigo = '';
   @override
   void dispose() {
     tareaController.dispose();
@@ -73,7 +74,7 @@ class _CodigoIncompletoPageState extends State<CodigoIncompletoPage> {
                           whiteColor,
                         ]),
                         FutureBuilder(
-                          future: codigoIncompletoService.getTipoCodigo(),
+                          future: codigoIncompletoService.getCategoriaCodigo(),
                           builder:
                               (BuildContext context, AsyncSnapshot snapshot) {
                             if (!snapshot.hasData) {
@@ -90,13 +91,13 @@ class _CodigoIncompletoPageState extends State<CodigoIncompletoPage> {
                             return CustomDropdown(
                                 mq: mq,
                                 options: snapshot.data,
-                                value: tipoCodigo,
+                                value: catCodigo,
                                 function: (value) async {
-                                  tipoCodigo = value!;
+                                  catCodigo = value!;
                                   uiProvider.notifyListeners();
                                 },
                                 functionOnTap: () {
-                                  tipoCodigo = '';
+                                  catCodigo = '';
 
                                   uiProvider.notifyListeners();
                                 },
@@ -104,6 +105,44 @@ class _CodigoIncompletoPageState extends State<CodigoIncompletoPage> {
                                 icon: Icons.devices_outlined);
                           },
                         ),
+                        if (catCodigo == 'Salesforce')
+                          SizedBox(
+                            height: mq.height * 0.02,
+                          ),
+                        if (catCodigo == 'Salesforce')
+                          FutureBuilder(
+                            future: codigoIncompletoService.getTipoCodigo(),
+                            builder:
+                                (BuildContext context, AsyncSnapshot snapshot) {
+                              if (!snapshot.hasData) {
+                                return Column(
+                                  children: [
+                                    Container(
+                                        width: double.infinity,
+                                        alignment: Alignment.center,
+                                        child:
+                                            const CircularProgressIndicator()),
+                                  ],
+                                );
+                              }
+
+                              return CustomDropdown(
+                                  mq: mq,
+                                  options: snapshot.data,
+                                  value: tipoCodigo,
+                                  function: (value) async {
+                                    tipoCodigo = value!;
+                                    uiProvider.notifyListeners();
+                                  },
+                                  functionOnTap: () {
+                                    tipoCodigo = '';
+
+                                    uiProvider.notifyListeners();
+                                  },
+                                  hintText: 'Tipo código*',
+                                  icon: Icons.devices_fold);
+                            },
+                          ),
                         SizedBox(
                           height: mq.height * 0.02,
                         ),
@@ -138,7 +177,8 @@ class _CodigoIncompletoPageState extends State<CodigoIncompletoPage> {
                                   final resp = await codigoIncompletoService
                                       .getCodigoIncompleto(
                                           tarea: tareaController.text,
-                                          tipoCodigo: tipoCodigo);
+                                          tipoCodigo: tipoCodigo,
+                                          catCodigo: catCodigo);
 
                                   if (resp![0]['type'] == 'errorAuth') {
                                     final String respauth =
