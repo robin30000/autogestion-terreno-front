@@ -164,6 +164,10 @@ class _CodigoIncompletoPageState extends State<CodigoIncompletoPage> {
                                       context,
                                       listen: false);
 
+                                  if (catCodigo == 'click') {
+                                    tipoCodigo = '0';
+                                  }
+
                                   if (tareaController.text == '' ||
                                       tipoCodigo == '') {
                                     CustomShowDialog.alert(
