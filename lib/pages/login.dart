@@ -18,6 +18,9 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController loginController = TextEditingController();
+  TextEditingController cedulaController = TextEditingController();
+  TextEditingController celularController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -85,59 +88,238 @@ class _LoginPageState extends State<LoginPage> {
                         SizedBox(
                           height: mq.height * 0.03,
                         ),
-                        CustomButton(
-                            mq: mq,
-                            color: blueColor,
-                            colorText: whiteColor,
-                            function: () async {
-                              FocusScope.of(context).unfocus();
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            CustomButton(
+                              mq: mq * 0.7,
+                              color: blueColor,
+                              colorText: whiteColor,
+                              function: () async {
+                                FocusScope.of(context).unfocus();
 
-                              final authService = Provider.of<AuthService>(
+                                final authService = Provider.of<AuthService>(
                                   context,
-                                  listen: false);
+                                  listen: false,
+                                );
 
-                              if (usernameController.text == '' ||
-                                  passwordController.text == '') {
-                                CustomShowDialog.alert(
+                                if (usernameController.text == '' ||
+                                    passwordController.text == '') {
+                                  CustomShowDialog.alert(
                                     context: context,
                                     title: 'Error',
                                     message:
-                                        'Debes de diligenciar los campos obligatorios.');
-                                return false;
-                              }
+                                        'Debes diligenciar los campos obligatorios.',
+                                  );
+                                  return false;
+                                }
 
-                              final Map? resp = await authService.login(
+                                final Map? resp = await authService.login(
                                   usuario: usernameController.text,
-                                  password: passwordController.text);
+                                  password: passwordController.text,
+                                );
 
-                              if (resp!['type'] == 'error') {
-                                CustomShowDialog.alert(
+                                if (resp!['type'] == 'error') {
+                                  CustomShowDialog.alert(
                                     context: context,
                                     title: 'Error',
-                                    message: resp['message']);
-                                return false;
-                              } else {
-                                Navigator.pushReplacementNamed(context, 'home');
-                              }
-                            },
-                            text: 'Ingresar'),
-                        (uiProvider.connectionStatusProvider ==
-                                ConnectivityResult.wifi)
-                            ? Icon(
-                                Icons.wifi,
-                                color: uiProvider.isDeviceConnectedProvider
-                                    ? greenColor
-                                    : redColor,
-                              )
-                            : (uiProvider.connectionStatusProvider ==
-                                    ConnectivityResult.mobile)
-                                ? Icon(
-                                    Icons.cell_tower,
-                                    color: uiProvider.isDeviceConnectedProvider
-                                        ? greenColor
-                                        : redColor,
-                                  )
-                                : const Icon(Icons.public_off)
+                                    message: resp['message'],
+                                  );
+                                  return false;
+                                } else {
+                                  Navigator.pushReplacementNamed(
+                                      context, 'home');
+                                }
+                              },
+                              text: 'Ingresar',
+                            ),
+                            Column(
+                              children: [
+                                CustomButton(
+                                  mq: mq * 0.7,
+                                  color: blueColor,
+                                  colorText: whiteColor,
+                                  function: () async {
+                                    FocusScope.of(context).unfocus();
+
+                                    final authService =
+                                        Provider.of<AuthService>(
+                                      context,
+                                      listen: false,
+                                    );
+
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text('Recuperar Contraseña'),
+                                          content: SingleChildScrollView(
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                CustomField(
+                                                    controller: loginController,
+                                                    hintText: 'Login usuario',
+                                                    icon: Icons
+                                                        .account_circle_rounded),
+                                                SizedBox(
+                                                  height: mq.height * 0.03,
+                                                ),
+                                                CustomField(
+                                                    controller:
+                                                        cedulaController,
+                                                    hintText: 'Cédula usuario',
+                                                    icon: Icons.assignment),
+                                                SizedBox(
+                                                  height: mq.height * 0.03,
+                                                ),
+                                                CustomField(
+                                                    controller:
+                                                        celularController,
+                                                    hintText: 'Celular',
+                                                    icon: Icons.device_unknown),
+                                                SizedBox(
+                                                  height: mq.height * 0.03,
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              onPressed: () async {
+                                                FocusScope.of(context)
+                                                    .unfocus();
+
+                                                final authService =
+                                                    Provider.of<AuthService>(
+                                                  context,
+                                                  listen: false,
+                                                );
+
+                                                if (loginController.text ==
+                                                        '' ||
+                                                    cedulaController.text ==
+                                                        '' ||
+                                                    celularController.text ==
+                                                        '') {
+                                                  CustomShowDialog.alert(
+                                                    context: context,
+                                                    title: 'Error',
+                                                    message:
+                                                        'Debes diligenciar los campos obligatorios.',
+                                                  );
+                                                  return;
+                                                }
+
+                                                final Map? resp =
+                                                    await authService
+                                                        .recoverPass(
+                                                  login: loginController.text,
+                                                  cedula: cedulaController.text,
+                                                  celular:
+                                                      celularController.text,
+                                                );
+
+                                                if (resp != null) {
+                                                  if (resp['type'] == 'error') {
+                                                    CustomShowDialog.alert(
+                                                      context: context,
+                                                      title: 'Error',
+                                                      message: resp['message'],
+                                                    );
+                                                  } else {
+                                                    CustomShowDialog.alert(
+                                                      context: context,
+                                                      title: 'Bien',
+                                                      message: resp['message'],
+                                                    );
+                                                  }
+                                                } else {
+                                                  CustomShowDialog.alert(
+                                                    context: context,
+                                                    title: 'Error',
+                                                    message:
+                                                        'Hubo un problema al recuperar la contraseña. Inténtalo nuevamente.',
+                                                  );
+                                                }
+                                              },
+                                              child:
+                                                  Text('Recuperar Contraseña'),
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                loginController.text = '';
+                                                cedulaController.text = '';
+                                                celularController.text = '';
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Text('Cerrar'),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
+                                  text: 'Olvido su contraseña?',
+                                ),
+                              ],
+                            ),
+                          ],
+                        )
+
+                        // CustomButton(
+                        //     mq: mq,
+                        //     color: blueColor,
+                        //     colorText: whiteColor,
+                        //     function: () async {
+                        //       FocusScope.of(context).unfocus();
+
+                        //       final authService = Provider.of<AuthService>(
+                        //           context,
+                        //           listen: false);
+
+                        //       if (usernameController.text == '' ||
+                        //           passwordController.text == '') {
+                        //         CustomShowDialog.alert(
+                        //             context: context,
+                        //             title: 'Error',
+                        //             message:
+                        //                 'Debes de diligenciar los campos obligatorios.');
+                        //         return false;
+                        //       }
+
+                        //       final Map? resp = await authService.login(
+                        //           usuario: usernameController.text,
+                        //           password: passwordController.text);
+
+                        //       if (resp!['type'] == 'error') {
+                        //         CustomShowDialog.alert(
+                        //             context: context,
+                        //             title: 'Error',
+                        //             message: resp['message']);
+                        //         return false;
+                        //       } else {
+                        //         Navigator.pushReplacementNamed(context, 'home');
+                        //       }
+                        //     },
+                        //     text: 'Ingresar'),
+                        // (uiProvider.connectionStatusProvider ==
+                        //         ConnectivityResult.wifi)
+                        //     ? Icon(
+                        //         Icons.wifi,
+                        //         color: uiProvider.isDeviceConnectedProvider
+                        //             ? greenColor
+                        //             : redColor,
+                        //       )
+                        //     : (uiProvider.connectionStatusProvider ==
+                        //             ConnectivityResult.mobile)
+                        //         ? Icon(
+                        //             Icons.cell_tower,
+                        //             color: uiProvider.isDeviceConnectedProvider
+                        //                 ? greenColor
+                        //                 : redColor,
+                        //           )
+                        //         : const Icon(Icons.public_off)
                       ],
                     ),
                   ),
