@@ -30,7 +30,7 @@ class CodigoIncompletoService extends ChangeNotifier {
       };
 
       final url =
-          Uri.https(_baseUrl, '/autogestionterreno/getcodigoincompleto');
+          Uri.https(_baseUrl, '/autogestionterreno-dev/getcodigoincompleto');
 
       final resp = await http.post(url,
           headers: {'Content-Type': 'application/json', 'x-token': token!},
@@ -41,7 +41,7 @@ class CodigoIncompletoService extends ChangeNotifier {
       //final Map<String, dynamic> decodeResp = json.decode(resp.body);
 
       // final url =
-      //     Uri.https(_baseUrl, '/autogestionterreno/getcodigoincompleto', {
+      //     Uri.https(_baseUrl, '/autogestionterreno-dev/getcodigoincompleto', {
       //   'tarea': tarea,
       // });
 
