@@ -57,7 +57,7 @@ class AuthService extends ChangeNotifier {
         return decodeResp;
       }
     } catch (e) {
-      NotificactionService.showSnackBar(e.toString());
+      //NotificactionService.showSnackBar(e.toString());
     }
     return null;
   }
@@ -73,11 +73,35 @@ class AuthService extends ChangeNotifier {
 
       final Map<String, dynamic> decodeResp = json.decode(resp.body);
 
-      print('RRRRRR ${decodeResp}');
+      return decodeResp;
+    } catch (e) {
+      //NotificactionService.showSnackBar(e.toString());
+    }
+    return null;
+  }
+
+  Future<Map?> updatePass(
+      {required String pass,
+      required String confirmPass,
+      required String cedula}) async {
+    try {
+      final Map<String, dynamic> data = {
+        "pass": pass,
+        "confirmPass": confirmPass,
+        "cedula": cedula
+      };
+
+      final url = Uri.https(_baseUrl, '/autogestionterreno-dev/updatePass');
+
+      final resp = await http.post(url,
+          headers: {'Content-Type': 'application/json'},
+          body: json.encode(data));
+
+      final Map<String, dynamic> decodeResp = json.decode(resp.body);
 
       return decodeResp;
     } catch (e) {
-      NotificactionService.showSnackBar(e.toString());
+      print(e);
     }
     return null;
   }
@@ -119,7 +143,7 @@ class AuthService extends ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      NotificactionService.showSnackBar(e.toString());
+      //NotificactionService.showSnackBar(e.toString());
     }
   }
 
@@ -137,7 +161,7 @@ class AuthService extends ChangeNotifier {
       await storage.delete(key: 'alert');
       await storage.write(key: 'alert', value: decodeResp['alert']);
     } catch (e) {
-      print(e);
+      //print(e);
     }
     return null;
   }
@@ -156,7 +180,7 @@ class AuthService extends ChangeNotifier {
       await storage.delete(key: 'alert');
       await storage.write(key: 'alert', value: decodeResp['alert']);
     } catch (e) {
-      NotificactionService.showSnackBar(e.toString());
+      //NotificactionService.showSnackBar(e.toString());
     }
     return null;
   }

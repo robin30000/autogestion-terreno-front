@@ -21,6 +21,8 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController loginController = TextEditingController();
   TextEditingController cedulaController = TextEditingController();
   TextEditingController celularController = TextEditingController();
+  TextEditingController passController = TextEditingController();
+  TextEditingController confirmPassController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -140,26 +142,18 @@ class _LoginPageState extends State<LoginPage> {
                                   color: blueColor,
                                   colorText: whiteColor,
                                   function: () async {
-                                    FocusScope.of(context).unfocus();
-
-                                    final authService =
-                                        Provider.of<AuthService>(
-                                      context,
-                                      listen: false,
-                                    );
-
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
                                         return AlertDialog(
-                                          title: Text('Recuperar Contraseña'),
+                                          title: Text('Recuperar contraseña'),
                                           content: SingleChildScrollView(
                                             child: Column(
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
                                                 CustomField(
                                                     controller: loginController,
-                                                    hintText: 'Login usuario',
+                                                    hintText: 'Login usuario*',
                                                     icon: Icons
                                                         .account_circle_rounded),
                                                 SizedBox(
@@ -168,7 +162,7 @@ class _LoginPageState extends State<LoginPage> {
                                                 CustomField(
                                                     controller:
                                                         cedulaController,
-                                                    hintText: 'Cédula usuario',
+                                                    hintText: 'Cédula usuario*',
                                                     icon: Icons.assignment),
                                                 SizedBox(
                                                   height: mq.height * 0.03,
@@ -176,7 +170,7 @@ class _LoginPageState extends State<LoginPage> {
                                                 CustomField(
                                                     controller:
                                                         celularController,
-                                                    hintText: 'Celular',
+                                                    hintText: 'Celular*',
                                                     icon: Icons.device_unknown),
                                                 SizedBox(
                                                   height: mq.height * 0.03,
@@ -187,9 +181,6 @@ class _LoginPageState extends State<LoginPage> {
                                           actions: <Widget>[
                                             TextButton(
                                               onPressed: () async {
-                                                FocusScope.of(context)
-                                                    .unfocus();
-
                                                 final authService =
                                                     Provider.of<AuthService>(
                                                   context,
@@ -228,10 +219,156 @@ class _LoginPageState extends State<LoginPage> {
                                                       message: resp['message'],
                                                     );
                                                   } else {
-                                                    CustomShowDialog.alert(
+                                                    // CustomShowDialog.alert(
+                                                    //   context: context,
+                                                    //   title: 'Bien',
+                                                    //   message: resp['message'],
+                                                    // );
+                                                    showDialog(
                                                       context: context,
-                                                      title: 'Bien',
-                                                      message: resp['message'],
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return AlertDialog(
+                                                          title: Text(
+                                                              resp['message']),
+                                                          content:
+                                                              SingleChildScrollView(
+                                                            child: Column(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .min,
+                                                              children: [
+                                                                const Text(
+                                                                  'Si desea actualizar su contraseña, diligencie el siguiente formulario:',
+                                                                  style: TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold),
+                                                                ),
+                                                                SizedBox(
+                                                                  height:
+                                                                      mq.height *
+                                                                          0.03,
+                                                                ),
+                                                                CustomField(
+                                                                  controller:
+                                                                      passController,
+                                                                  hintText:
+                                                                      'Nueva contraseña*',
+                                                                  icon: Icons
+                                                                      .password,
+                                                                ),
+                                                                SizedBox(
+                                                                  height:
+                                                                      mq.height *
+                                                                          0.03,
+                                                                ),
+                                                                CustomField(
+                                                                  controller:
+                                                                      confirmPassController,
+                                                                  hintText:
+                                                                      'Confirmar contraseña*',
+                                                                  icon: Icons
+                                                                      .password,
+                                                                ),
+                                                                SizedBox(
+                                                                  height:
+                                                                      mq.height *
+                                                                          0.03,
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          actions: <Widget>[
+                                                            TextButton(
+                                                              onPressed:
+                                                                  () async {
+                                                                final authService =
+                                                                    Provider.of<
+                                                                        AuthService>(
+                                                                  context,
+                                                                  listen: false,
+                                                                );
+
+                                                                if (passController
+                                                                            .text ==
+                                                                        '' ||
+                                                                    confirmPassController
+                                                                            .text ==
+                                                                        '') {
+                                                                  CustomShowDialog.alert(
+                                                                      context:
+                                                                          context,
+                                                                      title:
+                                                                          'Error',
+                                                                      message:
+                                                                          'Debes diligenciar los campos obligatorios.');
+                                                                  return;
+                                                                }
+
+                                                                if (passController
+                                                                        .text !=
+                                                                    confirmPassController
+                                                                        .text) {
+                                                                  CustomShowDialog.alert(
+                                                                      context:
+                                                                          context,
+                                                                      title:
+                                                                          'Error',
+                                                                      message:
+                                                                          'El campo Nueva contraseña y Confirmar contraseña no son iguales');
+                                                                  return;
+                                                                }
+
+                                                                if (passController
+                                                                            .text
+                                                                            .length <
+                                                                        6 ||
+                                                                    !RegExp(r'^(?=.*[a-z])(?=.*[A-Z]).{6,}$')
+                                                                        .hasMatch(
+                                                                            passController.text)) {
+                                                                  CustomShowDialog
+                                                                      .alert(
+                                                                    context:
+                                                                        context,
+                                                                    title:
+                                                                        'Error',
+                                                                    message:
+                                                                        'La nueva contraseña debe tener al menos 6 caracteres y contener al menos una letra mayúscula y una letra minúscula.',
+                                                                  );
+                                                                  return;
+                                                                }
+
+                                                                final Map? resp = await authService.updatePass(
+                                                                    pass: passController
+                                                                        .text,
+                                                                    confirmPass:
+                                                                        confirmPassController
+                                                                            .text,
+                                                                    cedula:
+                                                                        cedulaController
+                                                                            .text);
+
+                                                                if (resp !=
+                                                                    null) {
+                                                                } else {}
+                                                              },
+                                                              child: Text(
+                                                                  'Actualizar Contraseña'),
+                                                            ),
+                                                            TextButton(
+                                                              onPressed: () {
+                                                                // Cerrar el AlertDialog sin realizar ninguna acción
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                              },
+                                                              child: Text(
+                                                                  'Cancelar'),
+                                                            ),
+                                                          ],
+                                                        );
+                                                      },
                                                     );
                                                   }
                                                 } else {
@@ -244,7 +381,7 @@ class _LoginPageState extends State<LoginPage> {
                                                 }
                                               },
                                               child:
-                                                  Text('Recuperar Contraseña'),
+                                                  Text('Recuperar contraseña'),
                                             ),
                                             TextButton(
                                               onPressed: () {
