@@ -9,7 +9,7 @@ import 'package:autogestion_tecnico/services/services.dart';
 import 'package:autogestion_tecnico/widgets/widgets.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -28,8 +28,6 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     final mq = MediaQuery.of(context).size;
 
-    final uiProvider = Provider.of<UiProvider>(context);
-
     return Scaffold(
       body: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
@@ -41,21 +39,26 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                        margin: EdgeInsets.only(left: mq.width * 0.02),
-                        width: mq.width * 0.20,
-                        height: mq.width * 0.20,
-                        decoration: const BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage("assets/img/logo.png")))),
+                      margin: EdgeInsets.only(left: mq.width * 0.02),
+                      width: mq.width * 0.20,
+                      height: mq.width * 0.20,
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage("assets/img/logo.png"),
+                        ),
+                      ),
+                    ),
                     IconButton(
-                        padding: const EdgeInsets.all(2),
-                        onPressed: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content:
-                                      Text('Próximamente en funcionamiento.')));
-                        },
-                        icon: const Icon(Icons.help_rounded))
+                      padding: const EdgeInsets.all(2),
+                      onPressed: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Próximamente en funcionamiento.'),
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.help_rounded),
+                    ),
                   ],
                 ),
                 SizedBox(
@@ -67,16 +70,19 @@ class _LoginPageState extends State<LoginPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                            width: mq.width * 0.50,
-                            height: mq.width * 0.50,
-                            decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                    image: AssetImage(
-                                        "assets/img/img-login.png")))),
+                          width: mq.width * 0.50,
+                          height: mq.width * 0.50,
+                          decoration: const BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage("assets/img/img-login.png"),
+                            ),
+                          ),
+                        ),
                         CustomField(
-                            controller: usernameController,
-                            hintText: 'Nombre de usuario',
-                            icon: Icons.account_circle_rounded),
+                          controller: usernameController,
+                          hintText: 'Nombre de usuario',
+                          icon: Icons.account_circle_rounded,
+                        ),
                         SizedBox(
                           height: mq.height * 0.03,
                         ),
@@ -98,6 +104,9 @@ class _LoginPageState extends State<LoginPage> {
                               color: blueColor,
                               colorText: whiteColor,
                               function: () async {
+                                // Almacenar el BuildContext antes de entrar en la función asíncrona
+                                final BuildContext dialogContext = context;
+
                                 FocusScope.of(context).unfocus();
 
                                 final authService = Provider.of<AuthService>(
@@ -129,8 +138,9 @@ class _LoginPageState extends State<LoginPage> {
                                   );
                                   return false;
                                 } else {
+                                  // Usar el BuildContext almacenado en lugar de context
                                   Navigator.pushReplacementNamed(
-                                      context, 'home');
+                                      dialogContext, 'home');
                                 }
                               },
                               text: 'Ingresar',
@@ -146,35 +156,37 @@ class _LoginPageState extends State<LoginPage> {
                                       context: context,
                                       builder: (BuildContext context) {
                                         return AlertDialog(
-                                          title: Text('Recuperar contraseña'),
+                                          title: const Text(
+                                              'Recuperar contraseña'),
                                           content: SingleChildScrollView(
                                             child: Column(
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
                                                 CustomField(
-                                                    controller: loginController,
-                                                    hintText: 'Login usuario*',
-                                                    icon: Icons
-                                                        .account_circle_rounded),
+                                                  controller: loginController,
+                                                  hintText: 'Login usuario*',
+                                                  icon: Icons
+                                                      .account_circle_rounded,
+                                                ),
                                                 SizedBox(
                                                   height: mq.height * 0.03,
                                                 ),
                                                 CustomField(
-                                                    controller:
-                                                        cedulaController,
-                                                    hintText: 'Cédula usuario*',
-                                                    icon: Icons.assignment),
+                                                  controller: cedulaController,
+                                                  hintText: 'Cédula usuario*',
+                                                  icon: Icons.assignment,
+                                                ),
                                                 SizedBox(
                                                   height: mq.height * 0.03,
                                                 ),
                                                 CustomField(
-                                                    controller:
-                                                        celularController,
-                                                    hintText: 'Celular*',
-                                                    icon: Icons.device_unknown),
+                                                  controller: celularController,
+                                                  hintText: 'Celular*',
+                                                  icon: Icons.device_unknown,
+                                                ),
                                                 SizedBox(
                                                   height: mq.height * 0.03,
-                                                )
+                                                ),
                                               ],
                                             ),
                                           ),
@@ -219,11 +231,6 @@ class _LoginPageState extends State<LoginPage> {
                                                       message: resp['message'],
                                                     );
                                                   } else {
-                                                    // CustomShowDialog.alert(
-                                                    //   context: context,
-                                                    //   title: 'Bien',
-                                                    //   message: resp['message'],
-                                                    // );
                                                     showDialog(
                                                       context: context,
                                                       builder: (BuildContext
@@ -257,6 +264,10 @@ class _LoginPageState extends State<LoginPage> {
                                                                       'Nueva contraseña*',
                                                                   icon: Icons
                                                                       .password,
+                                                                  obscureText:
+                                                                      true,
+                                                                  isObscureText:
+                                                                      true,
                                                                 ),
                                                                 SizedBox(
                                                                   height:
@@ -270,6 +281,10 @@ class _LoginPageState extends State<LoginPage> {
                                                                       'Confirmar contraseña*',
                                                                   icon: Icons
                                                                       .password,
+                                                                  obscureText:
+                                                                      true,
+                                                                  isObscureText:
+                                                                      true,
                                                                 ),
                                                                 SizedBox(
                                                                   height:
@@ -349,16 +364,63 @@ class _LoginPageState extends State<LoginPage> {
                                                                         cedulaController
                                                                             .text);
 
-                                                                if (resp !=
-                                                                    null) {
-                                                                } else {}
+                                                                print(
+                                                                    'respuesta ${resp!['message']}');
+
+                                                                if (resp[
+                                                                        'type'] ==
+                                                                    'error') {
+                                                                  CustomShowDialog
+                                                                      .alert(
+                                                                    context:
+                                                                        context,
+                                                                    title:
+                                                                        'error',
+                                                                    message: resp[
+                                                                        'message'],
+                                                                  );
+                                                                  return;
+                                                                }
+
+                                                                if (resp[
+                                                                        'type'] ==
+                                                                    'success') {
+                                                                  Navigator.canPop(
+                                                                      context);
+
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .pop();
+
+                                                                  loginController
+                                                                      .text = '';
+                                                                  cedulaController
+                                                                      .text = '';
+                                                                  celularController
+                                                                      .text = '';
+                                                                  passController
+                                                                      .text = '';
+                                                                  confirmPassController
+                                                                      .text = '';
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .pop();
+                                                                  CustomShowDialog
+                                                                      .alert(
+                                                                    context:
+                                                                        context,
+                                                                    title:
+                                                                        'Bien',
+                                                                    message: resp[
+                                                                        'message'],
+                                                                  );
+                                                                }
                                                               },
-                                                              child: Text(
+                                                              child: const Text(
                                                                   'Actualizar Contraseña'),
                                                             ),
                                                             TextButton(
                                                               onPressed: () {
-                                                                // Cerrar el AlertDialog sin realizar ninguna acción
                                                                 Navigator.of(
                                                                         context)
                                                                     .pop();
@@ -380,8 +442,8 @@ class _LoginPageState extends State<LoginPage> {
                                                   );
                                                 }
                                               },
-                                              child:
-                                                  Text('Recuperar contraseña'),
+                                              child: const Text(
+                                                  'Recuperar contraseña'),
                                             ),
                                             TextButton(
                                               onPressed: () {
@@ -390,7 +452,7 @@ class _LoginPageState extends State<LoginPage> {
                                                 celularController.text = '';
                                                 Navigator.of(context).pop();
                                               },
-                                              child: Text('Cerrar'),
+                                              child: const Text('Cerrar'),
                                             ),
                                           ],
                                         );
@@ -402,61 +464,7 @@ class _LoginPageState extends State<LoginPage> {
                               ],
                             ),
                           ],
-                        )
-
-                        // CustomButton(
-                        //     mq: mq,
-                        //     color: blueColor,
-                        //     colorText: whiteColor,
-                        //     function: () async {
-                        //       FocusScope.of(context).unfocus();
-
-                        //       final authService = Provider.of<AuthService>(
-                        //           context,
-                        //           listen: false);
-
-                        //       if (usernameController.text == '' ||
-                        //           passwordController.text == '') {
-                        //         CustomShowDialog.alert(
-                        //             context: context,
-                        //             title: 'Error',
-                        //             message:
-                        //                 'Debes de diligenciar los campos obligatorios.');
-                        //         return false;
-                        //       }
-
-                        //       final Map? resp = await authService.login(
-                        //           usuario: usernameController.text,
-                        //           password: passwordController.text);
-
-                        //       if (resp!['type'] == 'error') {
-                        //         CustomShowDialog.alert(
-                        //             context: context,
-                        //             title: 'Error',
-                        //             message: resp['message']);
-                        //         return false;
-                        //       } else {
-                        //         Navigator.pushReplacementNamed(context, 'home');
-                        //       }
-                        //     },
-                        //     text: 'Ingresar'),
-                        // (uiProvider.connectionStatusProvider ==
-                        //         ConnectivityResult.wifi)
-                        //     ? Icon(
-                        //         Icons.wifi,
-                        //         color: uiProvider.isDeviceConnectedProvider
-                        //             ? greenColor
-                        //             : redColor,
-                        //       )
-                        //     : (uiProvider.connectionStatusProvider ==
-                        //             ConnectivityResult.mobile)
-                        //         ? Icon(
-                        //             Icons.cell_tower,
-                        //             color: uiProvider.isDeviceConnectedProvider
-                        //                 ? greenColor
-                        //                 : redColor,
-                        //           )
-                        //         : const Icon(Icons.public_off)
+                        ),
                       ],
                     ),
                   ),
