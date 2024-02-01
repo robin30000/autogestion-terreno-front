@@ -9,7 +9,7 @@ import 'package:autogestion_tecnico/services/services.dart';
 import 'package:autogestion_tecnico/widgets/widgets.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -28,6 +28,8 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     final mq = MediaQuery.of(context).size;
 
+    final uiProvider = Provider.of<UiProvider>(context);
+
     return Scaffold(
       body: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
@@ -39,26 +41,21 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      margin: EdgeInsets.only(left: mq.width * 0.02),
-                      width: mq.width * 0.20,
-                      height: mq.width * 0.20,
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage("assets/img/logo.png"),
-                        ),
-                      ),
-                    ),
+                        margin: EdgeInsets.only(left: mq.width * 0.02),
+                        width: mq.width * 0.20,
+                        height: mq.width * 0.20,
+                        decoration: const BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage("assets/img/logo.png")))),
                     IconButton(
-                      padding: const EdgeInsets.all(2),
-                      onPressed: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Próximamente en funcionamiento.'),
-                          ),
-                        );
-                      },
-                      icon: const Icon(Icons.help_rounded),
-                    ),
+                        padding: const EdgeInsets.all(2),
+                        onPressed: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content:
+                                      Text('Próximamente en funcionamiento.')));
+                        },
+                        icon: const Icon(Icons.help_rounded))
                   ],
                 ),
                 SizedBox(
@@ -70,19 +67,16 @@ class _LoginPageState extends State<LoginPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                          width: mq.width * 0.50,
-                          height: mq.width * 0.50,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage("assets/img/img-login.png"),
-                            ),
-                          ),
-                        ),
+                            width: mq.width * 0.50,
+                            height: mq.width * 0.50,
+                            decoration: const BoxDecoration(
+                                image: DecorationImage(
+                                    image: AssetImage(
+                                        "assets/img/img-login.png")))),
                         CustomField(
-                          controller: usernameController,
-                          hintText: 'Nombre de usuario',
-                          icon: Icons.account_circle_rounded,
-                        ),
+                            controller: usernameController,
+                            hintText: 'Nombre de usuario',
+                            icon: Icons.account_circle_rounded),
                         SizedBox(
                           height: mq.height * 0.03,
                         ),
@@ -104,9 +98,6 @@ class _LoginPageState extends State<LoginPage> {
                               color: blueColor,
                               colorText: whiteColor,
                               function: () async {
-                                // Almacenar el BuildContext antes de entrar en la función asíncrona
-                                final BuildContext dialogContext = context;
-
                                 FocusScope.of(context).unfocus();
 
                                 final authService = Provider.of<AuthService>(
@@ -138,9 +129,8 @@ class _LoginPageState extends State<LoginPage> {
                                   );
                                   return false;
                                 } else {
-                                  // Usar el BuildContext almacenado en lugar de context
                                   Navigator.pushReplacementNamed(
-                                      dialogContext, 'home');
+                                      context, 'home');
                                 }
                               },
                               text: 'Ingresar',
@@ -163,30 +153,29 @@ class _LoginPageState extends State<LoginPage> {
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
                                                 CustomField(
-                                                  controller: loginController,
-                                                  hintText: 'Login usuario*',
-                                                  icon: Icons
-                                                      .account_circle_rounded,
-                                                ),
+                                                    controller: loginController,
+                                                    hintText: 'Login usuario*',
+                                                    icon: Icons
+                                                        .account_circle_rounded),
                                                 SizedBox(
                                                   height: mq.height * 0.03,
                                                 ),
                                                 CustomField(
-                                                  controller: cedulaController,
-                                                  hintText: 'Cédula usuario*',
-                                                  icon: Icons.assignment,
-                                                ),
+                                                    controller:
+                                                        cedulaController,
+                                                    hintText: 'Cédula usuario*',
+                                                    icon: Icons.assignment),
                                                 SizedBox(
                                                   height: mq.height * 0.03,
                                                 ),
                                                 CustomField(
-                                                  controller: celularController,
-                                                  hintText: 'Celular*',
-                                                  icon: Icons.device_unknown,
-                                                ),
+                                                    controller:
+                                                        celularController,
+                                                    hintText: 'Celular*',
+                                                    icon: Icons.device_unknown),
                                                 SizedBox(
                                                   height: mq.height * 0.03,
-                                                ),
+                                                )
                                               ],
                                             ),
                                           ),
@@ -416,7 +405,7 @@ class _LoginPageState extends State<LoginPage> {
                                                                   );
                                                                 }
                                                               },
-                                                              child: const Text(
+                                                              child: Text(
                                                                   'Actualizar Contraseña'),
                                                             ),
                                                             TextButton(
@@ -442,8 +431,8 @@ class _LoginPageState extends State<LoginPage> {
                                                   );
                                                 }
                                               },
-                                              child: const Text(
-                                                  'Recuperar contraseña'),
+                                              child:
+                                                  Text('Recuperar contraseña'),
                                             ),
                                             TextButton(
                                               onPressed: () {
@@ -452,7 +441,7 @@ class _LoginPageState extends State<LoginPage> {
                                                 celularController.text = '';
                                                 Navigator.of(context).pop();
                                               },
-                                              child: const Text('Cerrar'),
+                                              child: Text('Cerrar'),
                                             ),
                                           ],
                                         );
@@ -464,7 +453,7 @@ class _LoginPageState extends State<LoginPage> {
                               ],
                             ),
                           ],
-                        ),
+                        )
                       ],
                     ),
                   ),
