@@ -121,6 +121,7 @@ class MesasNacionalesService extends ChangeNotifier {
     required String tarea,
     required String observacion,
     required String accion,
+    required String ata,
     required String macSale,
     required String macEntra,
   }) async {
@@ -136,6 +137,7 @@ class MesasNacionalesService extends ChangeNotifier {
         "accion": accion,
         "macSale": macSale,
         "macEntra": macEntra,
+        "ata": ata
       };
 
       final url = Uri.https(_baseUrl, '/autogestionterreno-dev/postPedidoMn');

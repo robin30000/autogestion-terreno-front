@@ -22,7 +22,7 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
   TextfieldTagsController macSaleController = TextfieldTagsController();
   TextfieldTagsController macEntraController = TextfieldTagsController();
   String accion1 = '';
-  bool activacion_ATA = false;
+  bool ata = false;
 
   int? soporte;
   void _updateSoporte(int value) {
@@ -261,12 +261,15 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
                                     }
                                   } */
 
+                                  String strAta = (ata) ? 'SI' : 'NO';
+
                                   final Map? resp = await mesasNacionalesService
                                       .postContingencia(
                                           tarea: tareaController.text,
                                           observacion:
                                               detalleSolicitudController.text,
                                           accion: accion1,
+                                          ata: strAta,
                                           macEntra: macEntraFormat,
                                           macSale: macSaleFormat);
 
@@ -377,6 +380,7 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
 
                                   String macSaleFormat = '';
                                   String macEntraFormat = '';
+                                  String strAta = (ata) ? 'SI' : 'NO';
 
                                   final Map? resp = await mesasNacionalesService
                                       .postContingencia(
@@ -384,6 +388,7 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
                                     observacion:
                                         detalleSolicitudController.text,
                                     accion: accion1,
+                                    ata: strAta,
                                     macEntra: macEntraFormat,
                                     macSale: macSaleFormat,
                                   );
@@ -460,6 +465,7 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
                                   String macSaleFormat = '';
                                   String macEntraFormat = '';
                                   String accion1 = 'Infraestructura';
+                                  String strAta = (ata) ? 'SI' : 'NO';
 
                                   final Map? resp = await mesasNacionalesService
                                       .postContingencia(
@@ -467,6 +473,7 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
                                     observacion:
                                         detalleSolicitudController.text,
                                     accion: accion1,
+                                    ata: strAta,
                                     macEntra: macEntraFormat,
                                     macSale: macSaleFormat,
                                   );
@@ -544,6 +551,7 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
 
                                   String macSaleFormat = '';
                                   String macEntraFormat = '';
+                                  String strAta = (ata) ? 'SI' : 'NO';
 
                                   final Map? resp = await mesasNacionalesService
                                       .postContingencia(
@@ -551,6 +559,7 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
                                     observacion:
                                         detalleSolicitudController.text,
                                     accion: 'Cambio_Equipo DTH',
+                                    ata: strAta,
                                     macEntra: macEntraFormat,
                                     macSale: macSaleFormat,
                                   );
@@ -613,10 +622,10 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
                             Row(
                               children: [
                                 Checkbox(
-                                  value: activacion_ATA,
+                                  value: ata,
                                   onChanged: (newValue) {
                                     setState(() {
-                                      activacion_ATA = newValue!;
+                                      ata = newValue!;
                                     });
                                   },
                                 ),
@@ -644,6 +653,7 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
 
                                   String macSaleFormat = '';
                                   String macEntraFormat = '';
+                                  String strAta = (ata) ? 'SI' : 'NO';
 
                                   final Map? resp = await mesasNacionalesService
                                       .postContingencia(
@@ -651,6 +661,7 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
                                     observacion:
                                         detalleSolicitudController.text,
                                     accion: 'BSC',
+                                    ata: strAta,
                                     macEntra: macEntraFormat,
                                     macSale: macSaleFormat,
                                   );
