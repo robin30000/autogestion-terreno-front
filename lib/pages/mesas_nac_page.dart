@@ -603,6 +603,43 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
                         )
                       ],
                       if (soporte == 5) ...[
+                        FutureBuilder(
+                          future: mesasNacionalesService.getAccion2(),
+                          builder:
+                              (BuildContext context, AsyncSnapshot snapshot) {
+                            if (!snapshot.hasData) {
+                              return Column(
+                                children: [
+                                  Container(
+                                      width: double.infinity,
+                                      alignment: Alignment.center,
+                                      child: const CircularProgressIndicator()),
+                                ],
+                              );
+                            }
+
+                            return CustomDropdown(
+                                mq: mq,
+                                options: snapshot.data,
+                                value: accion1,
+                                function: (value) async {
+                                  accion1 = value!;
+                                  uiProvider.notifyListeners();
+                                },
+                                functionOnTap: () {
+                                  accion1 = '';
+                                  uiProvider.notifyListeners();
+                                },
+                                hintText: 'Accion*',
+                                icon: Icons.wifi_find_sharp);
+                          },
+                        ),
+                        SizedBox(
+                          height: mq.height * 0.02,
+                        ),
+                        SizedBox(
+                          height: mq.height * 0.02,
+                        ),
                         CustomField(
                           controller: detalleSolicitudController,
                           hintText: 'Detalle de solicitud bsc*',
@@ -642,7 +679,8 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
                                   FocusScope.of(context).unfocus();
 
                                   if (tareaController.text == '' ||
-                                      detalleSolicitudController.text == '') {
+                                      detalleSolicitudController.text == '' ||
+                                      accion1 == '') {
                                     CustomShowDialog.alert(
                                         context: context,
                                         title: 'Error',
@@ -660,7 +698,7 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
                                     tarea: tareaController.text,
                                     observacion:
                                         detalleSolicitudController.text,
-                                    accion: 'BSC',
+                                    accion: accion1,
                                     ata: strAta,
                                     macEntra: macEntraFormat,
                                     macSale: macSaleFormat,
