@@ -375,7 +375,7 @@ class _Bb8PageState extends State<Bb8Page> {
                   child: Text(bb8Res),
                 )
           : SizedBox(
-              width: mq.width * 0.95,
+              width: mq.width * 0.94,
               height: mq.height * 0.60,
               child: ListView.separated(
                 itemCount: data.length,
@@ -402,22 +402,60 @@ class _Bb8PageState extends State<Bb8Page> {
                             ],
                             //borderRadius: BorderRadius.circular(10.0),
                           ),
-                          width: mq.width * 0.94,
-                          height: mq.height * 0.05,
-                          padding: EdgeInsets.only(left: mq.width * 0.04),
+                          width: mq.width * 0.93,
+                          padding: EdgeInsets.only(
+                              left: mq.width * 0.04,
+                              top: mq.height * 0.01,
+                              bottom: mq.height * 0.01),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               FittedBox(
                                 child: Text(
-                                    'Tipo: ${data[0].tipo} - Velocidad: ${data[0].velocidad}',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14)),
+                                  'Velocidad: ${data[index].velocidad}',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14),
+                                ),
                               ),
-                              SizedBox(
-                                height: mq.height * 0.0,
+                              FittedBox(
+                                child: Text(
+                                  'linea: ${data[index].linea}',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14),
+                                ),
+                              ),
+                              FittedBox(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Paquetes:',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    Container(
+                                      constraints: BoxConstraints(
+                                        maxHeight: mq.height *
+                                            0.15, // Establece una altura máxima
+                                      ),
+                                      child: Text(
+                                        data[index].paquetes != null
+                                            ? ' ${data[index].paquetes!.split(' - ').join('\n')}'
+                                            : '',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
@@ -432,9 +470,9 @@ class _Bb8PageState extends State<Bb8Page> {
                       tituloWidget,
                       Container(
                         width: mq.width,
-                        height: mq.height * 0.07,
+                        height: mq.height * 0.10,
                         margin:
-                            EdgeInsets.symmetric(horizontal: mq.width * 0.01),
+                            EdgeInsets.symmetric(horizontal: mq.width * 0.0),
                         decoration: BoxDecoration(
                           color: whiteColor,
                           boxShadow: const [
@@ -461,6 +499,9 @@ class _Bb8PageState extends State<Bb8Page> {
                                           'Serial: ${data[index].serial}')),
                                   FittedBox(
                                       child: Text('Mac: ${data[index].mac}')),
+                                  FittedBox(
+                                      child:
+                                          Text('Marca: ${data[index].marca}')),
                                 ],
                               ),
                             ),

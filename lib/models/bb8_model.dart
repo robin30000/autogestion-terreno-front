@@ -3,6 +3,7 @@
 //     final newReponseBb8 = newReponseBb8FromJson(jsonString);
 
 import 'dart:convert';
+import 'dart:ffi';
 
 NewReponseBb8 newReponseBb8FromJson(String str) =>
     NewReponseBb8.fromJson(json.decode(str));
@@ -40,8 +41,10 @@ class BB8 {
     this.television,
     required this.serial,
     required this.mac,
+    required this.marca,
     required this.velocidad,
-    required this.tipo,
+    required this.linea,
+    required this.paquetes,
   });
 
   String cedula;
@@ -51,10 +54,13 @@ class BB8 {
   String? internet;
   String? telefonia;
   String? television;
-  String serial;
-  String mac;
-  String velocidad;
-  String tipo;
+
+  String? serial;
+  String? mac;
+  String? marca;
+  String? velocidad;
+  String? linea;
+  String? paquetes;
 
   factory BB8.fromJson(Map<String, dynamic> json) => BB8(
         cedula: json["CEDULA"] ?? '',
@@ -64,10 +70,12 @@ class BB8 {
         internet: json["INTERNET"] == null ? null : json["INTERNET"],
         telefonia: json["TELEFONIA"] == null ? null : json["TELEFONIA"],
         television: json["TELEVISION"] == null ? null : json["TELEVISION"],
-        serial: json["SerialNo"] ?? '',
+        serial: json["SERIAL"] ?? '',
         mac: json["MAC"] ?? '',
+        marca: json["MARCA"] ?? '',
         velocidad: json["VELOCIDAD"] ?? '',
-        tipo: json["TYPE"] ?? '',
+        linea: json["LINEA"] ?? '',
+        paquetes: json["PAQUETE"] ?? '',
       );
 
   Map<String, dynamic> toJson() => {
@@ -80,7 +88,9 @@ class BB8 {
         "television": television == null ? null : television,
         "serial": serial,
         "mac": mac,
+        "marca": marca,
         "velocidad": velocidad,
-        "tipo": tipo,
+        "linea": linea,
+        "paquetes": paquetes,
       };
 }

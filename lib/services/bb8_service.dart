@@ -90,6 +90,8 @@ class BB8Service extends ChangeNotifier {
 
       final Map<String, dynamic> decodeResp = json.decode(resp.body);
 
+      print(decodeResp);
+
       if (decodeResp['type'] == 'errorAuth') {
         List<Map<String, String>> resp = [
           {'type': decodeResp['type'], 'message': decodeResp['message']}
@@ -112,6 +114,7 @@ class BB8Service extends ChangeNotifier {
       if (decodeResp['type'] == 'success') {
         final newResponse = newReponseBb8FromJson(resp.body);
         bb8.addAll(newResponse.bb8);
+        print('ACA ${bb8}');
       }
 
       isLoading = false;
@@ -127,7 +130,7 @@ class BB8Service extends ChangeNotifier {
     categoria = [
       {'name': 'Seleccione*', 'value': '', 'state': true},
       {'name': 'Consultar dirección', 'value': 'direccion', 'state': true},
-      {'name': 'consultar equipos', 'value': 'equipos', 'state': true},
+      {'name': 'Consulta datos técnicos', 'value': 'equipos', 'state': true},
     ];
     return categoria;
   }
