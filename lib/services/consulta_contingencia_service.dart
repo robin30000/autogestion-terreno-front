@@ -25,7 +25,7 @@ class ConsultaGponService extends ChangeNotifier {
 
       final String? token = await storage.read(key: 'token');
 
-      final url = Uri.https(_baseUrl, '/autogestionterreno-dev/gettareagpon', {
+      final url = Uri.https(_baseUrl, '/autogestionterreno/gettareagpon', {
         'tarea': tarea,
       });
 
