@@ -22,6 +22,7 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
   TextfieldTagsController macSaleController = TextfieldTagsController();
   TextfieldTagsController macEntraController = TextfieldTagsController();
   String accion1 = '';
+  bool ata = false;
 
   int? soporte;
   void _updateSoporte(int value) {
@@ -113,6 +114,8 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
                                   _updateSoporte(3);
                                 } else if (response['message'] == 'DTH') {
                                   _updateSoporte(4);
+                                } else if (response['message'] == 'BSC') {
+                                  _updateSoporte(5);
                                 }
                               }
                             } catch (error) {}
@@ -258,12 +261,15 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
                                     }
                                   } */
 
+                                  String strAta = (ata) ? 'SI' : 'NO';
+
                                   final Map? resp = await mesasNacionalesService
                                       .postContingencia(
                                           tarea: tareaController.text,
                                           observacion:
                                               detalleSolicitudController.text,
                                           accion: accion1,
+                                          ata: strAta,
                                           macEntra: macEntraFormat,
                                           macSale: macSaleFormat);
 
@@ -374,6 +380,7 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
 
                                   String macSaleFormat = '';
                                   String macEntraFormat = '';
+                                  String strAta = (ata) ? 'SI' : 'NO';
 
                                   final Map? resp = await mesasNacionalesService
                                       .postContingencia(
@@ -381,6 +388,7 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
                                     observacion:
                                         detalleSolicitudController.text,
                                     accion: accion1,
+                                    ata: strAta,
                                     macEntra: macEntraFormat,
                                     macSale: macSaleFormat,
                                   );
@@ -457,6 +465,7 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
                                   String macSaleFormat = '';
                                   String macEntraFormat = '';
                                   String accion1 = 'Infraestructura';
+                                  String strAta = (ata) ? 'SI' : 'NO';
 
                                   final Map? resp = await mesasNacionalesService
                                       .postContingencia(
@@ -464,6 +473,7 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
                                     observacion:
                                         detalleSolicitudController.text,
                                     accion: accion1,
+                                    ata: strAta,
                                     macEntra: macEntraFormat,
                                     macSale: macSaleFormat,
                                   );
@@ -541,6 +551,7 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
 
                                   String macSaleFormat = '';
                                   String macEntraFormat = '';
+                                  String strAta = (ata) ? 'SI' : 'NO';
 
                                   final Map? resp = await mesasNacionalesService
                                       .postContingencia(
@@ -548,6 +559,147 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
                                     observacion:
                                         detalleSolicitudController.text,
                                     accion: 'Cambio_Equipo DTH',
+                                    ata: strAta,
+                                    macEntra: macEntraFormat,
+                                    macSale: macSaleFormat,
+                                  );
+
+                                  if (resp!['type'] == 'error') {
+                                    CustomShowDialog.alert(
+                                        context: context,
+                                        title: 'Error',
+                                        message: resp['message']);
+                                    return false;
+                                  } else {
+                                    CustomShowDialog.alert(
+                                        context: context,
+                                        title: 'Excelente',
+                                        message: resp['message']);
+
+                                    await Future.delayed(
+                                        const Duration(milliseconds: 500));
+
+                                    uiProvider.selectedMenuOpt = 99;
+                                    uiProvider.selectedMenuName = 'Soporte ETP';
+
+                                    await Future.delayed(
+                                        const Duration(seconds: 1));
+
+                                    uiProvider.selectedMenuOpt = 20;
+                                    uiProvider.selectedMenuName = 'Soporte ETP';
+                                  }
+                                },
+                          color: mesasNacionalesService.isLoading
+                              ? greyColor
+                              : blueColor,
+                          colorText: whiteColor,
+                          text: mesasNacionalesService.isLoading
+                              ? 'Cargando...'
+                              : 'Enviar Solicitud',
+                          height: 0.05,
+                        ),
+                        SizedBox(
+                          height: mq.height * 0.02,
+                        )
+                      ],
+                      if (soporte == 5) ...[
+                        FutureBuilder(
+                          future: mesasNacionalesService.getAccion2(),
+                          builder:
+                              (BuildContext context, AsyncSnapshot snapshot) {
+                            if (!snapshot.hasData) {
+                              return Column(
+                                children: [
+                                  Container(
+                                      width: double.infinity,
+                                      alignment: Alignment.center,
+                                      child: const CircularProgressIndicator()),
+                                ],
+                              );
+                            }
+
+                            return CustomDropdown(
+                                mq: mq,
+                                options: snapshot.data,
+                                value: accion1,
+                                function: (value) async {
+                                  accion1 = value!;
+                                  uiProvider.notifyListeners();
+                                },
+                                functionOnTap: () {
+                                  accion1 = '';
+                                  uiProvider.notifyListeners();
+                                },
+                                hintText: 'Accion*',
+                                icon: Icons.wifi_find_sharp);
+                          },
+                        ),
+                        SizedBox(
+                          height: mq.height * 0.02,
+                        ),
+                        SizedBox(
+                          height: mq.height * 0.02,
+                        ),
+                        CustomField(
+                          controller: detalleSolicitudController,
+                          hintText: 'Detalle de solicitud bsc*',
+                          icon: null,
+                          minLines: 6,
+                          maxLines: 6,
+                          height: null,
+                          paddingTop: 20,
+                          paddingLeft: 20,
+                        ),
+                        SizedBox(
+                          height: mq.height * 0.02,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Checkbox(
+                                  value: ata,
+                                  onChanged: (newValue) {
+                                    setState(() {
+                                      ata = newValue!;
+                                    });
+                                  },
+                                ),
+                                const Text('Es activacion de ATA?'),
+                              ],
+                            ),
+                          ],
+                        ),
+                        CustomButton(
+                          mq: mq,
+                          function: mesasNacionalesService.isLoading
+                              ? null
+                              : () async {
+                                  FocusScope.of(context).unfocus();
+
+                                  if (tareaController.text == '' ||
+                                      detalleSolicitudController.text == '' ||
+                                      accion1 == '') {
+                                    CustomShowDialog.alert(
+                                        context: context,
+                                        title: 'Error',
+                                        message:
+                                            'Debes de diligenciar los campos obligatorios.');
+                                    return false;
+                                  }
+
+                                  String macSaleFormat = '';
+                                  String macEntraFormat = '';
+                                  String strAta = (ata) ? 'SI' : 'NO';
+
+                                  final Map? resp = await mesasNacionalesService
+                                      .postContingencia(
+                                    tarea: tareaController.text,
+                                    observacion:
+                                        detalleSolicitudController.text,
+                                    accion: accion1,
+                                    ata: strAta,
                                     macEntra: macEntraFormat,
                                     macSale: macSaleFormat,
                                   );

@@ -24,7 +24,7 @@ class AuthService extends ChangeNotifier {
       final Map<String, dynamic> authData = {
         "user": usuario,
         "password": password,
-        "version": 21
+        "version": 22
       };
 
       final url = Uri.https(_baseUrl, '/autogestionterreno/ingresar');
