@@ -59,7 +59,7 @@ class AuthService extends ChangeNotifier {
         return decodeResp;
       }
     } catch (e) {
-      NotificactionService.showSnackBar(e.toString());
+      print(e);
     }
     return null;
   }
@@ -101,7 +101,7 @@ class AuthService extends ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      NotificactionService.showSnackBar(e.toString());
+      print(e);
     }
   }
 
@@ -118,10 +118,8 @@ class AuthService extends ChangeNotifier {
 
       await storage.delete(key: 'alert');
       await storage.write(key: 'alert', value: decodeResp['alert']);
-
-      print('valida 1 ${decodeResp['alert']}');
     } catch (e) {
-      NotificactionService.showSnackBar(e.toString());
+      print(e);
     }
     return null;
   }
@@ -140,7 +138,7 @@ class AuthService extends ChangeNotifier {
       await storage.delete(key: 'alert');
       await storage.write(key: 'alert', value: decodeResp['alert']);
     } catch (e) {
-      NotificactionService.showSnackBar(e.toString());
+      print(e);
     }
     return null;
   }

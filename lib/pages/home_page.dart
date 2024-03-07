@@ -34,70 +34,12 @@ class _HomePageState extends State<HomePage> {
       child: FutureBuilder(
         future: authService.readAllData(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
+          print(snapshot);
           if (!snapshot.hasData) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           }
-
-          //print(snapshot.data['alert']);
-
-/*           if (snapshot.data['alert'] == 'si') {
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title:
-                        const Text('Por favor realiza la siguiente encuesta'),
-                    content: const Text(
-                      'Haz clic en el enlace para completar la encuesta.',
-                      style: TextStyle(fontSize: 18),
-                    ),
-                    actions: [
-                      TextButton(
-                        onPressed: () async {
-                          Navigator.of(context).pop();
-                          authService.validaEncuesta();
-
-                          await _launchInBrowser(Uri.parse(
-                            'https://forms.office.com/pages/responsepage.aspx?id=_TkAZSpx4U-4Y4YQPEJcF75PHT7gAhpPpZdF6l0mEvNUNjdQVzZET0FWTlNVTEc3V0NQUkJTS1NNSS4u',
-                          ));
-
-                          /* setState(() {
-                            authService.getEncuesta();
-                          }); */
-                        },
-                        child: const Text('Ir a la encuesta'),
-
-const conSeguimiento = async (fecha, meta) => {
-  try {
-    log('ENTREEEEEE');
-    const result = await mssqlDB.seguimientoConn(`
-      INSERT INTO informe_rgu (fecha, meta) VALUES (?, ?);
-    `, [fecha, meta]);
-  } catch (error) {
-    console.error("Error al insertar datos:", error);
-  }
-};
-
-conSeguimiento('2023-05-12 12:00:00', 100)
-  .then((result) => {
-    log(result, ' RRRRRRESPONSE');
-  })
-  .catch((error) => {
-    console.error("Error al obtener datos:", error);
-  });
-
-
-
-                      ),
-                    ],
-                  );
-                },
-              );
-            });
-          } */
 
           if (snapshot.data['alert'] == 'si') {
             WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -147,11 +89,18 @@ conSeguimiento('2023-05-12 12:00:00', 100)
                 style: TextStyle(fontSize: mq.width * 0.10),
                 textAlign: TextAlign.center,
               ),
-              Text(
-                snapshot.data['nombre'],
-                style: TextStyle(fontSize: mq.width * 0.06),
-                textAlign: TextAlign.center,
-              ),
+              if (snapshot.data['nombre'] != null)
+                Text(
+                  snapshot.data['nombre'],
+                  style: TextStyle(fontSize: mq.width * 0.06),
+                  textAlign: TextAlign.center,
+                ),
+
+              // Text(
+              //   snapshot.data['nombre'],
+              //   style: TextStyle(fontSize: mq.width * 0.06),
+              //   textAlign: TextAlign.center,
+              // ),
             ],
           );
         },
