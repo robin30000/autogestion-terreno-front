@@ -88,7 +88,12 @@ class MesasNacionalesService extends ChangeNotifier {
       {'name': 'Acción*', 'value': '', 'state': true},
       {'name': 'Línea básica', 'value': 'Línea básica', 'state': true},
       {'name': 'Cambio de puerto', 'value': 'Cambio de puerto', 'state': true},
-      {'name': 'Soporte general', 'value': 'Soporte general', 'state': true}
+      {'name': 'Soporte general', 'value': 'Soporte general', 'state': true},
+      {
+        'name': 'Código de incompleto',
+        'value': 'Código de incompleto',
+        'state': true
+      },
     ];
     return accion1;
   }

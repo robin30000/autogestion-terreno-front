@@ -7,3 +7,4 @@ export 'package:autogestion_tecnico/models/mesas_nac_model.dart';
 export 'package:autogestion_tecnico/models/registro_equipos_model.dart';
 export 'package:autogestion_tecnico/models/soporte_etp_model.dart';
 export 'package:autogestion_tecnico/models/soporte_gpon_model.dart';
+export 'package:autogestion_tecnico/models/consulta_tarea_supervisor_model.dart';

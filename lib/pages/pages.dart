@@ -20,3 +20,4 @@ export 'package:autogestion_tecnico/pages/soporte_etp_page.dart';
 export 'package:autogestion_tecnico/pages/soporte_gpon_page.dart';
 export 'package:autogestion_tecnico/pages/splash.dart';
 export 'package:autogestion_tecnico/pages/tips_page.dart';
+export 'package:autogestion_tecnico/pages/consulta_tarea_supervisor_page.dart';
