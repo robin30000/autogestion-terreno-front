@@ -121,23 +121,23 @@ class _LoginPageState extends State<LoginPage> {
                               }
                             },
                             text: 'Ingresar'),
-                        (uiProvider.connectionStatusProvider ==
-                                ConnectivityResult.wifi)
-                            ? Icon(
-                                Icons.wifi,
-                                color: uiProvider.isDeviceConnectedProvider
-                                    ? greenColor
-                                    : redColor,
-                              )
-                            : (uiProvider.connectionStatusProvider ==
-                                    ConnectivityResult.mobile)
-                                ? Icon(
-                                    Icons.cell_tower,
-                                    color: uiProvider.isDeviceConnectedProvider
-                                        ? greenColor
-                                        : redColor,
-                                  )
-                                : const Icon(Icons.public_off)
+                        // (uiProvider.connectionStatusProvider ==
+                        //         ConnectivityResult.wifi)
+                        //     ? Icon(
+                        //         Icons.wifi,
+                        //         color: uiProvider.isDeviceConnectedProvider
+                        //             ? greenColor
+                        //             : redColor,
+                        //       )
+                        //     : (uiProvider.connectionStatusProvider ==
+                        //             ConnectivityResult.mobile)
+                        //         ? Icon(
+                        //             Icons.cell_tower,
+                        //             color: uiProvider.isDeviceConnectedProvider
+                        //                 ? greenColor
+                        //                 : redColor,
+                        //           )
+                        //         : const Icon(Icons.public_off)
                       ],
                     ),
                   ),
