@@ -225,42 +225,6 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
                                     return false;
                                   }
 
-                                  String macSaleFormat = '';
-                                  String macEntraFormat = '';
-
-                                  if (accion1 == 'Cambio de equipo') {
-                                    if (macEntraController.getTags!.isEmpty) {
-                                      CustomShowDialog.alert(
-                                          context: context,
-                                          title: 'Error',
-                                          message: 'Mac entra es obligatorio.');
-                                      return false;
-                                    } else {
-                                      macEntraFormat =
-                                          macEntraController.getTags!.join('-');
-                                    }
-
-                                    if (macSaleController.getTags!.isEmpty) {
-                                      CustomShowDialog.alert(
-                                          context: context,
-                                          title: 'Error',
-                                          message: 'Mac sale es obligatorio.');
-                                      return false;
-                                    } else {
-                                      macSaleFormat =
-                                          macSaleController.getTags!.join('-');
-                                    }
-                                  }
-
-/*                                   if (accion1 == 'Cambio de equipo') {
-                                    if (macSaleController.getTags!.isEmpty) {
-                                      macSaleFormat = '';
-                                    } else {
-                                      macSaleFormat =
-                                          macSaleController.getTags!.join('-');
-                                    }
-                                  } */
-
                                   String strAta = (ata) ? 'SI' : 'NO';
 
                                   final Map? resp = await mesasNacionalesService
@@ -269,9 +233,7 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
                                           observacion:
                                               detalleSolicitudController.text,
                                           accion: accion1,
-                                          ata: strAta,
-                                          macEntra: macEntraFormat,
-                                          macSale: macSaleFormat);
+                                          ata: strAta);
 
                                   if (resp!['type'] == 'error') {
                                     CustomShowDialog.alert(
@@ -378,20 +340,15 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
                                     return false;
                                   }
 
-                                  String macSaleFormat = '';
-                                  String macEntraFormat = '';
                                   String strAta = (ata) ? 'SI' : 'NO';
 
                                   final Map? resp = await mesasNacionalesService
                                       .postContingencia(
-                                    tarea: tareaController.text,
-                                    observacion:
-                                        detalleSolicitudController.text,
-                                    accion: accion1,
-                                    ata: strAta,
-                                    macEntra: macEntraFormat,
-                                    macSale: macSaleFormat,
-                                  );
+                                          tarea: tareaController.text,
+                                          observacion:
+                                              detalleSolicitudController.text,
+                                          accion: accion1,
+                                          ata: strAta);
 
                                   if (resp!['type'] == 'error') {
                                     CustomShowDialog.alert(
@@ -462,21 +419,16 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
                                     return false;
                                   }
 
-                                  String macSaleFormat = '';
-                                  String macEntraFormat = '';
                                   String accion1 = 'Infraestructura';
                                   String strAta = (ata) ? 'SI' : 'NO';
 
                                   final Map? resp = await mesasNacionalesService
                                       .postContingencia(
-                                    tarea: tareaController.text,
-                                    observacion:
-                                        detalleSolicitudController.text,
-                                    accion: accion1,
-                                    ata: strAta,
-                                    macEntra: macEntraFormat,
-                                    macSale: macSaleFormat,
-                                  );
+                                          tarea: tareaController.text,
+                                          observacion:
+                                              detalleSolicitudController.text,
+                                          accion: accion1,
+                                          ata: strAta);
 
                                   if (resp!['type'] == 'error') {
                                     CustomShowDialog.alert(
@@ -549,8 +501,6 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
                                     return false;
                                   }
 
-                                  String macSaleFormat = '';
-                                  String macEntraFormat = '';
                                   String strAta = (ata) ? 'SI' : 'NO';
 
                                   final Map? resp = await mesasNacionalesService
@@ -560,8 +510,6 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
                                         detalleSolicitudController.text,
                                     accion: 'Cambio_Equipo DTH',
                                     ata: strAta,
-                                    macEntra: macEntraFormat,
-                                    macSale: macSaleFormat,
                                   );
 
                                   if (resp!['type'] == 'error') {
@@ -689,20 +637,15 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
                                     return false;
                                   }
 
-                                  String macSaleFormat = '';
-                                  String macEntraFormat = '';
                                   String strAta = (ata) ? 'SI' : 'NO';
 
                                   final Map? resp = await mesasNacionalesService
                                       .postContingencia(
-                                    tarea: tareaController.text,
-                                    observacion:
-                                        detalleSolicitudController.text,
-                                    accion: accion1,
-                                    ata: strAta,
-                                    macEntra: macEntraFormat,
-                                    macSale: macSaleFormat,
-                                  );
+                                          tarea: tareaController.text,
+                                          observacion:
+                                              detalleSolicitudController.text,
+                                          accion: accion1,
+                                          ata: strAta);
 
                                   if (resp!['type'] == 'error') {
                                     CustomShowDialog.alert(
@@ -753,17 +696,17 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          if (accion1 == 'Cambio de equipo')
-            CustomButtom(
-              icon: Icons.qr_code_scanner_outlined,
-              onPressed: () {
-                FocusScope.of(context).unfocus();
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const QRScanner(),
-                ));
-              },
-              heroTag: 'scan',
-            ),
+          CustomButtom(
+            icon: Icons.refresh_rounded,
+            onPressed: () {
+              setState(() {
+                tareaController.text = '';
+                detalleSolicitudController.text = '';
+                soporte = 0;
+              });
+            },
+            heroTag: 'Limpiar',
+          ),
           CustomButtom(
             icon: Icons.list_rounded,
             onPressed: () {

@@ -8,6 +8,8 @@ import 'package:http/http.dart' as http;
 
 class ConsultaTareaSuperService extends ChangeNotifier {
   final String _baseUrl = baseUrl;
+  final String _ruta =
+      '/autogestion-terreno-api-dev/controllers/TareaSupervisorCtrl.php';
   final storage = const FlutterSecureStorage();
 
   List<TAREASUPER> tareas = [];
@@ -23,12 +25,16 @@ class ConsultaTareaSuperService extends ChangeNotifier {
 
       final String? token = await storage.read(key: 'token');
 
-      final url = Uri.https(_baseUrl, '/autogestionterreno/tareasupervisor', {
-        'tarea': tarea,
-      });
+      final Map<String, dynamic> data = {
+        "method": "tareaSupervisor",
+        "data": {"tarea": tarea}
+      };
 
-      final resp = await http.get(url,
-          headers: {'Content-Type': 'application/json', 'x-token': token!});
+      final url = Uri.https(_baseUrl, _ruta);
+
+      final resp = await http.post(url,
+          headers: {'Content-Type': 'application/json', 'x-token': token!},
+          body: jsonEncode(data));
 
       final Map<String, dynamic> decodeResp = json.decode(resp.body);
 

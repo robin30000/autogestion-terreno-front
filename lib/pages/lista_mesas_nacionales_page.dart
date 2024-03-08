@@ -259,7 +259,8 @@ class _ListSoporteMnPageState extends State<ListSoporteMnPage> {
         onPressed: () async {
           final authService = Provider.of<AuthService>(context, listen: false);
 
-          final resp = await mesasNacionalesService.getsoporteetpbyuser();
+          final resp =
+              await mesasNacionalesService.getSoporteMesasNacionalesByUser();
 
           if (resp!.isNotEmpty) {
             if (resp[0]['type'] == 'errorAuth') {

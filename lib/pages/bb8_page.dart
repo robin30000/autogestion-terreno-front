@@ -118,6 +118,23 @@ class _Bb8PageState extends State<Bb8Page> {
           ),
         ),
       ),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          CustomButtom(
+            icon: Icons.refresh_rounded,
+            onPressed: () {
+              setState(() {
+                categoria = '';
+                pedidoController.text = '';
+                ciudadController.text = '';
+                direccionController.text = '';
+              });
+            },
+            heroTag: 'Limpiar',
+          ),
+        ],
+      ),
     );
   }
 

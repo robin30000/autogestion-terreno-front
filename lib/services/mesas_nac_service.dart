@@ -2,13 +2,14 @@ import 'dart:convert';
 
 import 'package:autogestion_tecnico/global/globals.dart';
 import 'package:autogestion_tecnico/models/models.dart';
-import 'package:autogestion_tecnico/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
 class MesasNacionalesService extends ChangeNotifier {
   final String _baseUrl = baseUrl;
+  final String _ruta =
+      '/autogestion-terreno-api-dev/controllers/MesasNacionalesCtrl.php';
   final storage = const FlutterSecureStorage();
 
   List<MesasNacionales> soporteMn = [];
@@ -19,10 +20,10 @@ class MesasNacionalesService extends ChangeNotifier {
   bool isLoading = false;
 
   MesasNacionalesService() {
-    getsoporteetpbyuser();
+    getSoporteMesasNacionalesByUser();
   }
 
-  getsoporteetpbyuser() async {
+  getSoporteMesasNacionalesByUser() async {
     try {
       soporteMn = [];
 
@@ -31,10 +32,15 @@ class MesasNacionalesService extends ChangeNotifier {
 
       final String? token = await storage.read(key: 'token');
 
-      final url = Uri.https(_baseUrl, '/autogestionterreno/getsoporteMnbyuser');
+      final url = Uri.https(_baseUrl, _ruta);
 
-      final resp = await http.get(url,
-          headers: {'Content-Type': 'application/json', 'x-token': token!});
+      final Map<String, dynamic> data = {
+        "method": "getSoporteMesasNacionalesByUser"
+      };
+
+      final resp = await http.post(url,
+          headers: {'Content-Type': 'application/json', 'x-token': token!},
+          body: jsonEncode(data));
 
       final Map<String, dynamic> decodeResp = json.decode(resp.body);
 
@@ -53,7 +59,7 @@ class MesasNacionalesService extends ChangeNotifier {
       isLoading = false;
       notifyListeners();
     } catch (e) {
-      NotificactionService.showSnackBar(e.toString());
+      print(e);
     }
   }
 
@@ -63,22 +69,27 @@ class MesasNacionalesService extends ChangeNotifier {
     try {
       response = [];
 
-      //isLoading = true;
-      //notifyListeners();
+      isLoading = true;
+      notifyListeners();
 
       final String? token = await storage.read(key: 'token');
+      final Map<String, dynamic> data = {
+        "method": "validaPedidoMn",
+        "data": {'tarea': pedido}
+      };
 
-      final url = Uri.https(
-          _baseUrl, '/autogestionterreno/validaPedidoMn', {'tarea': pedido});
+      final url = Uri.https(_baseUrl, _ruta);
 
-      final resp = await http.get(url,
-          headers: {'Content-Type': 'application/json', 'x-token': token!});
+      final resp = await http.post(url,
+          headers: {'Content-Type': 'application/json', 'x-token': token!},
+          body: jsonEncode(data));
 
       final Map<String, dynamic> decodeResp = json.decode(resp.body);
-
+      isLoading = false;
+      notifyListeners();
       return decodeResp;
     } catch (e) {
-      NotificactionService.showSnackBar(e.toString());
+      print(e);
     }
     return null;
   }
@@ -126,38 +137,39 @@ class MesasNacionalesService extends ChangeNotifier {
     required String observacion,
     required String accion,
     required String ata,
-    required String macSale,
-    required String macEntra,
   }) async {
     try {
-      //isLoading = true;
+      isLoading = true;
       notifyListeners();
 
       final String? token = await storage.read(key: 'token');
 
-      final Map<String, dynamic> soporteMnData = {
-        "tarea": tarea,
-        "observacion": observacion,
-        "accion": accion,
-        "macSale": macSale,
-        "macEntra": macEntra,
-        "ata": ata
+      final Map<String, dynamic> data = {
+        "data": {
+          "tarea": tarea,
+          "observacion": observacion,
+          "accion": accion,
+          "ata": ata
+        },
+        "method": "postPedidoMn"
       };
 
-      final url = Uri.https(_baseUrl, '/autogestionterreno/postPedidoMn');
+      final url = Uri.https(_baseUrl, _ruta);
 
       final resp = await http.post(url,
           headers: {'Content-Type': 'application/json', 'x-token': token!},
-          body: json.encode(soporteMnData));
+          body: json.encode(data));
 
       final Map<String, dynamic> decodeResp = json.decode(resp.body);
+
+      print(decodeResp.toString());
 
       isLoading = false;
       notifyListeners();
 
       return decodeResp;
     } catch (e) {
-      NotificactionService.showSnackBar(e.toString());
+      print(e);
     }
     return null;
   }

@@ -1,15 +1,16 @@
 import 'dart:convert';
-
 import 'package:autogestion_tecnico/global/globals.dart';
-import 'package:autogestion_tecnico/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
 class AuthService extends ChangeNotifier {
   final String _baseUrl = baseUrl;
+  final String _ruta =
+      '/autogestion-terreno-api-dev/controllers/AutenticacionCtrl.php';
 
   final storage = const FlutterSecureStorage();
+
   bool isLoading = false;
 
 /*   AuthService() {
@@ -19,21 +20,19 @@ class AuthService extends ChangeNotifier {
   Future<Map?> login(
       {required String usuario, required String password}) async {
     try {
-      //String tokenFcm = await storage.read(key: 'token_fcm') ?? '';
+      isLoading = true;
+      final url = Uri.https(_baseUrl, _ruta);
 
-      final Map<String, dynamic> authData = {
-        "user": usuario,
-        "password": password,
-        "version": 23
+      final Map<String, dynamic> data = {
+        "data": {"user": usuario, "password": password, "version": 23},
+        "method": "login"
       };
-
-      final url = Uri.https(_baseUrl, '/autogestionterreno/ingresar');
 
       final resp = await http.post(url,
           headers: {
             'Content-Type': 'application/json',
           },
-          body: json.encode(authData));
+          body: json.encode(data));
 
       final Map<String, dynamic> decodeResp = json.decode(resp.body);
 
@@ -55,7 +54,7 @@ class AuthService extends ChangeNotifier {
 
         decodeResp['type'] = 'success';
         decodeResp['msg'] = 'OK';
-
+        isLoading = false;
         return decodeResp;
       }
     } catch (e) {
@@ -91,9 +90,13 @@ class AuthService extends ChangeNotifier {
   Future getMenuApp() async {
     try {
       final String? token = await storage.read(key: 'token');
-      final url = Uri.https(_baseUrl, '/autogestionterreno/validarmenu');
-      final resp = await http.get(url,
-          headers: {'Content-Type': 'application/json', 'x-token': token!});
+
+      final Map<String, dynamic> data = {"method": "menuApp"};
+
+      final url = Uri.https(_baseUrl, _ruta);
+      final resp = await http.post(url,
+          headers: {'Content-Type': 'application/json', 'x-token': token!},
+          body: jsonEncode(data));
 
       final Map<String, dynamic> decodeResp = json.decode(resp.body);
       await storage.write(
@@ -109,10 +112,13 @@ class AuthService extends ChangeNotifier {
     try {
       final String? token = await storage.read(key: 'token');
 
-      final url = Uri.https(_baseUrl, '/autogestionterreno/validaEncuesta');
+      final Map<String, dynamic> data = {"method": "validaEncuesta"};
+
+      final url = Uri.https(_baseUrl, _ruta);
 
       final resp = await http.post(url,
-          headers: {'Content-Type': 'application/json', 'x-token': token!});
+          headers: {'Content-Type': 'application/json', 'x-token': token!},
+          body: jsonEncode(data));
 
       final Map<String, dynamic> decodeResp = json.decode(resp.body);
 
@@ -128,10 +134,13 @@ class AuthService extends ChangeNotifier {
     try {
       final String? token = await storage.read(key: 'token');
 
-      final url = Uri.https(_baseUrl, '/autogestionterreno/getEncuesta');
+      final Map<String, dynamic> data = {"method": "validaEncuesta"};
 
-      final resp = await http.get(url,
-          headers: {'Content-Type': 'application/json', 'x-token': token!});
+      final url = Uri.https(_baseUrl, _ruta);
+
+      final resp = await http.post(url,
+          headers: {'Content-Type': 'application/json', 'x-token': token!},
+          body: jsonEncode(data));
 
       final Map<String, dynamic> decodeResp = json.decode(resp.body);
 

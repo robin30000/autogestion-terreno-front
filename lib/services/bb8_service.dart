@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 
 class BB8Service extends ChangeNotifier {
   final String _baseUrl = baseUrl;
+  final String _ruta = '/autogestion-terreno-api-dev/controllers/Bb8Ctrl.php';
   final storage = const FlutterSecureStorage();
 
   List<Map<String, dynamic>> categoria = [];
@@ -26,16 +27,24 @@ class BB8Service extends ChangeNotifier {
     try {
       bb8 = [];
 
-      //isLoading = true;
+      isLoading = true;
       notifyListeners();
 
       final String? token = await storage.read(key: 'token');
 
-      final url = Uri.https(_baseUrl, '/autogestionterreno/getbb8',
-          {'direccion': direccion, 'ciudad': ciudad});
+      final Map<String, dynamic> data = {
+        "data": {'direccion': direccion, 'ciudad': ciudad},
+        "method": "consultaBb8"
+      };
 
-      final resp = await http.get(url,
-          headers: {'Content-Type': 'application/json', 'x-token': token!});
+      final url = Uri.https(
+        _baseUrl,
+        _ruta,
+      );
+
+      final resp = await http.post(url,
+          headers: {'Content-Type': 'application/json', 'x-token': token!},
+          body: jsonEncode(data));
 
       final Map<String, dynamic> decodeResp = json.decode(resp.body);
 
@@ -77,20 +86,23 @@ class BB8Service extends ChangeNotifier {
   }) async {
     try {
       bb8 = [];
-      //isLoading = true;
+      isLoading = true;
       notifyListeners();
 
       final String? token = await storage.read(key: 'token');
 
-      final url =
-          Uri.https(_baseUrl, '/autogestionterreno/getbb8', {'pedido': pedido});
+      final Map<String, dynamic> data = {
+        "data": {'pedido': pedido},
+        "method": "getBB8Equipos"
+      };
 
-      final resp = await http.get(url,
-          headers: {'Content-Type': 'application/json', 'x-token': token!});
+      final url = Uri.https(_baseUrl, _ruta);
+
+      final resp = await http.post(url,
+          headers: {'Content-Type': 'application/json', 'x-token': token!},
+          body: jsonEncode(data));
 
       final Map<String, dynamic> decodeResp = json.decode(resp.body);
-
-      print(decodeResp);
 
       if (decodeResp['type'] == 'errorAuth') {
         List<Map<String, String>> resp = [
@@ -114,7 +126,6 @@ class BB8Service extends ChangeNotifier {
       if (decodeResp['type'] == 'success') {
         final newResponse = newReponseBb8FromJson(resp.body);
         bb8.addAll(newResponse.bb8);
-        print('ACA ${bb8}');
       }
 
       isLoading = false;

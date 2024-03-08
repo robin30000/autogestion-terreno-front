@@ -10,12 +10,14 @@ import 'package:http/http.dart' as http;
 
 class ConsultaGponService extends ChangeNotifier {
   final String _baseUrl = baseUrl;
+  final String _ruta =
+      '/autogestion-terreno-api-dev/controllers/ContingenciaCtrl.php';
   final storage = const FlutterSecureStorage();
 
   List<GPON> gpon = [];
   bool isLoading = false;
 
-  Future<List?> geTareaGpon({
+  Future<List?> consultaContingencia({
     required String tarea,
   }) async {
     try {
@@ -25,13 +27,19 @@ class ConsultaGponService extends ChangeNotifier {
 
       final String? token = await storage.read(key: 'token');
 
-      final url = Uri.https(_baseUrl, '/autogestionterreno/gettareagpon', {
+      final Map<String, dynamic> data = {
+        "method": "consultaContingencia",
+        "data": {"tarea": tarea}
+      };
+
+      final url = Uri.https(_baseUrl, _ruta, {
         'tarea': tarea,
       });
 
-      final resp = await http.get(url,
-          headers: {'Content-Type': 'application/json', 'x-token': token!});
-      print(resp);
+      final resp = await http.post(url,
+          headers: {'Content-Type': 'application/json', 'x-token': token!},
+          body: jsonEncode(data));
+
       final Map<String, dynamic> decodeResp = json.decode(resp.body);
 
       if (decodeResp['type'] == 'errorAuth') {

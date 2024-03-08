@@ -105,7 +105,8 @@ class _ConsultaGponPageState extends State<ConsultaGponPage> {
                                   }
 
                                   final resp = await consultaGponService
-                                      .geTareaGpon(tarea: tareaController.text);
+                                      .consultaContingencia(
+                                          tarea: tareaController.text);
 
                                   if (resp != null) {
                                     if (resp[0]['type'] == 'errorAuth') {

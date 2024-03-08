@@ -2,14 +2,14 @@ import 'dart:convert';
 
 import 'package:autogestion_tecnico/global/globals.dart';
 import 'package:autogestion_tecnico/models/consulta_queja_model.dart';
-import 'package:autogestion_tecnico/services/services.dart';
 import 'package:flutter/foundation.dart';
-//import 'package:autogestion_tecnico/services/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
 class ConsultaQuejasService extends ChangeNotifier {
   final String _baseUrl = baseUrl;
+  final String _ruta =
+      '/autogestion-terreno-api-dev/controllers/QuejasGOCtrl.php';
   final storage = const FlutterSecureStorage();
 
   List<QUEJAS> quejas = [];
@@ -30,12 +30,17 @@ class ConsultaQuejasService extends ChangeNotifier {
 
       final String? token = await storage.read(key: 'token');
 
-      final url = Uri.https(_baseUrl, '/autogestionterreno/getQuejas', {
-        'pedido': pedido,
-      });
+      final Map<String, dynamic> data = {
+        "method": "getQueja",
+        "data": {"pedido": pedido}
+      };
 
-      final resp = await http.get(url,
-          headers: {'Content-Type': 'application/json', 'x-token': token!});
+      final url = Uri.https(_baseUrl, _ruta);
+
+      final resp = await http.post(url,
+          headers: {'Content-Type': 'application/json', 'x-token': token!},
+          body: jsonEncode(data));
+
       final Map<String, dynamic> decodeResp = json.decode(resp.body);
 
       if (decodeResp['type'] == 'errorAuth') {
@@ -67,7 +72,7 @@ class ConsultaQuejasService extends ChangeNotifier {
 
       return null;
     } catch (e) {
-      NotificactionService.showSnackBar(e.toString());
+      print(e);
     }
     return null;
   }
@@ -78,32 +83,35 @@ class ConsultaQuejasService extends ChangeNotifier {
       required dynamic identificacion,
       required dynamic nombre}) async {
     try {
-      //isLoading = true;
+      isLoading = true;
       notifyListeners();
 
       final String? token = await storage.read(key: 'token');
 
-      final Map<String, dynamic> contingenciaData = {
-        "observacion": observacion,
-        "data": data,
-        "identificacion": identificacion,
-        "nombre": nombre
+      final Map<String, dynamic> datos = {
+        "data": {
+          "observacion": observacion,
+          "data": data,
+          "identificacion": identificacion,
+          "nombre": nombre
+        },
+        "method": "postQuejasGo",
       };
 
-      final url = Uri.https(_baseUrl, '/autogestionterreno/postquejago');
+      final url = Uri.https(_baseUrl, _ruta);
 
       final resp = await http.post(url,
           headers: {'Content-Type': 'application/json', 'x-token': token!},
-          body: json.encode(contingenciaData));
+          body: json.encode(datos));
 
       final Map<String, dynamic> decodeResp = json.decode(resp.body);
 
-      //isLoading = false;
+      isLoading = false;
       notifyListeners();
 
       return decodeResp;
     } catch (e) {
-      NotificactionService.showSnackBar(e.toString());
+      print(e);
     }
     return null;
   }
@@ -117,10 +125,15 @@ class ConsultaQuejasService extends ChangeNotifier {
 
       final String? token = await storage.read(key: 'token');
 
-      final url = Uri.https(_baseUrl, '/autogestionterreno/getquejasgobyuser');
+      final url = Uri.https(_baseUrl, _ruta);
 
-      final resp = await http.get(url,
-          headers: {'Content-Type': 'application/json', 'x-token': token!});
+      final Map<String, dynamic> datos = {
+        "method": "getQuejasGoByUser",
+      };
+
+      final resp = await http.post(url,
+          headers: {'Content-Type': 'application/json', 'x-token': token!},
+          body: jsonEncode(datos));
 
       final Map<String, dynamic> decodeResp = json.decode(resp.body);
 
@@ -139,7 +152,7 @@ class ConsultaQuejasService extends ChangeNotifier {
       isLoading = false;
       notifyListeners();
     } catch (e) {
-      NotificactionService.showSnackBar(e.toString());
+      print(e);
     }
   }
 }
