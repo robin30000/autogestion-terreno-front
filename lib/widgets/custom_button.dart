@@ -10,7 +10,7 @@ class CustomButton extends StatefulWidget {
   String text;
 
   CustomButton({
-    Key? key,
+    super.key,
     required this.mq,
     required this.function,
     this.height = 0.08,
@@ -18,7 +18,7 @@ class CustomButton extends StatefulWidget {
     required this.color,
     required this.colorText,
     required this.text,
-  }) : super(key: key);
+  });
 
   @override
   State<CustomButton> createState() => _CustomButtonState();

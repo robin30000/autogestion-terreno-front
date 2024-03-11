@@ -3,7 +3,6 @@
 //     final newReponseBb8 = newReponseBb8FromJson(jsonString);
 
 import 'dart:convert';
-import 'dart:ffi';
 
 NewReponseBb8 newReponseBb8FromJson(String str) =>
     NewReponseBb8.fromJson(json.decode(str));
@@ -67,9 +66,9 @@ class BB8 {
         cliente: json["CLIENTE"] ?? '',
         direccion: json["DIRECCION"] ?? '',
         gis: json["GIS"] ?? '',
-        internet: json["INTERNET"] == null ? null : json["INTERNET"],
-        telefonia: json["TELEFONIA"] == null ? null : json["TELEFONIA"],
-        television: json["TELEVISION"] == null ? null : json["TELEVISION"],
+        internet: json["INTERNET"],
+        telefonia: json["TELEFONIA"],
+        television: json["TELEVISION"],
         serial: json["SERIAL"] ?? '',
         mac: json["MAC"] ?? '',
         marca: json["MARCA"] ?? '',
@@ -83,9 +82,9 @@ class BB8 {
         "cliente": cliente,
         "direccion": direccion,
         "gis": gis,
-        "internet": internet == null ? null : internet,
-        "telefonia": telefonia == null ? null : telefonia,
-        "television": television == null ? null : television,
+        "internet": internet,
+        "telefonia": telefonia,
+        "television": television,
         "serial": serial,
         "mac": mac,
         "marca": marca,

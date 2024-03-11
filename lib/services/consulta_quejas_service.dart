@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 class ConsultaQuejasService extends ChangeNotifier {
   final String _baseUrl = baseUrl;
   final String _ruta =
-      '/autogestion-terreno-api-dev/controllers/QuejasGOCtrl.php';
+      '/autogestion-terreno-api-dev/controllers/QuejaGOCtrl.php';
   final storage = const FlutterSecureStorage();
 
   List<QUEJAS> quejas = [];

@@ -402,7 +402,7 @@ class _Bb8PageState extends State<Bb8Page> {
                   );
                 },
                 itemBuilder: (BuildContext context, int index) {
-                  Widget tituloWidget = SizedBox.shrink();
+                  Widget tituloWidget = const SizedBox.shrink();
                   if (mostrarTitulo) {
                     tituloWidget = Row(
                       children: [
@@ -431,7 +431,7 @@ class _Bb8PageState extends State<Bb8Page> {
                               FittedBox(
                                 child: Text(
                                   'Velocidad: ${data[index].velocidad}',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 14),
                                 ),
@@ -439,7 +439,7 @@ class _Bb8PageState extends State<Bb8Page> {
                               FittedBox(
                                 child: Text(
                                   'linea: ${data[index].linea}',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 14),
                                 ),
@@ -448,7 +448,7 @@ class _Bb8PageState extends State<Bb8Page> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
+                                    const Text(
                                       'Paquetes:',
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
@@ -464,7 +464,7 @@ class _Bb8PageState extends State<Bb8Page> {
                                         data[index].paquetes != null
                                             ? ' ${data[index].paquetes!.split(' - ').join('\n')}'
                                             : '',
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 14,
                                         ),

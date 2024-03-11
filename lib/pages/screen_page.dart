@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ScreenPage extends StatelessWidget {
-  const ScreenPage({Key? key}) : super(key: key);
+  const ScreenPage({super.key});
 
   @override
   Widget build(BuildContext context) {

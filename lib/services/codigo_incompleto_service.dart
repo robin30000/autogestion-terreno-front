@@ -8,6 +8,9 @@ import 'package:http/http.dart' as http;
 
 class CodigoIncompletoService extends ChangeNotifier {
   final String _baseUrl = baseUrl;
+  final String _ruta =
+      '/autogestion-terreno-api-dev/controllers/CodigosCtrl.php';
+
   final storage = const FlutterSecureStorage();
   List<Map<String, dynamic>> tipoCodigo = [];
   List<Map<String, dynamic>> catCodigo = [];
@@ -23,32 +26,19 @@ class CodigoIncompletoService extends ChangeNotifier {
 
       final String? token = await storage.read(key: 'token');
 
-      final Map<String, dynamic> codigoData = {
+      final Map<String, dynamic> data = {
         "codigo": tarea,
         "tipo": tipoCodigo,
         "categoria": catCodigo
       };
 
-      final url =
-          Uri.https(_baseUrl, '/autogestionterreno/getcodigoincompleto');
+      final url = Uri.https(_baseUrl, _ruta);
 
       final resp = await http.post(url,
           headers: {'Content-Type': 'application/json', 'x-token': token!},
-          body: json.encode(codigoData));
+          body: json.encode(data));
 
       final Map<String, dynamic> decodeResp = json.decode(resp.body);
-
-      //final Map<String, dynamic> decodeResp = json.decode(resp.body);
-
-      // final url =
-      //     Uri.https(_baseUrl, '/autogestionterreno/getcodigoincompleto', {
-      //   'tarea': tarea,
-      // });
-
-      // final resp = await http.post(url,
-      //     headers: {'Content-Type': 'application/json', 'x-token': token!});
-
-      // final Map<String, dynamic> decodeResp = json.decode(resp.body);
 
       if (decodeResp['type'] == 'errorAuth') {
         List<Map<String, String>> resp = [
