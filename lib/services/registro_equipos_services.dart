@@ -12,6 +12,8 @@ import 'notification_service.dart';
 
 class RegistroEquiposService extends ChangeNotifier {
   final String _baseUrl = baseUrl;
+  final String _ruta =
+      '/autogestion-terreno-api-dev/controllers/RegistroEquiposCtrl.php';
   final storage = const FlutterSecureStorage();
 
   List<RegistrosEq> equipos = [];
@@ -28,19 +30,22 @@ class RegistroEquiposService extends ChangeNotifier {
     try {
       response = [];
 
-      //isLoading = true;
-      //notifyListeners();
+      isLoading = true;
+      notifyListeners();
 
       final String? token = await storage.read(key: 'token');
 
-      final url = Uri.https(_baseUrl, '/autogestionterreno/getregistropedido', {
-        'pedido': pedido,
-      });
+      final Map<String, dynamic> data = {
+        "method": "validaPedido",
+        "data": {"pedido": pedido}
+      };
 
-      final resp = await http.get(url,
-          headers: {'Content-Type': 'application/json', 'x-token': token!});
+      final url = Uri.https(_baseUrl, _ruta);
 
-      //final Map<String, dynamic> decodeResp = json.decode(resp.body);
+      final resp = await http.post(url,
+          headers: {'Content-Type': 'application/json', 'x-token': token!},
+          body: jsonEncode(data));
+
       final Map<String, dynamic> decodeResp = json.decode(resp.body);
 
       return decodeResp;
@@ -66,11 +71,13 @@ class RegistroEquiposService extends ChangeNotifier {
 
       final String? token = await storage.read(key: 'token');
 
-      final url =
-          Uri.https(_baseUrl, '/autogestionterreno/getregistroequiposbyuser');
+      final Map<String, dynamic> data = {"method": "getRegistroEquiposByUser"};
 
-      final resp = await http.get(url,
-          headers: {'Content-Type': 'application/json', 'x-token': token!});
+      final url = Uri.https(_baseUrl, _ruta);
+
+      final resp = await http.post(url,
+          headers: {'Content-Type': 'application/json', 'x-token': token!},
+          body: jsonEncode(data));
 
       final Map<String, dynamic> decodeResp = json.decode(resp.body);
 
@@ -89,7 +96,7 @@ class RegistroEquiposService extends ChangeNotifier {
       isLoading = false;
       notifyListeners();
     } catch (e) {
-      NotificactionService.showSnackBar(e.toString());
+      print(e);
     }
   }
 
@@ -99,32 +106,34 @@ class RegistroEquiposService extends ChangeNotifier {
     required String macentra,
   }) async {
     try {
-      //isLoading = true;
+      isLoading = true;
       notifyListeners();
 
       final String? token = await storage.read(key: 'token');
 
-      final Map<String, dynamic> contingenciaData = {
-        "pedido": pedido,
-        "observacion": observacion,
-        "macentra": macentra,
+      final Map<String, dynamic> data = {
+        "data": {
+          "pedido": pedido,
+          "observacion": observacion,
+          "macentra": macentra
+        },
+        "method": "postRegistroEquipo"
       };
 
-      final url =
-          Uri.https(_baseUrl, '/autogestionterreno/postregistroequipos');
+      final url = Uri.https(_baseUrl, _ruta);
 
       final resp = await http.post(url,
           headers: {'Content-Type': 'application/json', 'x-token': token!},
-          body: json.encode(contingenciaData));
+          body: json.encode(data));
 
       final Map<String, dynamic> decodeResp = json.decode(resp.body);
 
-      //isLoading = false;
+      isLoading = false;
       notifyListeners();
 
       return decodeResp;
     } catch (e) {
-      NotificactionService.showSnackBar(e.toString());
+      print(e);
     }
     return null;
   }
