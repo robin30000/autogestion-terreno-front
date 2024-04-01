@@ -45,6 +45,9 @@ class BB8 {
     required this.velocidad,
     required this.linea,
     required this.paquetes,
+    required this.hilo_id,
+    required this.estado,
+    required this.estado_nap,
   });
 
   String cedula;
@@ -61,6 +64,9 @@ class BB8 {
   String? velocidad;
   String? linea;
   String? paquetes;
+  String? hilo_id;
+  String? estado;
+  String? estado_nap;
 
   factory BB8.fromJson(Map<String, dynamic> json) => BB8(
         cedula: json["CEDULA"] ?? '',
@@ -76,6 +82,9 @@ class BB8 {
         velocidad: json["VELOCIDAD"] ?? '',
         linea: json["LINEA"] ?? '',
         paquetes: json["PAQUETE"] ?? '',
+        hilo_id: json["HILO_ID"] ?? '',
+        estado: json["ESTADO"] ?? '',
+        estado_nap: json["ESTADO_NAP"] ?? '',
       );
 
   Map<String, dynamic> toJson() => {
@@ -92,5 +101,8 @@ class BB8 {
         "velocidad": velocidad,
         "linea": linea,
         "paquetes": paquetes,
+        "hilo_id": hilo_id,
+        "estado": estado == 'OCU' ? 'Ocupado' : 'Libre',
+        "estado_NAP": estado_nap,
       };
 }

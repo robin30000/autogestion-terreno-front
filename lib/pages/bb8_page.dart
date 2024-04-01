@@ -20,6 +20,9 @@ class _Bb8PageState extends State<Bb8Page> {
   TextEditingController ciudadController = TextEditingController();
   TextEditingController direccionController = TextEditingController();
   TextEditingController pedidoController = TextEditingController();
+  TextEditingController oltController = TextEditingController();
+  TextEditingController arponController = TextEditingController();
+  TextEditingController napController = TextEditingController();
   String categoria = '';
 
   List<BB8> data = [];
@@ -113,10 +116,29 @@ class _Bb8PageState extends State<Bb8Page> {
                   ..._buildDireccionSection(mq, bb8Service),
                 if (categoria == 'equipos')
                   ..._buildEquiposSection(mq, bb8Service),
+                if (categoria == 'puertos')
+                  ..._buildPuertosSection(mq, bb8Service),
               ],
             ),
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton.small(
+        onPressed: () {
+          setState(() {
+            oltController.text = '';
+            arponController.text = '';
+            napController.text = '';
+            pedidoController.text = '';
+            direccionController.text = '';
+            ciudadController.text = '';
+            categoria = '';
+            data.clear();
+            bb8Res = '';
+          });
+        },
+        backgroundColor: const Color.fromARGB(255, 0, 51, 94),
+        child: const Icon(Icons.restore_from_trash_rounded),
       ),
     );
   }
@@ -515,140 +537,176 @@ class _Bb8PageState extends State<Bb8Page> {
             ),
     ];
   }
+
+  List<Widget> _buildPuertosSection(Size mq, BB8Service bb8Service) {
+    return [
+      Padding(
+        padding: EdgeInsets.only(
+          left: mq.width * 0.05,
+          right: mq.width * 0.05,
+          top: mq.height * 0.02,
+        ),
+        child: Column(
+          children: [
+            CustomField(
+              controller: oltController,
+              hintText: 'OLT*',
+              icon: Icons.u_turn_right_rounded,
+            ),
+            SizedBox(height: mq.height * 0.02),
+            CustomField(
+              controller: arponController,
+              hintText: 'APON*',
+              icon: Icons.mode_fan_off,
+            ),
+            SizedBox(height: mq.height * 0.02),
+            CustomField(
+              controller: napController,
+              hintText: 'NAP*',
+              icon: Icons.cable_outlined,
+            ),
+            SizedBox(height: mq.height * 0.02),
+            CustomButton(
+              mq: mq,
+              function: bb8Service.isLoading
+                  ? null
+                  : () async {
+                      FocusScope.of(context).unfocus();
+
+                      final authService =
+                          Provider.of<AuthService>(context, listen: false);
+
+                      if (oltController.text == '' ||
+                          arponController.text == '' ||
+                          napController.text == '') {
+                        CustomShowDialog.alert(
+                          context: context,
+                          title: 'Error',
+                          message: 'Debes diligenciar los campos obligatorios.',
+                        );
+                        return false;
+                      }
+
+                      data = [];
+                      final resp = await bb8Service.getBB8Puertos(
+                        olt: oltController.text,
+                        arpon: arponController.text,
+                        nap: napController.text,
+                      );
+
+                      if (resp != null) {
+                        if (resp[0]['type'] == 'errorAuth') {
+                          final String resp = await authService.logout();
+
+                          if (resp == 'OK') {
+                            Navigator.pushReplacementNamed(context, 'login');
+                          }
+
+                          return false;
+                        }
+
+                        if (resp[0]['type'] == 'error') {
+                          setState(() {
+                            bb8Res = resp[0]['message'];
+                          });
+                        }
+                      }
+
+                      data = bb8Service.bb8;
+                    },
+              color: bb8Service.isLoading ? greyColor : blueColor,
+              colorText: whiteColor,
+              text: bb8Service.isLoading ? 'Buscando...' : 'Buscar',
+              height: 0.05,
+            ),
+            SizedBox(
+              height: mq.height * 0.02,
+            ),
+          ],
+        ),
+      ),
+      data.isEmpty
+          ? bb8Res == ''
+              ? Container()
+              : Center(
+                  child: Text(bb8Res),
+                )
+          : Center(
+              child: Text(
+                'Estado NAP: ${data[0].estado_nap}',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+      SizedBox(
+        width: mq.width * 0.94,
+        height: mq.height * 0.40,
+        child: ListView.separated(
+          itemCount: data.length,
+          separatorBuilder: (BuildContext context, int index) {
+            return SizedBox(
+              height: mq.height * 0.00,
+            );
+          },
+          itemBuilder: (BuildContext context, int index) {
+            return Column(
+              children: [
+                Container(
+                  width: mq.width,
+                  height: mq.height * 0.06,
+                  margin: EdgeInsets.symmetric(horizontal: mq.width * 0.0),
+                  decoration: BoxDecoration(
+                    color: whiteColor,
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.black26,
+                        blurRadius: 15,
+                        offset: Offset(3, 2),
+                        spreadRadius: -5,
+                      ),
+                    ],
+                    //borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: mq.width * 0.90,
+                        padding: EdgeInsets.only(left: mq.width * 0.05),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  'Hilo: ${data[index].hilo_id}  ${data[index].estado}',
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                const SizedBox(width: 8),
+                                Icon(
+                                  data[index].estado == 'Libre'
+                                      ? Icons.check
+                                      : Icons.close,
+                                  color: data[index].estado == 'Libre'
+                                      ? Colors.green
+                                      : Colors.red,
+                                ),
+                                const SizedBox(
+                                    width:
+                                        5), // Espacio entre el icono y el texto del estado
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+      ),
+    ];
+  }
 }
-
-//   List<Widget> _buildEquiposSection(Size mq, BB8Service bb8Service) {
-//     return [
-//       Padding(
-//         padding: EdgeInsets.only(
-//           left: mq.width * 0.05,
-//           right: mq.width * 0.05,
-//           top: mq.height * 0.02,
-//         ),
-//         child: Column(
-//           children: [
-//             CustomField(
-//               controller: pedidoController,
-//               hintText: 'Pedido*',
-//               icon: Icons.location_city_outlined,
-//             ),
-//             SizedBox(height: mq.height * 0.02),
-//             CustomButton(
-//               mq: mq,
-//               function: bb8Service.isLoading
-//                   ? null
-//                   : () async {
-//                       FocusScope.of(context).unfocus();
-
-//                       final authService =
-//                           Provider.of<AuthService>(context, listen: false);
-
-//                       if (pedidoController.text == '') {
-//                         CustomShowDialog.alert(
-//                           context: context,
-//                           title: 'Error',
-//                           message: 'Debes diligenciar los campos obligatorios.',
-//                         );
-//                         return false;
-//                       }
-
-//                       data = [];
-//                       final resp = await bb8Service.getBB8Equipos(
-//                         pedido: pedidoController.text,
-//                       );
-
-//                       if (resp != null) {
-//                         if (resp[0]['type'] == 'errorAuth') {
-//                           final String resp = await authService.logout();
-
-//                           if (resp == 'OK') {
-//                             Navigator.pushReplacementNamed(context, 'login');
-//                           }
-
-//                           return false;
-//                         }
-
-//                         if (resp[0]['type'] == 'error') {
-//                           setState(() {
-//                             bb8Res = resp[0]['message'];
-//                           });
-//                         }
-//                       }
-
-//                       data = bb8Service.bb8;
-//                     },
-//               color: bb8Service.isLoading ? greyColor : blueColor,
-//               colorText: whiteColor,
-//               text: bb8Service.isLoading ? 'Buscando...' : 'Buscar',
-//               height: 0.05,
-//             ),
-//             SizedBox(
-//               height: mq.height * 0.02,
-//             ),
-//           ],
-//         ),
-//       ),
-//       data.isEmpty
-//           ? bb8Res == ''
-//               ? Container()
-//               : Center(
-//                   child: Text(bb8Res),
-//                 )
-//           : SizedBox(
-//               width: mq.width * 0.95,
-//               height: mq.height * 0.60,
-//               child: ListView.separated(
-//                 itemCount: data.length,
-//                 separatorBuilder: (BuildContext context, int index) {
-//                   return SizedBox(
-//                     height: mq.height * 0.01,
-//                   );
-//                 },
-//                 itemBuilder: (BuildContext context, int index) {
-//                   return Container(
-//                     width: mq.width,
-//                     height: mq.height * 0.10,
-//                     margin: EdgeInsets.symmetric(horizontal: mq.width * 0.01),
-//                     decoration: BoxDecoration(
-//                       color: whiteColor,
-//                       boxShadow: const [
-//                         BoxShadow(
-//                           color: Colors.black26,
-//                           blurRadius: 15,
-//                           offset: Offset(3, 2),
-//                           spreadRadius: -5,
-//                         ),
-//                       ],
-//                       borderRadius: BorderRadius.circular(10.0),
-//                     ),
-//                     child: Row(
-//                       children: [
-//                         Container(
-//                           width: mq.width * 0.45,
-//                           padding: EdgeInsets.only(left: mq.width * 0.03),
-//                           child: Column(
-//                             crossAxisAlignment: CrossAxisAlignment.start,
-//                             mainAxisAlignment: MainAxisAlignment.center,
-//                             children: [
-//                               FittedBox(
-//                                 child: Text(
-//                                     'Tipo: ${data[0].tipo} - Velocidad: ${data[0].velocidad}'),
-//                               ),
-//                               SizedBox(
-//                                 height: mq.height * 0.02,
-//                               ),
-//                               FittedBox(
-//                                   child: Text('Serial: ${data[index].serial}')),
-//                               FittedBox(child: Text('Mac: ${data[index].mac}')),
-//                             ],
-//                           ),
-//                         ),
-//                       ],
-//                     ),
-//                   );
-//                 },
-//               ),
-//             ),
-//     ];
-//   }
-// }
