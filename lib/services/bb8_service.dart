@@ -26,7 +26,7 @@ class BB8Service extends ChangeNotifier {
     try {
       bb8 = [];
 
-      //isLoading = true;
+      isLoading = true;
       notifyListeners();
 
       final String? token = await storage.read(key: 'token');
@@ -77,7 +77,7 @@ class BB8Service extends ChangeNotifier {
   }) async {
     try {
       bb8 = [];
-      //isLoading = true;
+      isLoading = true;
       notifyListeners();
 
       final String? token = await storage.read(key: 'token');
@@ -112,7 +112,6 @@ class BB8Service extends ChangeNotifier {
       if (decodeResp['type'] == 'success') {
         final newResponse = newReponseBb8FromJson(resp.body);
         bb8.addAll(newResponse.bb8);
-        print('ACA ${bb8}');
       }
 
       isLoading = false;
@@ -131,7 +130,7 @@ class BB8Service extends ChangeNotifier {
   }) async {
     try {
       bb8 = [];
-      //isLoading = true;
+      isLoading = true;
       notifyListeners();
 
       final String? token = await storage.read(key: 'token');
@@ -143,8 +142,6 @@ class BB8Service extends ChangeNotifier {
           headers: {'Content-Type': 'application/json', 'x-token': token!});
 
       final Map<String, dynamic> decodeResp = json.decode(resp.body);
-
-      print(decodeResp);
 
       if (decodeResp['type'] == 'errorAuth') {
         List<Map<String, String>> resp = [
@@ -168,7 +165,6 @@ class BB8Service extends ChangeNotifier {
       if (decodeResp['type'] == 'success') {
         final newResponse = newReponseBb8FromJson(resp.body);
         bb8.addAll(newResponse.bb8);
-        print('ACA ${bb8}');
       }
 
       isLoading = false;
