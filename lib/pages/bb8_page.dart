@@ -65,7 +65,7 @@ class _Bb8PageState extends State<Bb8Page> {
                     right: mq.width * 0.10,
                   ),
                   child: Text(
-                    'Consultas BB8',
+                    'Consultas',
                     style: TextStyle(
                       color: blueColor,
                       fontWeight: FontWeight.w500,
