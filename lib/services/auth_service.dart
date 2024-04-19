@@ -27,7 +27,7 @@ class AuthService extends ChangeNotifier {
         "version": 24
       };
 
-      final url = Uri.https(_baseUrl, '/autogestionterreno/ingresar');
+      final url = Uri.https(_baseUrl, '/autogestionterreno-dev/ingresar');
 
       final resp = await http.post(url,
           headers: {
