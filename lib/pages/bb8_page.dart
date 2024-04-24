@@ -683,13 +683,27 @@ class _Bb8PageState extends State<Bb8Page> {
                                       fontWeight: FontWeight.bold),
                                 ),
                                 const SizedBox(width: 8),
+                                // Icon(
+                                //   data[index].estado == 'Libre'
+                                //       ? Icons.check
+                                //       : Icons.close,
+                                //   color: data[index].estado == 'Libre'
+                                //       ? Colors.green
+                                //       : Colors.red,
+                                // ),
                                 Icon(
                                   data[index].estado == 'Libre'
                                       ? Icons.check
-                                      : Icons.close,
+                                      : data[index].estado == 'Ocupado'
+                                          ? Icons.close
+                                          : Icons
+                                              .warning, // Cambiado a un icono de advertencia para el estado 'Presupuestado'
                                   color: data[index].estado == 'Libre'
                                       ? Colors.green
-                                      : Colors.red,
+                                      : data[index].estado == 'Ocupado'
+                                          ? Colors.red
+                                          : Colors
+                                              .yellow, // Color amarillo para el estado 'Presupuestado'
                                 ),
                                 const SizedBox(
                                     width:
