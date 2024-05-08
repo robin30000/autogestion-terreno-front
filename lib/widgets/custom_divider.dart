@@ -8,12 +8,12 @@ class CustomDivider extends StatelessWidget {
   double marginvertical;
   
   CustomDivider({
-    Key? key,
+    super.key,
     required this.mq,
     required this.colors,
     this.grosor = 0.002,
     this.marginvertical = 0.02
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

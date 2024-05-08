@@ -152,7 +152,7 @@ class _ConsultaTareaSupervisorPageState
                           if (data.isEmpty)
                             quejaRes == ''
                                 ? Container()
-                                : Center(
+                                : const Center(
                                     //child: Text(quejaRes),
                                     )
                           else

@@ -21,7 +21,7 @@ class CustomField extends StatefulWidget {
   double paddingRight;
 
   CustomField(
-      {Key? key,
+      {super.key,
       required this.controller,
       this.keyboardType = TextInputType.text,
       this.minLines = 1,
@@ -38,8 +38,7 @@ class CustomField extends StatefulWidget {
       this.paddingTop = 10,
       this.paddingBottom = 1,
       this.paddingLeft = 5,
-      this.paddingRight = 20})
-      : super(key: key);
+      this.paddingRight = 20});
 
   @override
   State<CustomField> createState() => _CustomFieldState();
@@ -74,7 +73,7 @@ class _CustomFieldState extends State<CustomField> {
         minLines: widget.minLines,
         maxLines: widget.maxLines,
         obscureText: widget.obscureText,
-        maxLength: widget.maxlength ?? null,
+        maxLength: widget.maxlength,
         buildCounter: (BuildContext context,
                 {int? currentLength,
                 int? maxLength,

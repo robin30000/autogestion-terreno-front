@@ -48,7 +48,7 @@ class TipsPage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => VideoPlayerScreen()),
+                        builder: (context) => const VideoPlayerScreen()),
                   );
                 },
                 child: const Text(
