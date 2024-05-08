@@ -6,7 +6,7 @@ import 'package:autogestion_tecnico/services/services.dart';
 import 'package:autogestion_tecnico/pages/pages.dart';
 
 class Splash extends StatefulWidget {
-  const Splash({Key? key}) : super(key: key);
+  const Splash({super.key});
 
   @override
   _SplashState createState() => _SplashState();

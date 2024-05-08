@@ -5,7 +5,7 @@ import 'package:autogestion_tecnico/global/globals.dart';
 
 class NotificactionService {
 
-  static late GlobalKey<ScaffoldMessengerState> messagerKey = GlobalKey<ScaffoldMessengerState>();
+  static GlobalKey<ScaffoldMessengerState> messagerKey = GlobalKey<ScaffoldMessengerState>();
 
   static showSnackBar( String message ) {
 

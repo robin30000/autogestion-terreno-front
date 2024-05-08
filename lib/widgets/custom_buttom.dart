@@ -6,11 +6,11 @@ class CustomButtom extends StatelessWidget {
   final String heroTag; // Agrega el parámetro heroTag aquí
 
   const CustomButtom({
-    Key? key,
+    super.key,
     required this.icon,
     this.onPressed,
     required this.heroTag, // Agrega el parámetro heroTag aquí
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

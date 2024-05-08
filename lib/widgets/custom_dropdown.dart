@@ -18,7 +18,7 @@ class CustomDropdown extends StatefulWidget {
   String value;
   
   CustomDropdown({
-    Key? key,
+    super.key,
     required this.mq,
     required this.function,
     required this.hintText,
@@ -31,7 +31,7 @@ class CustomDropdown extends StatefulWidget {
     this.height = 0.05,
     required this.value,
     this.functionOnTap
-  }) : super(key: key);
+  });
 
 
   @override
