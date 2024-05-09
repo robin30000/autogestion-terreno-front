@@ -121,6 +121,52 @@ class MesasNacionalesService extends ChangeNotifier {
     return accion2;
   }
 
+  Future<List<Map<String, dynamic>>> accionGecoLight() async {
+    accion2 = [
+      {'name': 'Acción*', 'value': '', 'state': true},
+      {
+        'name': 'Actividad requiere escalera',
+        'value': 'Actividad requiere escalera',
+        'state': true
+      },
+      {
+        'name': 'Actividad requiere herramientas',
+        'value': 'Actividad requiere herramientas',
+        'state': true
+      },
+      {
+        'name': 'Actividad requiere Materiales',
+        'value': 'Actividad requiere Materiales',
+        'state': true
+      },
+      {
+        'name': 'No corresponde a cambio de equipo',
+        'value': 'No corresponde a cambio de equipo',
+        'state': true
+      },
+      {'name': 'Ubicar Usuario', 'value': 'Ubicar Usuario', 'state': true}
+    ];
+    return accion2;
+  }
+
+  Future<List<Map<String, dynamic>>> accionGecoMedio() async {
+    accion2 = [
+      {'name': 'Acción*', 'value': '', 'state': true},
+      {
+        'name': 'Requiere escalera (Realizar acometida)',
+        'value': 'Requiere escalera (Realizar acometida)',
+        'state': true
+      },
+      {
+        'name': 'No corresp. a precableado o extensión',
+        'value': 'No corresp. a precableado o extensión',
+        'state': true
+      },
+      {'name': 'Ubicar Usuario', 'value': 'Ubicar Usuario', 'state': true}
+    ];
+    return accion2;
+  }
+
   Future<Map?> postContingencia({
     required String tarea,
     required String observacion,
@@ -128,6 +174,7 @@ class MesasNacionalesService extends ChangeNotifier {
     required String ata,
     required String macSale,
     required String macEntra,
+    required String tipoSolicitud,
   }) async {
     try {
       //isLoading = true;
@@ -141,7 +188,8 @@ class MesasNacionalesService extends ChangeNotifier {
         "accion": accion,
         "macSale": macSale,
         "macEntra": macEntra,
-        "ata": ata
+        "ata": ata,
+        "tipoSolicitud": tipoSolicitud
       };
 
       final url = Uri.https(_baseUrl, '/autogestionterreno/postPedidoMn');
