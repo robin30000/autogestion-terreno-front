@@ -23,6 +23,7 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
   TextfieldTagsController macEntraController = TextfieldTagsController();
   String accion1 = '';
   bool ata = false;
+  String strTipoSolicitud = '';
 
   int? soporte;
   void _updateSoporte(int value) {
@@ -112,8 +113,10 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
                                   _updateSoporte(2);
                                 } else if (response['message'] == 'PRE') {
                                   _updateSoporte(3);
-                                } else if (response['message'] == 'DTH') {
-                                  _updateSoporte(4);
+                                } else if (response['message'] == 'GECOLIGHT') {
+                                  _updateSoporte(8);
+                                } else if (response['message'] == 'GECOMEDIO') {
+                                  _updateSoporte(9);
                                 } else if (response['message'] == 'BSC') {
                                   _updateSoporte(5);
                                 }
@@ -271,7 +274,8 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
                                           accion: accion1,
                                           ata: strAta,
                                           macEntra: macEntraFormat,
-                                          macSale: macSaleFormat);
+                                          macSale: macSaleFormat,
+                                          tipoSolicitud: '');
 
                                   if (resp!['type'] == 'error') {
                                     CustomShowDialog.alert(
@@ -384,14 +388,14 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
 
                                   final Map? resp = await mesasNacionalesService
                                       .postContingencia(
-                                    tarea: tareaController.text,
-                                    observacion:
-                                        detalleSolicitudController.text,
-                                    accion: accion1,
-                                    ata: strAta,
-                                    macEntra: macEntraFormat,
-                                    macSale: macSaleFormat,
-                                  );
+                                          tarea: tareaController.text,
+                                          observacion:
+                                              detalleSolicitudController.text,
+                                          accion: accion1,
+                                          ata: strAta,
+                                          macEntra: macEntraFormat,
+                                          macSale: macSaleFormat,
+                                          tipoSolicitud: '');
 
                                   if (resp!['type'] == 'error') {
                                     CustomShowDialog.alert(
@@ -469,14 +473,14 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
 
                                   final Map? resp = await mesasNacionalesService
                                       .postContingencia(
-                                    tarea: tareaController.text,
-                                    observacion:
-                                        detalleSolicitudController.text,
-                                    accion: accion1,
-                                    ata: strAta,
-                                    macEntra: macEntraFormat,
-                                    macSale: macSaleFormat,
-                                  );
+                                          tarea: tareaController.text,
+                                          observacion:
+                                              detalleSolicitudController.text,
+                                          accion: accion1,
+                                          ata: strAta,
+                                          macEntra: macEntraFormat,
+                                          macSale: macSaleFormat,
+                                          tipoSolicitud: '');
 
                                   if (resp!['type'] == 'error') {
                                     CustomShowDialog.alert(
@@ -555,14 +559,14 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
 
                                   final Map? resp = await mesasNacionalesService
                                       .postContingencia(
-                                    tarea: tareaController.text,
-                                    observacion:
-                                        detalleSolicitudController.text,
-                                    accion: 'Cambio_Equipo DTH',
-                                    ata: strAta,
-                                    macEntra: macEntraFormat,
-                                    macSale: macSaleFormat,
-                                  );
+                                          tarea: tareaController.text,
+                                          observacion:
+                                              detalleSolicitudController.text,
+                                          accion: 'Cambio_Equipo DTH',
+                                          ata: strAta,
+                                          macEntra: macEntraFormat,
+                                          macSale: macSaleFormat,
+                                          tipoSolicitud: '');
 
                                   if (resp!['type'] == 'error') {
                                     CustomShowDialog.alert(
@@ -695,6 +699,246 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
 
                                   final Map? resp = await mesasNacionalesService
                                       .postContingencia(
+                                          tarea: tareaController.text,
+                                          observacion:
+                                              detalleSolicitudController.text,
+                                          accion: accion1,
+                                          ata: strAta,
+                                          macEntra: macEntraFormat,
+                                          macSale: macSaleFormat,
+                                          tipoSolicitud: '');
+
+                                  if (resp!['type'] == 'error') {
+                                    CustomShowDialog.alert(
+                                        context: context,
+                                        title: 'Error',
+                                        message: resp['message']);
+                                    return false;
+                                  } else {
+                                    CustomShowDialog.alert(
+                                        context: context,
+                                        title: 'Excelente',
+                                        message: resp['message']);
+
+                                    await Future.delayed(
+                                        const Duration(milliseconds: 500));
+
+                                    uiProvider.selectedMenuOpt = 99;
+                                    uiProvider.selectedMenuName = 'Soporte ETP';
+
+                                    await Future.delayed(
+                                        const Duration(seconds: 1));
+
+                                    uiProvider.selectedMenuOpt = 20;
+                                    uiProvider.selectedMenuName = 'Soporte ETP';
+                                  }
+                                },
+                          color: mesasNacionalesService.isLoading
+                              ? greyColor
+                              : blueColor,
+                          colorText: whiteColor,
+                          text: mesasNacionalesService.isLoading
+                              ? 'Cargando...'
+                              : 'Enviar Solicitud',
+                          height: 0.05,
+                        ),
+                        SizedBox(
+                          height: mq.height * 0.02,
+                        )
+                      ],
+                      if (soporte == 8) ...[
+                        FutureBuilder(
+                          future: mesasNacionalesService.accionGecoLight(),
+                          builder:
+                              (BuildContext context, AsyncSnapshot snapshot) {
+                            if (!snapshot.hasData) {
+                              return Column(
+                                children: [
+                                  Container(
+                                      width: double.infinity,
+                                      alignment: Alignment.center,
+                                      child: const CircularProgressIndicator()),
+                                ],
+                              );
+                            }
+
+                            return CustomDropdown(
+                                mq: mq,
+                                options: snapshot.data,
+                                value: accion1,
+                                function: (value) async {
+                                  accion1 = value!;
+                                  uiProvider.notifyListeners();
+                                },
+                                functionOnTap: () {
+                                  accion1 = '';
+                                  uiProvider.notifyListeners();
+                                },
+                                hintText: 'Accion*',
+                                icon: Icons.wifi_find_sharp);
+                          },
+                        ),
+                        SizedBox(
+                          height: mq.height * 0.02,
+                        ),
+                        CustomField(
+                          controller: detalleSolicitudController,
+                          hintText: 'Detalle de solicitud*',
+                          icon: null,
+                          minLines: 6,
+                          maxLines: 6,
+                          height: null,
+                          paddingTop: 20,
+                          paddingLeft: 20,
+                        ),
+                        SizedBox(
+                          height: mq.height * 0.02,
+                        ),
+                        CustomButton(
+                          mq: mq,
+                          function: mesasNacionalesService.isLoading
+                              ? null
+                              : () async {
+                                  FocusScope.of(context).unfocus();
+
+                                  if (tareaController.text == '' ||
+                                      accion1 == '' ||
+                                      detalleSolicitudController.text == '') {
+                                    CustomShowDialog.alert(
+                                        context: context,
+                                        title: 'Error',
+                                        message:
+                                            'Debes de diligenciar los campos obligatorios.');
+                                    return false;
+                                  }
+
+                                  String macSaleFormat = '';
+                                  String macEntraFormat = '';
+                                  String strAta = (ata) ? 'SI' : 'NO';
+                                  String strTipoSolicitud = 'Light';
+
+                                  final Map? resp = await mesasNacionalesService
+                                      .postContingencia(
+                                          tarea: tareaController.text,
+                                          observacion:
+                                              detalleSolicitudController.text,
+                                          accion: accion1,
+                                          ata: strAta,
+                                          macEntra: macEntraFormat,
+                                          macSale: macSaleFormat,
+                                          tipoSolicitud: strTipoSolicitud);
+
+                                  if (resp!['type'] == 'error') {
+                                    CustomShowDialog.alert(
+                                        context: context,
+                                        title: 'Error',
+                                        message: resp['message']);
+                                    return false;
+                                  } else {
+                                    CustomShowDialog.alert(
+                                        context: context,
+                                        title: 'Excelente',
+                                        message: resp['message']);
+
+                                    await Future.delayed(
+                                        const Duration(milliseconds: 500));
+
+                                    uiProvider.selectedMenuOpt = 99;
+                                    uiProvider.selectedMenuName = 'Soporte ETP';
+
+                                    await Future.delayed(
+                                        const Duration(seconds: 1));
+
+                                    uiProvider.selectedMenuOpt = 20;
+                                    uiProvider.selectedMenuName = 'Soporte ETP';
+                                  }
+                                },
+                          color: mesasNacionalesService.isLoading
+                              ? greyColor
+                              : blueColor,
+                          colorText: whiteColor,
+                          text: mesasNacionalesService.isLoading
+                              ? 'Cargando...'
+                              : 'Enviar Solicitud',
+                          height: 0.05,
+                        ),
+                        SizedBox(
+                          height: mq.height * 0.02,
+                        )
+                      ],
+                      if (soporte == 9) ...[
+                        FutureBuilder(
+                          future: mesasNacionalesService.accionGecoMedio(),
+                          builder:
+                              (BuildContext context, AsyncSnapshot snapshot) {
+                            if (!snapshot.hasData) {
+                              return Column(
+                                children: [
+                                  Container(
+                                      width: double.infinity,
+                                      alignment: Alignment.center,
+                                      child: const CircularProgressIndicator()),
+                                ],
+                              );
+                            }
+
+                            return CustomDropdown(
+                                mq: mq,
+                                options: snapshot.data,
+                                value: accion1,
+                                function: (value) async {
+                                  accion1 = value!;
+                                  uiProvider.notifyListeners();
+                                },
+                                functionOnTap: () {
+                                  accion1 = '';
+                                  uiProvider.notifyListeners();
+                                },
+                                hintText: 'Accion*',
+                                icon: Icons.wifi_find_sharp);
+                          },
+                        ),
+                        SizedBox(
+                          height: mq.height * 0.02,
+                        ),
+                        CustomField(
+                          controller: detalleSolicitudController,
+                          hintText: 'Detalle de solicitud*',
+                          icon: null,
+                          minLines: 6,
+                          maxLines: 6,
+                          height: null,
+                          paddingTop: 20,
+                          paddingLeft: 20,
+                        ),
+                        SizedBox(
+                          height: mq.height * 0.02,
+                        ),
+                        CustomButton(
+                          mq: mq,
+                          function: mesasNacionalesService.isLoading
+                              ? null
+                              : () async {
+                                  FocusScope.of(context).unfocus();
+
+                                  if (tareaController.text == '' ||
+                                      accion1 == '' ||
+                                      detalleSolicitudController.text == '') {
+                                    CustomShowDialog.alert(
+                                        context: context,
+                                        title: 'Error',
+                                        message:
+                                            'Debes de diligenciar los campos obligatorios.');
+                                    return false;
+                                  }
+
+                                  String macSaleFormat = '';
+                                  String macEntraFormat = '';
+                                  String strAta = (ata) ? 'SI' : 'NO';
+                                  String strTipoSolicitud = 'Medio';
+
+                                  final Map? resp = await mesasNacionalesService
+                                      .postContingencia(
                                     tarea: tareaController.text,
                                     observacion:
                                         detalleSolicitudController.text,
@@ -702,6 +946,7 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
                                     ata: strAta,
                                     macEntra: macEntraFormat,
                                     macSale: macSaleFormat,
+                                    tipoSolicitud: strTipoSolicitud,
                                   );
 
                                   if (resp!['type'] == 'error') {
