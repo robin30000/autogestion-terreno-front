@@ -42,6 +42,8 @@ class MesasNacionalesService extends ChangeNotifier {
         List<Map<String, String>> resp = [
           {'type': decodeResp['type'], 'message': decodeResp['message']}
         ];
+        isLoading = false;
+        notifyListeners();
         return resp;
       }
 
@@ -53,7 +55,7 @@ class MesasNacionalesService extends ChangeNotifier {
       isLoading = false;
       notifyListeners();
     } catch (e) {
-      NotificactionService.showSnackBar(e.toString());
+      print(e);
     }
   }
 
@@ -63,8 +65,8 @@ class MesasNacionalesService extends ChangeNotifier {
     try {
       response = [];
 
-      //isLoading = true;
-      //notifyListeners();
+      // isLoading = true;
+      // notifyListeners();
 
       final String? token = await storage.read(key: 'token');
 
@@ -144,7 +146,23 @@ class MesasNacionalesService extends ChangeNotifier {
         'value': 'No corresponde a cambio de equipo',
         'state': true
       },
-      {'name': 'Ubicar Usuario', 'value': 'Ubicar Usuario', 'state': true}
+      {'name': 'Ubicar Usuario', 'value': 'Ubicar Usuario', 'state': true},
+      {
+        'name': 'Código de completo',
+        'value': 'Código de completo',
+        'state': true
+      },
+      {
+        'name': 'Código de incompleto',
+        'value': 'Código de incompleto',
+        'state': true
+      },
+      {
+        'name': 'Validación de parámetros',
+        'value': 'Validación de parámetros',
+        'state': true
+      },
+      {'name': 'Soporte general', 'value': 'Soporte general', 'state': true}
     ];
     return accion2;
   }
@@ -162,7 +180,23 @@ class MesasNacionalesService extends ChangeNotifier {
         'value': 'No corresp. a precableado o extensión',
         'state': true
       },
-      {'name': 'Ubicar Usuario', 'value': 'Ubicar Usuario', 'state': true}
+      {'name': 'Ubicar Usuario', 'value': 'Ubicar Usuario', 'state': true},
+      {
+        'name': 'Código de completo',
+        'value': 'Código de completo',
+        'state': true
+      },
+      {
+        'name': 'Código de incompleto',
+        'value': 'Código de incompleto',
+        'state': true
+      },
+      {
+        'name': 'Validación de parámetros',
+        'value': 'Validación de parámetros',
+        'state': true
+      },
+      {'name': 'Soporte general', 'value': 'Soporte general', 'state': true}
     ];
     return accion2;
   }
@@ -177,7 +211,7 @@ class MesasNacionalesService extends ChangeNotifier {
     required String tipoSolicitud,
   }) async {
     try {
-      //isLoading = true;
+      isLoading = true;
       notifyListeners();
 
       final String? token = await storage.read(key: 'token');
@@ -205,7 +239,7 @@ class MesasNacionalesService extends ChangeNotifier {
 
       return decodeResp;
     } catch (e) {
-      NotificactionService.showSnackBar(e.toString());
+      print(e);
     }
     return null;
   }

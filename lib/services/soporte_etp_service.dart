@@ -109,6 +109,78 @@ class SoporteEtpService extends ChangeNotifier {
     return tipoAccion;
   }
 
+  Future<List<Map<String, dynamic>>> getEtpMedio() async {
+    tipoAccion = [
+      {'name': 'Accion*', 'value': '', 'state': true},
+      {
+        'name': 'Requiere escalera (Realizar acometida)',
+        'value': 'Requiere escalera (Realizar acometida)',
+        'state': true
+      },
+      {
+        'name': 'No corresp. a precableado o extensión',
+        'value': 'No corresp. a precableado o extensión',
+        'state': true
+      },
+      {'name': 'Ubicar Usuario', 'value': 'Ubicar Usuario', 'state': true},
+      {
+        'name': 'Aprovisionamiento Equipos',
+        'value': 'Aprovisionamiento Equipos',
+        'state': true
+      },
+      {'name': 'Cambio equipo', 'value': 'Cambio equipo', 'state': true},
+      {'name': 'Cambio domicilio', 'value': 'Cambio domicilio', 'state': true},
+      {
+        'name': 'Entrega de códigos',
+        'value': 'Entrega de códigos',
+        'state': true
+      },
+      {'name': 'Replanteo', 'value': 'Replanteo', 'state': true},
+    ];
+    return tipoAccion;
+  }
+
+  Future<List<Map<String, dynamic>>> getEtpLight() async {
+    tipoAccion = [
+      {'name': 'Accion*', 'value': '', 'state': true},
+      {
+        'name': 'Actividad requiere escalera',
+        'value': 'Actividad requiere escalera',
+        'state': true
+      },
+      {
+        'name': 'Actividad requiere herramientas',
+        'value': 'Actividad requiere herramientas',
+        'state': true
+      },
+      {
+        'name': 'Actividad requiere Materiales',
+        'value': 'Actividad requiere Materiales',
+        'state': true
+      },
+      {
+        'name': 'No corresponde a cambio de equipo',
+        'value': 'No corresponde a cambio de equipo',
+        'state': true
+      },
+      {'name': 'Ubicar Usuario', 'value': 'Ubicar Usuario', 'state': true},
+      {
+        'name': 'Aprovisionamiento Equipos',
+        'value': 'Aprovisionamiento Equipos',
+        'state': true
+      },
+      {'name': 'Cambio equipo', 'value': 'Cambio equipo', 'state': true},
+      {'name': 'Cambio domicilio', 'value': 'Cambio domicilio', 'state': true},
+      {
+        'name': 'Entrega de códigos',
+        'value': 'Entrega de códigos',
+        'state': true
+      },
+      {'name': 'Replanteo', 'value': 'Replanteo', 'state': true},
+    ];
+    return tipoAccion;
+  }
+
   Future<Map?> postContingencia({
     required String tarea,
     required String arpon,

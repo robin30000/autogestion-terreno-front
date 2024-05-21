@@ -136,6 +136,10 @@ class _SoporteEtpPageState extends State<SoporteEtpPage> {
                               _updateSoporte(1);
                             } else if (response['message'] == 'OTRO') {
                               _updateSoporte(2);
+                            } else if (response['message'] == 'ETPLIGHT') {
+                              _updateSoporte(3);
+                            } else if (response['message'] == 'ETPMEDIO') {
+                              _updateSoporte(4);
                             }
                           }
                         } catch (error) {
@@ -461,6 +465,450 @@ class _SoporteEtpPageState extends State<SoporteEtpPage> {
                   if (soporte == 2) ...[
                     FutureBuilder(
                       future: soporteEtpService.getTipoAccion(),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (!snapshot.hasData) {
+                          return Column(
+                            children: [
+                              Container(
+                                  width: double.infinity,
+                                  alignment: Alignment.center,
+                                  child: const CircularProgressIndicator()),
+                            ],
+                          );
+                        }
+
+                        return CustomDropdown(
+                            mq: mq,
+                            options: snapshot.data,
+                            value: tipoAccion,
+                            function: (value) async {
+                              tipoAccion = value!;
+                              uiProvider.notifyListeners();
+                            },
+                            functionOnTap: () {
+                              tipoAccion = '';
+                              uiProvider.notifyListeners();
+                            },
+                            hintText: 'Accion*',
+                            icon: Icons.wifi_find_sharp);
+                      },
+                    ),
+                    SizedBox(
+                      height: mq.height * 0.02,
+                    ),
+
+                    if (tipoAccion == 'Aprovisionamiento Equipos' ||
+                        tipoAccion == 'Cambio equipo' ||
+                        tipoAccion == 'Cambio domicilio')
+                      CustomTag(
+                          //mq: const Size(double.infinity, 900.0),
+                          mq: mq,
+                          controller: macEntraController,
+                          hintText: 'MAC Entra...*',
+                          colorTag: blueColor),
+
+                    if (tipoAccion == 'Aprovisionamiento Equipos' ||
+                        tipoAccion == 'Cambio equipo' ||
+                        tipoAccion == 'Cambio domicilio')
+                      SizedBox(
+                        height: mq.height * 0.02,
+                      ),
+
+                    // MAC SALE
+                    if (tipoAccion == 'Cambio equipo' ||
+                        tipoAccion == 'Cambio domicilio')
+                      CustomTag(
+                        mq: mq,
+                        controller: macSaleController,
+                        hintText: 'MAC Sale...',
+                        colorTag: blueColor,
+                      ),
+
+                    if (tipoAccion == 'Cambio equipo' ||
+                        tipoAccion == 'Cambio domicilio')
+                      SizedBox(
+                        height: mq.height * 0.02,
+                      ),
+
+                    CustomField(
+                      controller: detalleSolicitudController,
+                      hintText: 'Detalle de solicitud*',
+                      icon: null,
+                      minLines: 6,
+                      maxLines: 6,
+                      height: null,
+                      paddingTop: 20,
+                      paddingLeft: 20,
+                    ),
+                    SizedBox(
+                      height: mq.height * 0.02,
+                    ),
+                    /* Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Checkbox(
+                              value: replanteo,
+                              onChanged: (newValue) {
+                                setState(() {
+                                  replanteo = newValue!;
+                                });
+                              },
+                            ),
+                            const Text('Es replanteo?'),
+                          ],
+                        ),
+                      ],
+                    ), */
+                    CustomButton(
+                      mq: mq,
+                      function: soporteEtpService.isLoading
+                          ? null
+                          : () async {
+                              FocusScope.of(context).unfocus();
+
+                              if (tareaController.text == '' ||
+                                  /* contactoController.text == '' ||
+                                  nombreContactoController.text == '' || */
+                                  detalleSolicitudController.text == '') {
+                                CustomShowDialog.alert(
+                                    context: context,
+                                    title: 'Error',
+                                    message:
+                                        'Debes de diligenciar los campos obligatorios.');
+                                return false;
+                              }
+
+                              if (tipoAccion == '') {
+                                CustomShowDialog.alert(
+                                    context: context,
+                                    title: 'Error',
+                                    message: 'Debes seleccionar la acción');
+                                return false;
+                              }
+
+                              String strInternetPort1 =
+                                  (internetPort1) ? '' : '';
+                              String strInternetPort2 =
+                                  (internetPort2) ? '' : '';
+                              String strInternetPort3 =
+                                  (internetPort3) ? '' : '';
+                              String strInternetPort4 =
+                                  (internetPort4) ? '' : '';
+                              String strTvPort1 = (tvPort1) ? '' : '';
+                              String strTvPort2 = (tvPort2) ? '' : '';
+                              String strTvPort3 = (tvPort3) ? '' : '';
+                              String strTvPort4 = (tvPort4) ? '' : '';
+                              String streplanteo = (replanteo) ? '1' : '0';
+
+                              String macSaleFormat = '';
+
+                              if (tipoAccion == 'Cambio equipo') {
+                                macSaleController ??= TextfieldTagsController();
+                                macSaleFormat =
+                                    macSaleController.getTags!.join('-');
+                              } else {
+                                macSaleFormat = '';
+                              }
+                              String macEntraFormat = '';
+
+                              if (tipoAccion == 'Aprovisionamiento Equipos' ||
+                                  tipoAccion == 'Cambio equipo' ||
+                                  tipoAccion == 'Cambio domicilio') {
+                                macEntraController ??=
+                                    TextfieldTagsController();
+                                macSaleFormat =
+                                    macEntraController.getTags!.join('-');
+                              } else {
+                                macEntraFormat = '';
+                              }
+
+                              final Map? resp =
+                                  await soporteEtpService.postContingencia(
+                                tarea: tareaController.text,
+                                arpon: arponController.text,
+                                nap: napController.text,
+                                hilo: hiloController.text,
+                                internetPort1: strInternetPort1,
+                                internetPort2: strInternetPort2,
+                                internetPort3: strInternetPort3,
+                                internetPort4: strInternetPort4,
+                                tvPort1: strTvPort1,
+                                tvPort2: strTvPort2,
+                                tvPort3: strTvPort3,
+                                tvPort4: strTvPort4,
+                                /* numeroContacto: contactoController.text,
+                                nombreContacto: nombreContactoController.text, */
+                                observacion: detalleSolicitudController.text,
+                                replanteo: streplanteo,
+                                accion: tipoAccion,
+                                macEntra: macEntraFormat,
+                                macSale: macSaleFormat,
+                              );
+
+                              if (resp!['type'] == 'error') {
+                                CustomShowDialog.alert(
+                                    context: context,
+                                    title: 'Error',
+                                    message: resp['message']);
+                                return false;
+                              } else {
+                                CustomShowDialog.alert(
+                                    context: context,
+                                    title: 'Excelente',
+                                    message: resp['message']);
+
+                                await Future.delayed(
+                                    const Duration(milliseconds: 500));
+
+                                uiProvider.selectedMenuOpt = 99;
+                                uiProvider.selectedMenuName = 'Soporte ETP';
+
+                                await Future.delayed(
+                                    const Duration(seconds: 1));
+
+                                uiProvider.selectedMenuOpt = 13;
+                                uiProvider.selectedMenuName = 'Soporte ETP';
+                              }
+                            },
+                      color:
+                          soporteEtpService.isLoading ? greyColor : blueColor,
+                      colorText: whiteColor,
+                      text: soporteEtpService.isLoading
+                          ? 'Cargando...'
+                          : 'Enviar Solicitud',
+                      height: 0.05,
+                    ),
+                    SizedBox(
+                      height: mq.height * 0.02,
+                    )
+                  ],
+                  if (soporte == 3) ...[
+                    FutureBuilder(
+                      future: soporteEtpService.getEtpLight(),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (!snapshot.hasData) {
+                          return Column(
+                            children: [
+                              Container(
+                                  width: double.infinity,
+                                  alignment: Alignment.center,
+                                  child: const CircularProgressIndicator()),
+                            ],
+                          );
+                        }
+
+                        return CustomDropdown(
+                            mq: mq,
+                            options: snapshot.data,
+                            value: tipoAccion,
+                            function: (value) async {
+                              tipoAccion = value!;
+                              uiProvider.notifyListeners();
+                            },
+                            functionOnTap: () {
+                              tipoAccion = '';
+                              uiProvider.notifyListeners();
+                            },
+                            hintText: 'Accion*',
+                            icon: Icons.wifi_find_sharp);
+                      },
+                    ),
+                    SizedBox(
+                      height: mq.height * 0.02,
+                    ),
+
+                    if (tipoAccion == 'Aprovisionamiento Equipos' ||
+                        tipoAccion == 'Cambio equipo' ||
+                        tipoAccion == 'Cambio domicilio')
+                      CustomTag(
+                          //mq: const Size(double.infinity, 900.0),
+                          mq: mq,
+                          controller: macEntraController,
+                          hintText: 'MAC Entra...*',
+                          colorTag: blueColor),
+
+                    if (tipoAccion == 'Aprovisionamiento Equipos' ||
+                        tipoAccion == 'Cambio equipo' ||
+                        tipoAccion == 'Cambio domicilio')
+                      SizedBox(
+                        height: mq.height * 0.02,
+                      ),
+
+                    // MAC SALE
+                    if (tipoAccion == 'Cambio equipo' ||
+                        tipoAccion == 'Cambio domicilio')
+                      CustomTag(
+                        mq: mq,
+                        controller: macSaleController,
+                        hintText: 'MAC Sale...',
+                        colorTag: blueColor,
+                      ),
+
+                    if (tipoAccion == 'Cambio equipo' ||
+                        tipoAccion == 'Cambio domicilio')
+                      SizedBox(
+                        height: mq.height * 0.02,
+                      ),
+
+                    CustomField(
+                      controller: detalleSolicitudController,
+                      hintText: 'Detalle de solicitud*',
+                      icon: null,
+                      minLines: 6,
+                      maxLines: 6,
+                      height: null,
+                      paddingTop: 20,
+                      paddingLeft: 20,
+                    ),
+                    SizedBox(
+                      height: mq.height * 0.02,
+                    ),
+                    /* Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Checkbox(
+                              value: replanteo,
+                              onChanged: (newValue) {
+                                setState(() {
+                                  replanteo = newValue!;
+                                });
+                              },
+                            ),
+                            const Text('Es replanteo?'),
+                          ],
+                        ),
+                      ],
+                    ), */
+                    CustomButton(
+                      mq: mq,
+                      function: soporteEtpService.isLoading
+                          ? null
+                          : () async {
+                              FocusScope.of(context).unfocus();
+
+                              if (tareaController.text == '' ||
+                                  /* contactoController.text == '' ||
+                                  nombreContactoController.text == '' || */
+                                  detalleSolicitudController.text == '') {
+                                CustomShowDialog.alert(
+                                    context: context,
+                                    title: 'Error',
+                                    message:
+                                        'Debes de diligenciar los campos obligatorios.');
+                                return false;
+                              }
+
+                              if (tipoAccion == '') {
+                                CustomShowDialog.alert(
+                                    context: context,
+                                    title: 'Error',
+                                    message: 'Debes seleccionar la acción');
+                                return false;
+                              }
+
+                              String strInternetPort1 =
+                                  (internetPort1) ? '' : '';
+                              String strInternetPort2 =
+                                  (internetPort2) ? '' : '';
+                              String strInternetPort3 =
+                                  (internetPort3) ? '' : '';
+                              String strInternetPort4 =
+                                  (internetPort4) ? '' : '';
+                              String strTvPort1 = (tvPort1) ? '' : '';
+                              String strTvPort2 = (tvPort2) ? '' : '';
+                              String strTvPort3 = (tvPort3) ? '' : '';
+                              String strTvPort4 = (tvPort4) ? '' : '';
+                              String streplanteo = (replanteo) ? '1' : '0';
+
+                              String macSaleFormat = '';
+
+                              if (tipoAccion == 'Cambio equipo') {
+                                macSaleController ??= TextfieldTagsController();
+                                macSaleFormat =
+                                    macSaleController.getTags!.join('-');
+                              } else {
+                                macSaleFormat = '';
+                              }
+                              String macEntraFormat = '';
+
+                              if (tipoAccion == 'Aprovisionamiento Equipos' ||
+                                  tipoAccion == 'Cambio equipo' ||
+                                  tipoAccion == 'Cambio domicilio') {
+                                macEntraController ??=
+                                    TextfieldTagsController();
+                                macSaleFormat =
+                                    macEntraController.getTags!.join('-');
+                              } else {
+                                macEntraFormat = '';
+                              }
+
+                              final Map? resp =
+                                  await soporteEtpService.postContingencia(
+                                tarea: tareaController.text,
+                                arpon: arponController.text,
+                                nap: napController.text,
+                                hilo: hiloController.text,
+                                internetPort1: strInternetPort1,
+                                internetPort2: strInternetPort2,
+                                internetPort3: strInternetPort3,
+                                internetPort4: strInternetPort4,
+                                tvPort1: strTvPort1,
+                                tvPort2: strTvPort2,
+                                tvPort3: strTvPort3,
+                                tvPort4: strTvPort4,
+                                /* numeroContacto: contactoController.text,
+                                nombreContacto: nombreContactoController.text, */
+                                observacion: detalleSolicitudController.text,
+                                replanteo: streplanteo,
+                                accion: tipoAccion,
+                                macEntra: macEntraFormat,
+                                macSale: macSaleFormat,
+                              );
+
+                              if (resp!['type'] == 'error') {
+                                CustomShowDialog.alert(
+                                    context: context,
+                                    title: 'Error',
+                                    message: resp['message']);
+                                return false;
+                              } else {
+                                CustomShowDialog.alert(
+                                    context: context,
+                                    title: 'Excelente',
+                                    message: resp['message']);
+
+                                await Future.delayed(
+                                    const Duration(milliseconds: 500));
+
+                                uiProvider.selectedMenuOpt = 99;
+                                uiProvider.selectedMenuName = 'Soporte ETP';
+
+                                await Future.delayed(
+                                    const Duration(seconds: 1));
+
+                                uiProvider.selectedMenuOpt = 13;
+                                uiProvider.selectedMenuName = 'Soporte ETP';
+                              }
+                            },
+                      color:
+                          soporteEtpService.isLoading ? greyColor : blueColor,
+                      colorText: whiteColor,
+                      text: soporteEtpService.isLoading
+                          ? 'Cargando...'
+                          : 'Enviar Solicitud',
+                      height: 0.05,
+                    ),
+                    SizedBox(
+                      height: mq.height * 0.02,
+                    )
+                  ],
+                  if (soporte == 4) ...[
+                    FutureBuilder(
+                      future: soporteEtpService.getEtpMedio(),
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
                         if (!snapshot.hasData) {
                           return Column(
