@@ -25,7 +25,7 @@ class ContingenciaService extends ChangeNotifier {
     try {
       contingencias = [];
 
-      //isLoading = true;
+      isLoading = true;
       notifyListeners();
 
       final String? token = await storage.read(key: 'token');
@@ -42,6 +42,8 @@ class ContingenciaService extends ChangeNotifier {
         List<Map<String, String>> resp = [
           {'type': decodeResp['type'], 'message': decodeResp['message']}
         ];
+        isLoading = false;
+        notifyListeners();
         return resp;
       }
 
@@ -92,7 +94,7 @@ class ContingenciaService extends ChangeNotifier {
 
       return decodeResp;
     } catch (e) {
-      NotificactionService.showSnackBar(e.toString());
+      print(e);
     }
     return null;
   }

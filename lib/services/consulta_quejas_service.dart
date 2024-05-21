@@ -67,7 +67,7 @@ class ConsultaQuejasService extends ChangeNotifier {
 
       return null;
     } catch (e) {
-      NotificactionService.showSnackBar(e.toString());
+      print(e);
     }
     return null;
   }
@@ -78,7 +78,7 @@ class ConsultaQuejasService extends ChangeNotifier {
       required dynamic identificacion,
       required dynamic nombre}) async {
     try {
-      //isLoading = true;
+      isLoading = true;
       notifyListeners();
 
       final String? token = await storage.read(key: 'token');
@@ -98,7 +98,7 @@ class ConsultaQuejasService extends ChangeNotifier {
 
       final Map<String, dynamic> decodeResp = json.decode(resp.body);
 
-      //isLoading = false;
+      isLoading = false;
       notifyListeners();
 
       return decodeResp;
@@ -128,6 +128,8 @@ class ConsultaQuejasService extends ChangeNotifier {
         List<Map<String, String>> resp = [
           {'type': decodeResp['type'], 'message': decodeResp['message']}
         ];
+        isLoading = false;
+        notifyListeners();
         return resp;
       }
 

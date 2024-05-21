@@ -65,8 +65,8 @@ class MesasNacionalesService extends ChangeNotifier {
     try {
       response = [];
 
-      // isLoading = true;
-      // notifyListeners();
+      isLoading = true;
+      notifyListeners();
 
       final String? token = await storage.read(key: 'token');
 
@@ -78,9 +78,11 @@ class MesasNacionalesService extends ChangeNotifier {
 
       final Map<String, dynamic> decodeResp = json.decode(resp.body);
 
+      isLoading = false;
+      notifyListeners();
       return decodeResp;
     } catch (e) {
-      NotificactionService.showSnackBar(e.toString());
+      print(e);
     }
     return null;
   }

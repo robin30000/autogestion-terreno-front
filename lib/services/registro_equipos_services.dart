@@ -28,8 +28,8 @@ class RegistroEquiposService extends ChangeNotifier {
     try {
       response = [];
 
-      //isLoading = true;
-      //notifyListeners();
+      isLoading = true;
+      notifyListeners();
 
       final String? token = await storage.read(key: 'token');
 
@@ -43,16 +43,15 @@ class RegistroEquiposService extends ChangeNotifier {
       //final Map<String, dynamic> decodeResp = json.decode(resp.body);
       final Map<String, dynamic> decodeResp = json.decode(resp.body);
 
+      isLoading = false;
+      notifyListeners();
       return decodeResp;
       /*  if (decodeResp['type'] == 'success') {
         final newResponse = NewReponseRegistroEquiposPedidoFromJson(resp.body);
         response.addAll(newResponse.pedido);
       } */
-
-      //isLoading = true;
-      //notifyListeners();
     } catch (e) {
-      NotificactionService.showSnackBar(e.toString());
+      print(e);
     }
     return null;
   }
@@ -99,7 +98,7 @@ class RegistroEquiposService extends ChangeNotifier {
     required String macentra,
   }) async {
     try {
-      //isLoading = true;
+      isLoading = true;
       notifyListeners();
 
       final String? token = await storage.read(key: 'token');
@@ -119,7 +118,7 @@ class RegistroEquiposService extends ChangeNotifier {
 
       final Map<String, dynamic> decodeResp = json.decode(resp.body);
 
-      //isLoading = false;
+      isLoading = false;
       notifyListeners();
 
       return decodeResp;

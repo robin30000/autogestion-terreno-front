@@ -67,7 +67,7 @@ class CodigoIncompletoService extends ChangeNotifier {
 
       return respbody;
     } catch (e) {
-      NotificactionService.showSnackBar(e.toString());
+      print(e);
     }
     return null;
   }

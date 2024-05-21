@@ -39,6 +39,8 @@ class SoporteGponService extends ChangeNotifier {
         List<Map<String, String>> resp = [
           {'type': decodeResp['type'], 'message': decodeResp['message']}
         ];
+        isLoading = false;
+        notifyListeners();
         return resp;
       }
 
@@ -50,7 +52,7 @@ class SoporteGponService extends ChangeNotifier {
       isLoading = false;
       notifyListeners();
     } catch (e) {
-      NotificactionService.showSnackBar(e.toString());
+      print(e);
     }
   }
 
@@ -105,7 +107,7 @@ class SoporteGponService extends ChangeNotifier {
 
       return decodeResp;
     } catch (e) {
-      NotificactionService.showSnackBar(e.toString());
+      print(e);
     }
     return null;
   }

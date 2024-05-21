@@ -18,7 +18,7 @@ class ConsultaTareaSuperService extends ChangeNotifier {
   }) async {
     try {
       tareas = [];
-      //isLoading = true;
+      isLoading = true;
       notifyListeners();
 
       final String? token = await storage.read(key: 'token');
@@ -62,7 +62,6 @@ class ConsultaTareaSuperService extends ChangeNotifier {
       return null;
     } catch (e) {
       print(e);
-      //NotificactionService.showSnackBar(e.toString());
     }
     return null;
   }
