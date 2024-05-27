@@ -150,6 +150,16 @@ class MesasNacionalesService extends ChangeNotifier {
       },
       {'name': 'Ubicar Usuario', 'value': 'Ubicar Usuario', 'state': true},
       {
+        'name': 'Nivelar ruta lejana',
+        'value': 'Nivelar ruta lejana',
+        'state': true
+      },
+      {
+        'name': 'Cambio de distrito',
+        'value': 'Cambio de distrito',
+        'state': true
+      },
+      {
         'name': 'Código de completo',
         'value': 'Código de completo',
         'state': true
@@ -183,6 +193,16 @@ class MesasNacionalesService extends ChangeNotifier {
         'state': true
       },
       {'name': 'Ubicar Usuario', 'value': 'Ubicar Usuario', 'state': true},
+      {
+        'name': 'Nivelar ruta lejana',
+        'value': 'Nivelar ruta lejana',
+        'state': true
+      },
+      {
+        'name': 'Cambio de distrito',
+        'value': 'Cambio de distrito',
+        'state': true
+      },
       {
         'name': 'Código de completo',
         'value': 'Código de completo',

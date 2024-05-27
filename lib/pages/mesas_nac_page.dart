@@ -119,6 +119,27 @@ class _MesasNacionalesPageState extends State<MesasNacionalesPage> {
                                   _updateSoporte(9);
                                 } else if (response['message'] == 'BSC') {
                                   _updateSoporte(5);
+                                } else if (response['message'] ==
+                                    'SINTRABAJO') {
+                                  CustomShowDialog.alert(
+                                      context: context,
+                                      title: 'Excelente',
+                                      message:
+                                          'Se registro solicitud con éxito.');
+
+                                  await Future.delayed(
+                                      const Duration(milliseconds: 500));
+
+                                  uiProvider.selectedMenuOpt = 99;
+                                  uiProvider.selectedMenuName =
+                                      'Operaciones Nacionales';
+
+                                  await Future.delayed(
+                                      const Duration(seconds: 1));
+
+                                  uiProvider.selectedMenuOpt = 20;
+                                  uiProvider.selectedMenuName =
+                                      'Operaciones Nacionales';
                                 }
                               }
                             } catch (error) {}
