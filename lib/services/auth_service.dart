@@ -10,6 +10,7 @@ class AuthService extends ChangeNotifier {
 
   final storage = const FlutterSecureStorage();
   bool isLoading = false;
+  String response = '';
 
 /*   AuthService() {
     getEncuesta();
@@ -123,7 +124,7 @@ class AuthService extends ChangeNotifier {
     return null;
   }
 
-  Future getEncuesta() async {
+  Future<Map<String, dynamic>?> getEncuesta() async {
     try {
       final String? token = await storage.read(key: 'token');
 
@@ -136,6 +137,54 @@ class AuthService extends ChangeNotifier {
 
       await storage.delete(key: 'alert');
       await storage.write(key: 'alert', value: decodeResp['alert']);
+    } catch (e) {
+      print(e);
+    }
+    return null;
+  }
+
+  Future<Map<String, dynamic>?> getCelularTecnico() async {
+    try {
+      final String? token = await storage.read(key: 'token');
+
+      final url = Uri.https(_baseUrl, '/autogestionterreno/getCelularTecnico');
+
+      final resp = await http.get(url,
+          headers: {'Content-Type': 'application/json', 'x-token': token!});
+
+      final Map<String, dynamic> decodeResp = json.decode(resp.body);
+
+      String alertCelValue = decodeResp['alertCel'].toString();
+      await storage.delete(key: 'alertCel');
+      await storage.write(key: 'alertCel', value: alertCelValue);
+
+      return decodeResp;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future<Map<String, dynamic>?> guardaCelTecnico(
+      {required String celular}) async {
+    try {
+      isLoading = true;
+      notifyListeners();
+
+      final String? token = await storage.read(key: 'token');
+
+      final url = Uri.https(_baseUrl,
+          '/autogestionterreno/guardaCelularTecnico', {'celular': celular});
+
+      final resp = await http.post(url,
+          headers: {'Content-Type': 'application/json', 'x-token': token!});
+
+      final Map<String, dynamic> decodeResp = json.decode(resp.body);
+      await storage.write(key: 'alertCel', value: decodeResp['alertCel']);
+
+      isLoading = false;
+      notifyListeners();
+      return decodeResp;
     } catch (e) {
       print(e);
     }
