@@ -375,6 +375,7 @@ class _ConsultaQuejasPageState extends State<ConsultaQuejasPage> {
               onPressed: () {
                 setState(() {
                   tareaController.text = '';
+                  quejaRes = '';
                   data.clear();
                 });
               },

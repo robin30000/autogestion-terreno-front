@@ -248,6 +248,17 @@ class _RegistroEquiposState extends State<RegistroEquipos> {
                 'qrScanner', // Agrega un tag único para el botón de escaneo QR
           ),
           CustomButtom(
+            icon: Icons.refresh_rounded,
+            onPressed: () {
+              setState(() {
+                pedidoController.text = '';
+                detalleSolicitudController.text = '';
+                macEntraController.clearTags();
+              });
+            },
+            heroTag: 'Limpiar',
+          ),
+          CustomButtom(
             icon: Icons.list_rounded,
             onPressed: () {
               setState(() {

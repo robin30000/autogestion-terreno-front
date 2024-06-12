@@ -385,6 +385,18 @@ class _ContingenciaPageState extends State<ContingenciaPage> {
               heroTag: 'scan',
             ),
             CustomButtom(
+              icon: Icons.refresh_rounded,
+              onPressed: () {
+                setState(() {
+                  pedidoController.text = '';
+                  detalleSolicitudController.text = '';
+                  tipoProducto = '';
+                  tipoContingencia = '';
+                });
+              },
+              heroTag: 'Limpiar',
+            ),
+            CustomButtom(
               icon: Icons.list_rounded,
               onPressed: () {
                 setState(() {

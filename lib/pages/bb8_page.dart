@@ -138,7 +138,7 @@ class _Bb8PageState extends State<Bb8Page> {
           });
         },
         backgroundColor: const Color.fromARGB(255, 0, 51, 94),
-        child: const Icon(Icons.restore_from_trash_rounded),
+        child: const Icon(Icons.refresh_rounded),
       ),
     );
   }

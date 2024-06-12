@@ -271,12 +271,13 @@ class _ConsultaGponPageState extends State<ConsultaGponPage> {
         onPressed: () {
           setState(() {
             tareaController.text = '';
+            gponRes = '';
             data.clear();
           });
         },
 
         backgroundColor: const Color.fromARGB(255, 0, 51, 94),
-        child: const Icon(Icons.restore_from_trash_rounded),
+        child: const Icon(Icons.refresh_rounded),
       ),
     );
   }

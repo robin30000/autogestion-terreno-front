@@ -1166,6 +1166,17 @@ class _SoporteEtpPageState extends State<SoporteEtpPage> {
               heroTag: 'scan',
             ),
           CustomButtom(
+            icon: Icons.refresh_rounded,
+            onPressed: () {
+              setState(() {
+                tareaController.text = '';
+                detalleSolicitudController.text = '';
+                soporte = 0;
+              });
+            },
+            heroTag: 'Limpiar',
+          ),
+          CustomButtom(
             icon: Icons.list_rounded,
             onPressed: () {
               setState(() {
