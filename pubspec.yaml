@@ -1,6 +1,6 @@
 name: autogestion_tecnico
-description: Autogestión ténico es una app desarrollada para gestionar
-  solicictudes en diferentes actividades de terreno, y agilizar los soportes
+description: Autogestión técnico es una app desarrollada para gestionar
+  solicitudes en diferentes actividades de terreno, y agilizar los soportes
   requeridos por el técnico.
 
 # The following line prevents the package from being accidentally published to
@@ -46,7 +46,6 @@ dependencies:
   textfield_tags: ^2.0.1
   url_launcher: ^6.1.14
   youtube_player_flutter: ^8.1.2
-
 
 dev_dependencies:
   flutter_launcher_icons: ^0.13.1

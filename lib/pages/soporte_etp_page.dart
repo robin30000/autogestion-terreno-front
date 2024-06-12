@@ -374,6 +374,7 @@ class _SoporteEtpPageState extends State<SoporteEtpPage> {
 
                               String macSaleFormat = '';
                               String macEntraFormat = '';
+                              String strTipoSolicitud = '';
 
                               if (tipoAccion == 'Cambio equipo' ||
                                   tipoAccion == 'Aprovisionamiento Equipos') {
@@ -423,7 +424,8 @@ class _SoporteEtpPageState extends State<SoporteEtpPage> {
                                       replanteo: streplanteo,
                                       accion: tipoAccion,
                                       macEntra: macEntraFormat,
-                                      macSale: macSaleFormat);
+                                      macSale: macSaleFormat,
+                                      tipoSolicitud: strTipoSolicitud);
 
                               if (resp!['type'] == 'error') {
                                 CustomShowDialog.alert(
@@ -603,6 +605,7 @@ class _SoporteEtpPageState extends State<SoporteEtpPage> {
                               String streplanteo = (replanteo) ? '1' : '0';
 
                               String macSaleFormat = '';
+                              String strTipoSolicitud = '';
 
                               if (tipoAccion == 'Cambio equipo') {
                                 macSaleController ??= TextfieldTagsController();
@@ -626,26 +629,27 @@ class _SoporteEtpPageState extends State<SoporteEtpPage> {
 
                               final Map? resp =
                                   await soporteEtpService.postContingencia(
-                                tarea: tareaController.text,
-                                arpon: arponController.text,
-                                nap: napController.text,
-                                hilo: hiloController.text,
-                                internetPort1: strInternetPort1,
-                                internetPort2: strInternetPort2,
-                                internetPort3: strInternetPort3,
-                                internetPort4: strInternetPort4,
-                                tvPort1: strTvPort1,
-                                tvPort2: strTvPort2,
-                                tvPort3: strTvPort3,
-                                tvPort4: strTvPort4,
-                                /* numeroContacto: contactoController.text,
+                                      tarea: tareaController.text,
+                                      arpon: arponController.text,
+                                      nap: napController.text,
+                                      hilo: hiloController.text,
+                                      internetPort1: strInternetPort1,
+                                      internetPort2: strInternetPort2,
+                                      internetPort3: strInternetPort3,
+                                      internetPort4: strInternetPort4,
+                                      tvPort1: strTvPort1,
+                                      tvPort2: strTvPort2,
+                                      tvPort3: strTvPort3,
+                                      tvPort4: strTvPort4,
+                                      /* numeroContacto: contactoController.text,
                                 nombreContacto: nombreContactoController.text, */
-                                observacion: detalleSolicitudController.text,
-                                replanteo: streplanteo,
-                                accion: tipoAccion,
-                                macEntra: macEntraFormat,
-                                macSale: macSaleFormat,
-                              );
+                                      observacion:
+                                          detalleSolicitudController.text,
+                                      replanteo: streplanteo,
+                                      accion: tipoAccion,
+                                      macEntra: macEntraFormat,
+                                      macSale: macSaleFormat,
+                                      tipoSolicitud: strTipoSolicitud);
 
                               if (resp!['type'] == 'error') {
                                 CustomShowDialog.alert(
@@ -825,6 +829,7 @@ class _SoporteEtpPageState extends State<SoporteEtpPage> {
                               String streplanteo = (replanteo) ? '1' : '0';
 
                               String macSaleFormat = '';
+                              String strTipoSolicitud = 'Light';
 
                               if (tipoAccion == 'Cambio equipo') {
                                 macSaleController ??= TextfieldTagsController();
@@ -848,26 +853,27 @@ class _SoporteEtpPageState extends State<SoporteEtpPage> {
 
                               final Map? resp =
                                   await soporteEtpService.postContingencia(
-                                tarea: tareaController.text,
-                                arpon: arponController.text,
-                                nap: napController.text,
-                                hilo: hiloController.text,
-                                internetPort1: strInternetPort1,
-                                internetPort2: strInternetPort2,
-                                internetPort3: strInternetPort3,
-                                internetPort4: strInternetPort4,
-                                tvPort1: strTvPort1,
-                                tvPort2: strTvPort2,
-                                tvPort3: strTvPort3,
-                                tvPort4: strTvPort4,
-                                /* numeroContacto: contactoController.text,
+                                      tarea: tareaController.text,
+                                      arpon: arponController.text,
+                                      nap: napController.text,
+                                      hilo: hiloController.text,
+                                      internetPort1: strInternetPort1,
+                                      internetPort2: strInternetPort2,
+                                      internetPort3: strInternetPort3,
+                                      internetPort4: strInternetPort4,
+                                      tvPort1: strTvPort1,
+                                      tvPort2: strTvPort2,
+                                      tvPort3: strTvPort3,
+                                      tvPort4: strTvPort4,
+                                      /* numeroContacto: contactoController.text,
                                 nombreContacto: nombreContactoController.text, */
-                                observacion: detalleSolicitudController.text,
-                                replanteo: streplanteo,
-                                accion: tipoAccion,
-                                macEntra: macEntraFormat,
-                                macSale: macSaleFormat,
-                              );
+                                      observacion:
+                                          detalleSolicitudController.text,
+                                      replanteo: streplanteo,
+                                      accion: tipoAccion,
+                                      macEntra: macEntraFormat,
+                                      macSale: macSaleFormat,
+                                      tipoSolicitud: strTipoSolicitud);
 
                               if (resp!['type'] == 'error') {
                                 CustomShowDialog.alert(
@@ -1047,6 +1053,7 @@ class _SoporteEtpPageState extends State<SoporteEtpPage> {
                               String streplanteo = (replanteo) ? '1' : '0';
 
                               String macSaleFormat = '';
+                              String strTipoSolicitud = 'Medio';
 
                               if (tipoAccion == 'Cambio equipo') {
                                 macSaleController ??= TextfieldTagsController();
@@ -1070,26 +1077,27 @@ class _SoporteEtpPageState extends State<SoporteEtpPage> {
 
                               final Map? resp =
                                   await soporteEtpService.postContingencia(
-                                tarea: tareaController.text,
-                                arpon: arponController.text,
-                                nap: napController.text,
-                                hilo: hiloController.text,
-                                internetPort1: strInternetPort1,
-                                internetPort2: strInternetPort2,
-                                internetPort3: strInternetPort3,
-                                internetPort4: strInternetPort4,
-                                tvPort1: strTvPort1,
-                                tvPort2: strTvPort2,
-                                tvPort3: strTvPort3,
-                                tvPort4: strTvPort4,
-                                /* numeroContacto: contactoController.text,
+                                      tarea: tareaController.text,
+                                      arpon: arponController.text,
+                                      nap: napController.text,
+                                      hilo: hiloController.text,
+                                      internetPort1: strInternetPort1,
+                                      internetPort2: strInternetPort2,
+                                      internetPort3: strInternetPort3,
+                                      internetPort4: strInternetPort4,
+                                      tvPort1: strTvPort1,
+                                      tvPort2: strTvPort2,
+                                      tvPort3: strTvPort3,
+                                      tvPort4: strTvPort4,
+                                      /* numeroContacto: contactoController.text,
                                 nombreContacto: nombreContactoController.text, */
-                                observacion: detalleSolicitudController.text,
-                                replanteo: streplanteo,
-                                accion: tipoAccion,
-                                macEntra: macEntraFormat,
-                                macSale: macSaleFormat,
-                              );
+                                      observacion:
+                                          detalleSolicitudController.text,
+                                      replanteo: streplanteo,
+                                      accion: tipoAccion,
+                                      macEntra: macEntraFormat,
+                                      macSale: macSaleFormat,
+                                      tipoSolicitud: strTipoSolicitud);
 
                               if (resp!['type'] == 'error') {
                                 CustomShowDialog.alert(

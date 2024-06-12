@@ -201,6 +201,7 @@ class SoporteEtpService extends ChangeNotifier {
     required String accion,
     required String macSale,
     required String macEntra,
+    required String tipoSolicitud,
   }) async {
     try {
       isLoading = true;
@@ -228,6 +229,7 @@ class SoporteEtpService extends ChangeNotifier {
         "accion": accion,
         "macSale": macSale,
         "macEntra": macEntra,
+        "tipoSolicitud": tipoSolicitud
       };
 
       final url = Uri.https(_baseUrl, '/autogestionterreno/postpedidoetp');
