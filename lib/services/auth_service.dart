@@ -24,7 +24,7 @@ class AuthService extends ChangeNotifier {
       final Map<String, dynamic> authData = {
         "user": usuario,
         "password": password,
-        "version": 251
+        "version": 252
       };
 
       final url = Uri.https(_baseUrl, '/autogestionterreno/ingresar');
@@ -44,6 +44,8 @@ class AuthService extends ChangeNotifier {
             key: 'nombre', value: decodeResp['message']['nombre']);
         await storage.write(
             key: 'alert', value: decodeResp['message']['alert']);
+        await storage.write(
+            key: 'alertCel', value: decodeResp['message']['alertCel']);
         await storage.write(
             key: 'login_click', value: decodeResp['message']['login_click']);
         await storage.write(
@@ -65,13 +67,13 @@ class AuthService extends ChangeNotifier {
   }
 
   Future<String> logout() async {
-    //await storage.deleteAll();
     await storage.delete(key: 'nombre');
     await storage.delete(key: 'login_click');
     await storage.delete(key: 'identificacion');
     await storage.delete(key: 'token');
     await storage.delete(key: 'menu');
     await storage.delete(key: 'alert');
+    await storage.delete(key: 'alertCel');
 
     return 'OK';
   }

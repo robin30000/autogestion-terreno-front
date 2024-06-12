@@ -73,9 +73,7 @@ class _HomePageState extends State<HomePage> {
                 },
               );
             });
-          }
-
-          if (snapshot.data['alertCel'] == 'si') {
+          } else if (snapshot.data['alertCel'] == 'si') {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               showDialog(
                 context: context,

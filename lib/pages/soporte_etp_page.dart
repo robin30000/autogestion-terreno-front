@@ -374,7 +374,7 @@ class _SoporteEtpPageState extends State<SoporteEtpPage> {
 
                               String macSaleFormat = '';
                               String macEntraFormat = '';
-                              String strTipoSolicitud = '';
+                              String strTipoSolicitud = 'N/A';
 
                               if (tipoAccion == 'Cambio equipo' ||
                                   tipoAccion == 'Aprovisionamiento Equipos') {
@@ -605,7 +605,7 @@ class _SoporteEtpPageState extends State<SoporteEtpPage> {
                               String streplanteo = (replanteo) ? '1' : '0';
 
                               String macSaleFormat = '';
-                              String strTipoSolicitud = '';
+                              String strTipoSolicitud = 'N/A';
 
                               if (tipoAccion == 'Cambio equipo') {
                                 macSaleController ??= TextfieldTagsController();
