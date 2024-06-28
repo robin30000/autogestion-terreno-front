@@ -31,7 +31,7 @@ class BB8Service extends ChangeNotifier {
 
       final String? token = await storage.read(key: 'token');
 
-      final url = Uri.https(_baseUrl, '/autogestionterreno/getbb8',
+      final url = Uri.https(_baseUrl, '/autogestionterreno-dev/getbb8',
           {'direccion': direccion, 'ciudad': ciudad});
 
       final resp = await http.get(url,
@@ -82,8 +82,8 @@ class BB8Service extends ChangeNotifier {
 
       final String? token = await storage.read(key: 'token');
 
-      final url =
-          Uri.https(_baseUrl, '/autogestionterreno/getbb8', {'pedido': pedido});
+      final url = Uri.https(
+          _baseUrl, '/autogestionterreno-dev/getbb8', {'pedido': pedido});
 
       final resp = await http.get(url,
           headers: {'Content-Type': 'application/json', 'x-token': token!});
@@ -135,7 +135,7 @@ class BB8Service extends ChangeNotifier {
 
       final String? token = await storage.read(key: 'token');
 
-      final url = Uri.https(_baseUrl, '/autogestionterreno/getbb8Puertos',
+      final url = Uri.https(_baseUrl, '/autogestionterreno-dev/getbb8Puertos',
           {'olt': olt, 'arpon': arpon, 'nap': nap});
 
       final resp = await http.get(url,

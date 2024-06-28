@@ -26,7 +26,7 @@ class AuthService extends ChangeNotifier {
         "version": 251
       };
 
-      final url = Uri.https(_baseUrl, '/autogestionterreno/ingresar');
+      final url = Uri.https(_baseUrl, '/autogestionterreno-dev/ingresar');
 
       final resp = await http.post(url,
           headers: {
@@ -90,7 +90,7 @@ class AuthService extends ChangeNotifier {
   Future getMenuApp() async {
     try {
       final String? token = await storage.read(key: 'token');
-      final url = Uri.https(_baseUrl, '/autogestionterreno/validarmenu');
+      final url = Uri.https(_baseUrl, '/autogestionterreno-dev/validarmenu');
       final resp = await http.get(url,
           headers: {'Content-Type': 'application/json', 'x-token': token!});
 
@@ -108,7 +108,7 @@ class AuthService extends ChangeNotifier {
     try {
       final String? token = await storage.read(key: 'token');
 
-      final url = Uri.https(_baseUrl, '/autogestionterreno/validaEncuesta');
+      final url = Uri.https(_baseUrl, '/autogestionterreno-dev/validaEncuesta');
 
       final resp = await http.post(url,
           headers: {'Content-Type': 'application/json', 'x-token': token!});
@@ -127,7 +127,7 @@ class AuthService extends ChangeNotifier {
     try {
       final String? token = await storage.read(key: 'token');
 
-      final url = Uri.https(_baseUrl, '/autogestionterreno/getEncuesta');
+      final url = Uri.https(_baseUrl, '/autogestionterreno-dev/getEncuesta');
 
       final resp = await http.get(url,
           headers: {'Content-Type': 'application/json', 'x-token': token!});

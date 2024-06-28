@@ -6,3 +6,4 @@ export 'package:autogestion_tecnico/widgets/custom_divider.dart';
 export 'package:autogestion_tecnico/widgets/custom_dropdown.dart';
 export 'package:autogestion_tecnico/widgets/custom_field.dart';
 export 'package:autogestion_tecnico/widgets/custom_tag.dart';
+export 'package:autogestion_tecnico/widgets/location_service_widget.dart';

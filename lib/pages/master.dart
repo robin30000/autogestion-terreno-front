@@ -96,7 +96,7 @@ class _MasterPageState extends State<MasterPage> {
                               },
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    vertical: 7.4, horizontal: 16),
+                                    vertical: 5.8, horizontal: 16),
                                 child: Row(
                                   children: [
                                     Icon(

@@ -10,3 +10,4 @@ export 'package:autogestion_tecnico/services/registro_equipos_services.dart';
 export 'package:autogestion_tecnico/services/soporte_etp_service.dart';
 export 'package:autogestion_tecnico/services/soporte_gpon_service.dart';
 export 'package:autogestion_tecnico/services/consulta_tarea_supervisor_service.dart';
+export 'package:autogestion_tecnico/services/network_service.dart';

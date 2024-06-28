@@ -67,6 +67,15 @@ class ScreenPage extends StatelessWidget {
       case 22:
         return const ConsultaTareaSupervisorPage();
 
+      case 24:
+        return const NetworkPage();
+
+      case 25:
+        return const ListMassFaultPage();
+
+      case 26:
+        return const ListIndividualPage();
+
       default:
         return const LoaderPage();
     }

@@ -23,7 +23,8 @@ class ConsultaTareaSuperService extends ChangeNotifier {
 
       final String? token = await storage.read(key: 'token');
 
-      final url = Uri.https(_baseUrl, '/autogestionterreno/tareasupervisor', {
+      final url =
+          Uri.https(_baseUrl, '/autogestionterreno-dev/tareasupervisor', {
         'tarea': tarea,
       });
 
